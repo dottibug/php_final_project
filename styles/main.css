@@ -1,0 +1,590 @@
+body {
+    font-size: 1.6rem;
+    height: 100%;
+    margin: 0;
+    overflow-x: hidden;
+    padding: 0;
+}
+
+/*----------------- UI -----------------*/
+.kebab {
+    height: 20px;
+    width: 4.615px;
+}
+
+
+/*----------------- LOGO -----------------*/
+.logo {
+    height: 26px;
+    width: 153px;
+}
+
+/*----------------- FIELDS -----------------*/
+.formField {
+}
+
+.fieldError {
+    color: #EA5555;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 1.2rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.fieldError::before {
+    content: '* ';
+}
+
+/*----------------- BUTTONS -----------------*/
+.button {
+    border: none;
+    font-style: normal;
+    font-weight: 700;
+    text-align: center;
+    width: 255px;
+}
+
+.primary {
+    background-color: #635FC7;
+    color: white;
+    transition: all 0.2s ease-out;
+}
+
+.primary:hover {
+    background-color: #A8A4FF;
+    transition: all 0.2s ease-out;
+}
+
+.secondary {
+    background-color: rgba(99, 95, 199, 0.10);
+    color: #635FC7;
+    transition: all 0.2s ease-out;
+}
+
+.secondary:hover {
+    background-color: rgba(99, 95, 199, 0.25);
+    transition: all 0.2s ease-out;
+}
+
+.danger {
+    background-color: #EA5555;
+    color: white;
+    transition: all 0.2s ease-out;
+}
+
+.danger:hover {
+    background-color: #FF9898;
+    transition: all 0.2s ease-out;
+}
+
+.large {
+    border-radius: 24px;
+    font-size: 1.5rem;
+    line-height: normal;
+    height: 48px;
+}
+
+.small {
+    border-radius: 20px;
+    font-size: 1.3rem;
+    line-height: 23px;
+    height: 40px;
+}
+
+.iconX {
+    background-color: transparent;
+    border: none;
+    color: #828FA3;
+    transition: all 0.1s ease-out;
+    width: 18px;
+}
+
+.button:hover, .iconX:hover {
+    cursor: pointer;
+}
+
+.iconCloseButton:hover {
+    color: #000112;
+    transition: all 0.2s ease-out;
+}
+
+.iconDeleteButton:hover {
+    color: #EA5555;
+    transition: all 0.2s ease-out;
+}
+
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0,
+    'wght' 600,
+    'GRAD' 0,
+    'opsz' 24
+}
+
+#addNewListButton {
+    margin-top: 1rem;
+}
+
+/*----------------- LOGIN -----------------*/
+.loginError {
+}
+
+/*----------------- DASHBOARD -----------------*/
+.dashboard {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/*----------------- SIDEBAR -----------------*/
+.sidebar {
+    /*padding-left: 34px;*/
+}
+
+.sidebarLogo {
+    margin: 32px 0 50px 34px;
+}
+
+.sidebar > h1 {
+    background-color: white;
+    color: #828FA3;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 2.4px;
+    width: 300px;
+    margin-bottom: 20px;
+    margin-left: 34px;
+}
+
+.boards {
+    list-style: none;
+}
+
+.iconBoard {
+    margin-right: 16px;
+    position: absolute;
+    left: 34px;
+}
+
+.board {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-transform: capitalize;
+    width: 276px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    transition: all 0.5s ease-out;
+}
+
+.current {
+    background-color: #635FC7;
+    border-radius: 0 100px 100px 0;
+    color: white;
+
+    transition: all 0.5s ease-out;
+}
+
+.boardLink {
+    text-decoration: none;
+    width: 276px;
+    height: 48px;
+    padding-left: 66px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.boardLink:hover {
+    cursor: pointer;
+}
+
+.board > .boardLink {
+    color: #828FA3;
+}
+
+.board.current > .boardLink {
+    color: white;
+}
+
+.board.createBoard > .boardLink {
+    color: #635FC7;
+}
+
+/*----------------- MAIN BOARD -----------------*/
+.mainBoard {
+    border-left: 1px solid #E4EBFA;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow-x: hidden;
+}
+
+.mainBoardHeader {
+    align-items: center;
+    background-color: white;
+    display: flex;
+    height: 96px;
+}
+
+.mainBoardHeader h1 {
+    color: #000112;
+    font-size: 2.4rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-left: 24px;
+    text-transform: capitalize;
+}
+
+.mainBoardHeaderActions {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    position: absolute;
+    right: 24px;
+    z-index: 2;
+}
+
+.mainBoard .button {
+    margin-left: auto;
+    margin-right: 24px;
+    width: 164px;
+}
+
+.plus {
+    bottom: 2px;
+    position: relative;
+}
+
+#mainBoardHeaderKebab {
+    align-items: center;
+    display: flex;
+    height: 48px;
+    justify-content: center;
+    width: 24px;
+}
+
+#mainBoardHeaderKebab:hover {
+    cursor: pointer;
+}
+
+/*----------------- BOARD MENU -----------------*/
+.boardMenu {
+    align-items: center;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 10px 20px 0px rgba(54, 78, 126, 0.25);
+    display: flex;
+    height: 94px;
+    padding: 16px;
+    position: absolute;
+    right: 24px;
+    top: 90px;
+    width: 192px;
+}
+
+.boardMenuNav {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    list-style: none;
+}
+
+.boardMenuNavItem {
+    color: #828FA3;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 23px;
+}
+
+.boardMenuNavItem:hover {
+    cursor: pointer;
+}
+
+.deleteBoard {
+    color: #EA5555;
+}
+
+/*----------------- CANVAS MAIN BOARD -----------------*/
+.canvas {
+    background-color: #F4F7FD;
+    border-top: 1px solid #E4EBFA;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    height: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+/*----------------- EMPTY MAIN BOARD -----------------*/
+.emptyMainBoard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 32px;
+}
+
+.emptyBoardMsg {
+    color: #828FA3;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+/*----------------- MAIN BOARD LISTS -----------------*/
+.lists {
+    display: flex;
+    flex-direction: row;
+}
+
+.list {
+    margin-left: 24px;
+    margin-top: 24px;
+    width: 280px;
+}
+
+.listHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.listTitle {
+    color: #828FA3;
+    font-size: 1.2rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+}
+
+.iconCircle {
+    bottom: 5px;
+    font-size: 4.5rem;
+    position: relative;
+}
+
+/*----------------- TASKS -----------------*/
+.tasks {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    gap: 20px;
+}
+
+.task {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px 0 rgba(54, 78, 126, 0.10);
+    min-height: 88px;
+    padding: 24px 16px 0;
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.taskTitle {
+    color: #000112;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.taskProgress {
+    color: #828FA3;
+    font-size: 1.2rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+/*----------------- OVERLAY -----------------*/
+.overlay {
+    position: fixed;
+    /*position: absolute;*/
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+    overflow: scroll;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*----------------- LIGHTBOX -----------------*/
+.lightbox {
+    background-color: white;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    max-height: 572px;
+    overflow: scroll;
+    padding: 32px;
+    width: 480px;
+}
+
+.closeLightboxForm {
+    /*align-self: end;*/
+}
+
+.lightboxHeader {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    height: 24px;
+    justify-content: space-between;
+}
+
+.lightbox h1 {
+    color: #000112;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.lightboxForm {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 24px;
+}
+
+.lightboxField {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.labelContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem
+}
+
+.lightboxField label, .listsLabel {
+    color: #828FA3;
+    font-size: 1.2rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    text-transform: capitalize;
+}
+
+.lightboxField input[type="text"], .lightboxField textarea {
+    background-color: white;
+    border: 1px solid rgba(130, 143, 163, 0.25);
+    border-radius: 4px;
+    color: #000112;
+    font-size: 1.3rem;
+    font-style: normal;
+    font-weight: 500;
+    height: 40px;
+    line-height: 23px;
+    padding: 8px 16px;
+    width: 416px;
+}
+
+.lightboxField textarea {
+    /*height: 134px;*/
+    height: 72px;
+    resize: none;
+}
+
+.lightbox .button {
+    width: 416px;
+}
+
+/*----------------- CREATE NEW BOARD LIGHTBOX -----------------*/
+.boardDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.startingLists {
+    border: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    /*margin-bottom: 12px;*/
+}
+
+.startingList {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+input[type="text"].startingListInput {
+    background-color: white;
+    border: 1px solid rgba(130, 143, 163, 0.25);
+    border-radius: 4px;
+    color: #000112;
+    font-size: 1.3rem;
+    font-style: normal;
+    font-weight: 500;
+    height: 40px;
+    line-height: 23px;
+    padding: 8px 16px;
+    width: 385px;
+}
+
+input[type="text"].startingListInput::placeholder {
+    color: #000112;
+    font-style: italic;
+    opacity: 0.25;
+
+}
+
+/*----------------- DELETE BOARD WARNING LIGHTBOX -----------------*/
+.warningMessage {
+    color: #828FA3;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 23px;
+    margin: 24px 0;
+}
+
+.actionButtons {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+}
+
+
+
+
+
+

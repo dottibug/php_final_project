@@ -1,0 +1,56 @@
+/*CSS Reset*/
+
+/*Box Sizing*/
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/*Margin and Padding*/
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/*Percent-based height (100vh doesn't work well on all browsers)*/
+html,
+body {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    height: 100%;
+    position: relative;
+}
+
+/*Reset font size to rem units while maintaining user font size preference*/
+html {
+    font-size: 62.5%;
+}
+
+/*Remove user-agent font styles*/
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+/*No text overflow*/
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    overflow-wrap: break-word;
+}
+
+/*Media defaults*/
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+}
