@@ -100,8 +100,8 @@ class BoardsDB
             SELECT 
                 b.boardID,
                 l.listID, l.title AS listTitle, l.color,
-                t.taskID, t.title AS taskTitle, 
-                s.subtaskID, s.status
+                t.taskID, t.title AS taskTitle, t.description AS taskDescription,
+                s.subtaskID, s.description AS subtaskDescription, s.status
             FROM boards b
                 LEFT JOIN lists l ON b.boardID = l.boardID
                 LEFT JOIN tasks t ON l.listID = t.listID
@@ -159,7 +159,10 @@ class BoardsDB
                     if (!isset($tasks[$taskID])) {
                         $task = new Task();
                         $task->setTaskID($row['taskID']);
+                        $task->setListID($row['listID']);
+                        $task->setListTitle($currentList->getTitle());
                         $task->setTitle($row['taskTitle']);
+                        $task->setDescription($row['taskDescription']);
                         $task->setSubtasks([]);
                         $tasks[$taskID] = $task;
                     }
@@ -179,6 +182,7 @@ class BoardsDB
                     if (!isset($subtasks[$subtaskID])) {
                         $subtask = new Subtask();
                         $subtask->setSubtaskID($row['subtaskID']);
+                        $subtask->setDescription($row['subtaskDescription']);
                         $subtask->setStatus($row['status']);
                         $subtasks[$subtaskID] = $subtask;
                     }

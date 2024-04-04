@@ -4,6 +4,7 @@ body {
     margin: 0;
     overflow-x: hidden;
     padding: 0;
+    position: relative;
 }
 
 /*----------------- UI -----------------*/
@@ -12,6 +13,111 @@ body {
     width: 4.615px;
 }
 
+.customSelect {
+    /*position: relative;*/
+}
+
+.customSelectContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.customSelectButton {
+    background-color: white;
+    border: 1px solid rgba(130, 143, 163, 0.25);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: row;
+    height: 40px;
+    justify-content: space-between;
+    padding: 8px 16px;
+    text-align: left;
+    width: 416px;
+}
+
+.selectArrow {
+    color: #828FA3;
+    font-size: 2rem;
+    position: relative;
+    top: 2px;
+}
+
+.selectDropdown {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 10px 20px 0px rgba(54, 78, 126, 0.25);
+    display: flex;
+    flex-direction: column;
+    height: 117px;
+    justify-content: center;
+    list-style: none;
+    position: absolute;
+    width: 416px;
+    z-index: 1;
+}
+
+.selectedOption {
+    color: #000112;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 23px;
+}
+
+.selectDropdown input[type="radio"] {
+    left: 0;
+    position: absolute;
+    visibility: hidden;
+}
+
+.option {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    padding: 2px 16px;
+    transition: all 0.15s ease-out;
+    width: 100%;
+
+    color: #828FA3;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 23px;
+    text-transform: capitalize;
+}
+
+.option:nth-child(1) {
+    border-radius: 8px 8px 0 0;
+}
+
+.option:nth-last-child(1) {
+    border-radius: 0 0 8px 8px;
+}
+
+/*.optionRadioLabel {*/
+/*    color: #828FA3;*/
+/*    display: inline-flex;*/
+/*    font-family: "Plus Jakarta Sans", sans-serif;*/
+/*    font-size: 13px;*/
+/*    font-style: normal;*/
+/*    font-weight: 500;*/
+/*    line-height: 23px;*/
+/*    text-transform: capitalize;*/
+/*    width: 100%;*/
+/*}*/
+
+.option:hover {
+    background-color: #efeff9;
+    cursor: pointer;
+    transition: all 0.15s ease-out;
+}
+
+.selectedOption {
+    text-transform: capitalize;
+}
 
 /*----------------- LOGO -----------------*/
 .logo {
@@ -57,13 +163,15 @@ body {
 }
 
 .secondary {
-    background-color: rgba(99, 95, 199, 0.10);
+    /*background-color: rgba(99, 95, 199, 0.10);*/
+    background-color: #efeff9;
     color: #635FC7;
     transition: all 0.2s ease-out;
 }
 
 .secondary:hover {
-    background-color: rgba(99, 95, 199, 0.25);
+    /*background-color: rgba(99, 95, 199, 0.25);*/
+    background-color: #dfdff3;
     transition: all 0.2s ease-out;
 }
 
@@ -281,7 +389,7 @@ body {
 }
 
 /*----------------- BOARD MENU -----------------*/
-.boardMenu {
+.boardMenu, .taskMenu {
     align-items: center;
     background-color: white;
     border-radius: 8px;
@@ -290,19 +398,33 @@ body {
     height: 94px;
     padding: 16px;
     position: absolute;
-    right: 24px;
-    top: 90px;
     width: 192px;
 }
 
-.boardMenuNav {
+.boardMenu {
+    right: 24px;
+    top: 90px;
+}
+
+.taskMenu {
+    height: 64px;
+    top: 32px;
+    right: 16px;
+    width: 124px;
+}
+
+.boardMenuNav, .taskMenuNav {
     display: flex;
     flex-direction: column;
     gap: 16px;
     list-style: none;
 }
 
-.boardMenuNavItem {
+.taskMenuNav {
+    gap: 4px;
+}
+
+.boardMenuNavItem, .taskMenuNavItem {
     color: #828FA3;
     font-family: "Plus Jakarta Sans", sans-serif;
     font-size: 13px;
@@ -311,11 +433,11 @@ body {
     line-height: 23px;
 }
 
-.boardMenuNavItem:hover {
+.boardMenuNavItem:hover, .taskMenuNavItem:hover {
     cursor: pointer;
 }
 
-.deleteBoard {
+.deleteBoard, .deleteTask {
     color: #EA5555;
 }
 
@@ -396,11 +518,16 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 6px 0 rgba(54, 78, 126, 0.10);
     min-height: 88px;
-    padding: 24px 16px 0;
+    padding: 20px 16px 0;
     width: 280px;
     display: flex;
     flex-direction: column;
     gap: 8px;
+    position: relative;
+}
+
+.task:hover {
+    cursor: pointer;
 }
 
 .taskTitle {
@@ -417,6 +544,24 @@ body {
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+}
+
+.taskMenuButton {
+    color: #828FA3;
+    position: absolute;
+    border: none;
+    background-color: transparent;
+    right: 16px;
+    top: 8px;
+    width: 24px;
+    height: 24px;
+    transition: all 0.1s ease-out;
+}
+
+.taskMenuButton:hover {
+    color: #000112;
+    cursor: pointer;
+    transition: all 0.1s ease-out;
 }
 
 /*----------------- OVERLAY -----------------*/
@@ -441,7 +586,7 @@ body {
     border-radius: 6px;
     display: flex;
     flex-direction: column;
-    max-height: 572px;
+    max-height: 600px;
     overflow: scroll;
     padding: 32px;
     width: 480px;
@@ -487,7 +632,7 @@ body {
     gap: 1rem
 }
 
-.lightboxField label, .listsLabel {
+.lightboxField label, .listsLabel, .selectLabel, .subtasksLabel {
     color: #828FA3;
     font-size: 1.2rem;
     font-style: normal;
@@ -524,13 +669,13 @@ body {
 }
 
 /*----------------- CREATE NEW BOARD LIGHTBOX -----------------*/
-.boardDetails {
+.boardDetails, .taskContainer {
     display: flex;
     flex-direction: column;
     gap: 18px;
 }
 
-.startingLists {
+.startingLists, .subtasksContainer {
     border: none;
     display: flex;
     flex-direction: column;
@@ -538,14 +683,14 @@ body {
     /*margin-bottom: 12px;*/
 }
 
-.startingList {
+.startingList, .subtask {
     align-items: center;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
-input[type="text"].startingListInput {
+input[type="text"].startingListInput, input[type="text"].subtaskInput {
     background-color: white;
     border: 1px solid rgba(130, 143, 163, 0.25);
     border-radius: 4px;
@@ -559,11 +704,17 @@ input[type="text"].startingListInput {
     width: 385px;
 }
 
-input[type="text"].startingListInput::placeholder {
+input[type="text"].startingListInput::placeholder, input[type="text"].subtaskInput::placeholder {
     color: #000112;
     font-style: italic;
     opacity: 0.25;
+}
 
+/*----------------- ADD NEW TASK LIGHTBOX -----------------*/
+.taskDetails, .taskInputsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
 }
 
 /*----------------- DELETE BOARD WARNING LIGHTBOX -----------------*/
@@ -583,6 +734,60 @@ input[type="text"].startingListInput::placeholder {
     gap: 16px;
 }
 
+/*----------------- TASK DETAILS LIGHTBOX -----------------*/
+.taskContainer {
+    margin-top: 18px;
+}
+
+.taskDescription {
+    color: #828FA3;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 23px;
+}
+
+.subtasksCheckboxesContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    list-style: none;
+}
+
+.subtaskCheckboxItem {
+    width: 416px;
+    height: fit-content;
+    min-height: 40px;
+    background-color: #F4F7FD;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    padding: 12px;
+    border-radius: 4px;
+}
+
+input[type="checkbox"] {
+    accent-color: #635FC7;
+}
+
+input[type="checkbox"]:hover {
+    cursor: pointer;
+}
+
+.checkboxLabel {
+    color: #000112;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.checkboxLabel.checked {
+    color: #828FA3;
+    text-decoration: line-through;
+}
 
 
 

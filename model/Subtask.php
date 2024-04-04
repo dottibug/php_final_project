@@ -6,18 +6,7 @@
 class Subtask implements JsonSerializable
 {
     private $subtaskID, $taskID, $description, $status;
-
-//    // ------------------------------------------------------------------------------
-//    //  Constructor
-//    // ------------------------------------------------------------------------------
-//    public function __construct($subtaskID, $taskID, $description, $status)
-//    {
-//        $this->subtaskID = $subtaskID;
-//        $this->taskID = $taskID;
-//        $this->description = $description;
-//        $this->status = $status;
-//    }
-
+    
     // ------------------------------------------------------------------------------
     //  Constructor
     // ------------------------------------------------------------------------------

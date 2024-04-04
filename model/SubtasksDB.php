@@ -33,12 +33,11 @@ class SubtasksDB
             // Create array of Subtask objects
             $subtasks = [];
             foreach ($rows as $row) {
-                $Subtask = new Subtask(
-                    $row['subtaskID'],
-                    $row['taskID'],
-                    $row['description'],
-                    $row['status']
-                );
+                $Subtask = new Subtask();
+                $Subtask->setSubtaskID($row['subtaskID']);
+                $Subtask->setTaskID($row['taskID']);
+                $Subtask->setDescription($row['description']);
+                $Subtask->setStatus($row['status']);
                 $subtasks[] = $Subtask;
             }
             return $subtasks;
@@ -82,6 +81,27 @@ class SubtasksDB
             $stmt = $this->db->prepare($query);
             $stmt->bindValue(":status", $status);
             $stmt->bindValue(':subtaskID', $subtaskID);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
+            return $row;
+        } catch (PDOException $e) {
+            Database::showDatabaseError($e->getMessage());
+            return false;
+        }
+    }
+
+    // ------------------------------------------------------------------------------
+    //  Add subtask
+    // ------------------------------------------------------------------------------
+    public function addSubtask($taskID, $description, $status)
+    {
+        try {
+            $query = 'INSERT INTO subtasks (taskID, description, status) VALUES (:taskID, :description, :status)';
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(':taskID', $taskID);
+            $stmt->bindValue(':description', $description);
+            $stmt->bindValue(':status', $status);
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt->closeCursor();

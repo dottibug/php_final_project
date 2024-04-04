@@ -17,7 +17,7 @@ $overlay = $_SESSION['overlay'];
             <header class="mainBoardHeader">
                 <h1 id="boardTitle"></h1>
                 <div class="mainBoardHeaderActions">
-                    <button class="button secondary large">
+                    <button class="button secondary large" id="addNewTaskButton">
                         <span class="plus">&plus;</span> Add New Task
                     </button>
                     <div class="kebab" id="mainBoardHeaderKebab">

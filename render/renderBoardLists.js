@@ -1,3 +1,5 @@
+import {handleTaskClick} from "./viewTask/handlersViewTask.js";
+
 export function renderBoardLists(lists) {
     // Get lists container
     const listsContainer = document.getElementById('listsContainer');
@@ -5,11 +7,8 @@ export function renderBoardLists(lists) {
     // Clear previous lists
     listsContainer.innerHTML = '';
 
-    // List array from object
-    const listsArray = Object.values(lists);
-
     // Render each list
-    listsArray.forEach(list => {
+    lists.forEach(list => {
         // Number of tasks
         const numOfTasks = Object.keys(list.tasks).length;
 
@@ -42,12 +41,12 @@ export function renderBoardLists(lists) {
         // Render tasks
         tasksArray.forEach(task => {
             // Subtasks array from task
-            const subtasksArray = Object.values(task.subtasks);
+            const subtasks = Object.values(task.subtasks);
 
             // Count total subtasks and checked subtasks
             let total = 0;
             let checked = 0;
-            subtasksArray.forEach(subtask => {
+            subtasks.forEach(subtask => {
                 if (subtask.status === 'checked') checked++;
                 total++;
             });
@@ -55,6 +54,18 @@ export function renderBoardLists(lists) {
             // Task <li> item
             const taskItem = document.createElement('li');
             taskItem.className = 'task';
+            taskItem.id = task.taskID;
+            taskItem.dataset['taskId'] = task.taskID;
+            taskItem.addEventListener('click', (e) => handleTaskClick(e, task, lists));
+            
+            // Task menu <button>
+            const taskMenuButton = document.createElement('button');
+            taskMenuButton.className = 'taskMenuButton';
+            taskMenuButton.dataset['taskId'] = task.taskID;
+            const taskMenuButtonIcon = document.createElement('span');
+            taskMenuButtonIcon.innerText = 'more_horiz\n';
+            taskMenuButtonIcon.className = 'material-symbols-outlined';
+            taskMenuButton.appendChild(taskMenuButtonIcon);
 
             // Task <h1>
             const taskHeading = document.createElement('h1');
@@ -68,6 +79,7 @@ export function renderBoardLists(lists) {
 
             // Compose tasks
             tasks.insertAdjacentElement('beforeend', taskItem);
+            taskItem.appendChild(taskMenuButton);
             taskItem.appendChild(taskHeading);
             taskItem.appendChild(subtaskSummary);
         });

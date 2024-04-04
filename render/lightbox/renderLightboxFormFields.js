@@ -9,7 +9,7 @@ export function renderLightboxFormFields(fields, container) {
         lightboxField.id = field.name;
 
         // Label <div>
-        const labelContainer = document.createElement('dive');
+        const labelContainer = document.createElement('div');
         labelContainer.className = 'labelContainer';
 
         // Field <label>

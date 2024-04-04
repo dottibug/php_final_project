@@ -4,24 +4,8 @@
 // ------------------------------------------------------------------------------
 class Task implements JsonSerializable
 {
-    private $taskID, $boardID, $listID, $title, $description, $dueDate, $dateComplete,
+    private $taskID, $boardID, $listID, $listTitle, $title, $description, $dueDate, $dateComplete,
         $priority, $subtasks = [];
-
-//    // ------------------------------------------------------------------------------
-//    // Constructor
-//    // ------------------------------------------------------------------------------
-//    public function __construct($taskID, $boardID, $listID, $title, $description, $dueDate,
-//                                $dateComplete, $priority)
-//    {
-//        $this->taskID = $taskID;
-//        $this->boardID = $boardID;
-//        $this->listID = $listID;
-//        $this->title = $title;
-//        $this->description = $description;
-//        $this->dueDate = $dueDate;
-//        $this->dateComplete = $dateComplete;
-//        $this->priority = $priority;
-//    }
 
     // ------------------------------------------------------------------------------
     // Constructor
@@ -40,6 +24,7 @@ class Task implements JsonSerializable
                 'taskID' => $this->taskID,
                 'boardID' => $this->boardID,
                 'listID' => $this->listID,
+                'listTitle' => $this->listTitle,
                 'title' => $this->title,
                 'description' => $this->description,
                 'dueDate' => $this->dueDate,
@@ -79,6 +64,11 @@ class Task implements JsonSerializable
     public function getListID()
     {
         return $this->listID;
+    }
+
+    public function getListTitle()
+    {
+        return $this->listTitle;
     }
 
     public function getDueDate()
@@ -127,6 +117,11 @@ class Task implements JsonSerializable
     public function setListID($listID): void
     {
         $this->listID = $listID;
+    }
+
+    public function setListTitle($title): void
+    {
+        $this->listTitle = $title;
     }
 
     public function setDueDate($dueDate): void

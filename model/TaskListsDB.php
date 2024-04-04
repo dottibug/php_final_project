@@ -35,9 +35,13 @@ class TaskListsDB
             $lists = [];
             foreach ($rows as $row) {
                 $List = new TaskList();
+                $List->setListID($row['listID']);
+                $List->setTitle($row['title']);
+                $List->setColor($row['color']);
                 $lists[] = $List;
             }
-            return $lists;
+
+            return array_values($lists);
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;

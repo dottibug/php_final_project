@@ -34,6 +34,9 @@ export function renderLightbox(heading = 'Heading') {
     lightbox.appendChild(lightboxHeader);
     lightboxHeader.appendChild(lightboxHeading);
     lightboxHeader.appendChild(closeLightbox);
+
+    // Return the lightbox element
+    return lightbox;
 }
 
 // EVENT: Handle click close lightbox
@@ -41,7 +44,7 @@ export function handleCloseLightbox() {
     // Re-enable <body> scroll
     const body = document.getElementById('body');
     body.setAttribute('style', "overflow: visible");
-    
+
     // Remove overlay element from DOM
     const overlay = document.getElementById('overlay');
     overlay.remove();

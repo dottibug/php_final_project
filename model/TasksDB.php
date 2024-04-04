@@ -33,16 +33,7 @@ class TasksDB
             $stmt->closeCursor();
 
             foreach ($rows as $row) {
-                $Task = new Task(
-                    $row['taskID'],
-                    $row['boardID'],
-                    $row['listID'],
-                    $row['title'],
-                    $row['description'],
-                    $row['dueDate'],
-                    $row['dateComplete'],
-                    $row['priority']
-                );
+                $Task = new Task();
                 $this->tasks[] = $Task;
             }
             return $this->tasks;
@@ -67,16 +58,7 @@ class TasksDB
 
             $tasks = [];
             foreach ($rows as $row) {
-                $Task = new Task(
-                    $row['taskID'],
-                    $row['boardID'],
-                    $row['listID'],
-                    $row['title'],
-                    $row['description'],
-                    $row['dueDate'],
-                    $row['dateComplete'],
-                    $row['priority']
-                );
+                $Task = new Task();
                 $tasks[] = $Task;
             }
             return $tasks;
@@ -85,7 +67,6 @@ class TasksDB
             return false;
         }
     }
-
 
     // ------------------------------------------------------------------------------
     // Group tasks by their listID
@@ -101,5 +82,47 @@ class TasksDB
             $GroupedTasks[$listTitle][] = $Task;
         }
         return $GroupedTasks;
+    }
+
+    // ------------------------------------------------------------------------------
+    // Add task
+    // ------------------------------------------------------------------------------
+    public function addTask($boardID, $listID, $title, $description)
+    {
+        try {
+            $query = 'INSERT INTO tasks (boardID, listID, title, description) VALUES (:boardID, :listID, :title, :description)';
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(':boardID', $boardID);
+            $stmt->bindValue(':listID', $listID);
+            $stmt->bindValue(':title', $title);
+            $stmt->bindValue(':description', $description);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
+            return $row;
+        } catch (PDOException $e) {
+            Database::showDatabaseError($e->getMessage());
+            return false;
+        }
+    }
+
+    // ------------------------------------------------------------------------------
+    // Get taskID by task title and listID
+    // ------------------------------------------------------------------------------
+    public function getTaskID($title, $listID)
+    {
+        try {
+            $query = 'SELECT * FROM tasks WHERE title = :title AND listID = :listID';
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(':title', $title);
+            $stmt->bindValue(':listID', $listID);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
+            return $row['taskID'];
+        } catch (PDOException $e) {
+            Database::showDatabaseError($e->getMessage());
+            return false;
+        }
     }
 }

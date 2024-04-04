@@ -7,17 +7,6 @@ class TaskList implements JsonSerializable
 {
     private $listID, $boardID, $title, $color, $tasks = [];
 
-//    // ------------------------------------------------------------------------------
-//    // Constructor
-//    // ------------------------------------------------------------------------------
-//    public function __construct($listID, $boardID, $title, $color)
-//    {
-//        $this->listID = $listID;
-//        $this->boardID = $boardID;
-//        $this->title = $title;
-//        $this->color = $color;
-//    }
-
     // ------------------------------------------------------------------------------
     // Constructor
     // ------------------------------------------------------------------------------
@@ -72,6 +61,7 @@ class TaskList implements JsonSerializable
         return $this->tasks;
     }
 
+
     // ------------------------------------------------------------------------------
     // Setters
     // ------------------------------------------------------------------------------
@@ -99,4 +89,5 @@ class TaskList implements JsonSerializable
     {
         $this->tasks = $tasks;
     }
+
 }

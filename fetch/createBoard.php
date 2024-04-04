@@ -18,7 +18,6 @@ $Form = new Form();
 $Form->addField('title');
 $fields = [$Form->getField('title')];
 
-
 // Controller
 switch ($action) {
     case ('createBoardForm'):
