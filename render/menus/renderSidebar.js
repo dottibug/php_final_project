@@ -1,7 +1,9 @@
 import {handleShowNewBoardForm} from "../forms/formHandlers.js";
-import {handleBoardClick} from "./handlersSidebar.js";
+import {fetchBoards, fetchCurrentBoardLists} from "../../fetch/script.js";
 
-// RENDER SIDEBAR
+// -----------------------------------------------------------------------------
+// Render sidebar navigation
+// -----------------------------------------------------------------------------
 export function renderSidebar(boards, currentBoardID) {
     // Heading with board count
     const sidebarHeading = document.getElementById('sidebarHeading');
@@ -48,4 +50,28 @@ export function renderSidebar(boards, currentBoardID) {
 
     // Add click event listener to "create new board" button
     createBoardButton.addEventListener('click', handleShowNewBoardForm);
+}
+
+// -----------------------------------------------------------------------------
+// EVENT: Handle board click in the sidebar navigation
+// -----------------------------------------------------------------------------
+export async function handleBoardClick(boardID) {
+    const params = new URLSearchParams({
+        'action': 'updateCurrentBoardID',
+        'newBoardID': boardID
+    });
+
+    const fetchOptions = {
+        method: 'POST',
+        body: params
+    }
+
+    const response = await fetch('../fetch/fetchController.php', fetchOptions);
+    const data = await response.json();
+
+    // Re-fetch boards and current board lists
+    if (data.success) {
+        await fetchBoards();
+        await fetchCurrentBoardLists();
+    }
 }

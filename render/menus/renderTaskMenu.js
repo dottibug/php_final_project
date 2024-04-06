@@ -1,5 +1,3 @@
-import {handleShowEditTaskForm} from "./handlersViewTask.js";
-
 export function renderTaskMenu(taskID) {
     // Task
     const taskElement = document.getElementById(taskID);

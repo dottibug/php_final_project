@@ -1,25 +1,6 @@
 import {renderOverlay} from "./renderOverlay.js";
 import {renderXButton} from "../uiElements/renderButton.js";
 
-
-// TODO
-/*
-* THE FORMS
-* - Create New Board
-* - Edit Board
-* - Add New Task
-* - Edit Task
-*
-* THE FUNCTIONS
-* - renderInput
-* - renderTextarea
-* - renderDropdown
-* - renderDynamicList
-* - renderButton
-* - renderDeleteButton
-*
-* */
-
 // ------------------------------------
 // Render an overlay and lightbox
 // ------------------------------------
@@ -65,7 +46,7 @@ export function renderLightbox(heading = 'Heading') {
 // EVENT: Handle click close lightbox
 // ------------------------------------
 export function handleCloseLightbox() {
-    // Re-enable <body> scroll
+    // Re-enable body scroll
     const body = document.getElementById('body');
     body.setAttribute('style', "overflow: visible");
 

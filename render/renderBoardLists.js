@@ -1,4 +1,3 @@
-// import {handleTaskClick} from "./viewTask/handlersViewTask.js";
 import {handleTaskClick} from "./forms/formHandlers.js";
 
 export function renderBoardLists(lists) {

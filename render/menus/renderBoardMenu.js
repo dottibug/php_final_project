@@ -1,4 +1,3 @@
-// import {handleShowDeleteBoardWarning} from "./handlersBoardMenuOLD.js";
 import {handleShowEditBoardForm, handleShowDeleteBoardWarning} from "../forms/formHandlers.js";
 
 export function renderBoardMenu() {

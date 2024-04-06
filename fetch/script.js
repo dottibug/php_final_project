@@ -1,9 +1,9 @@
 import {handleShowAddTaskForm, handleShowBoardMenu} from "../render/forms/formHandlers.js";
-import {renderSidebar} from "../render/sidebar/renderSidebar.js";
+import {renderSidebar} from "../render/menus/renderSidebar.js";
 import {renderBoardLists} from '../render/renderBoardLists.js';
 
 // -----------------------------------------------------------------------------
-// EVENT: Fetch requests after document is loaded
+// Fetch requests after document is loaded
 // -----------------------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', async function () {
     await fetchBoards();
@@ -48,7 +48,7 @@ export async function fetchBoards() {
 }
 
 // -----------------------------------------------------------------------------
-// Fetch the lists for the active board
+// Fetch lists for the current board
 // -----------------------------------------------------------------------------
 export async function fetchCurrentBoardLists() {
     // Fetch request
@@ -63,7 +63,7 @@ export async function fetchCurrentBoardLists() {
 
     const response = await fetch('../fetch/fetchController.php', fetchOptions);
     const data = await response.json();
-    
+
     // Rendering
     if (data.success) {
         const {currentBoardLists} = data;

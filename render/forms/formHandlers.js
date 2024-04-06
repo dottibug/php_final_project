@@ -3,8 +3,8 @@ import {renderForm} from "./renderForm.js";
 import {renderFields} from "./renderFields.js";
 import {fetchBoards, fetchCurrentBoardLists} from "../../fetch/script.js";
 import {handleCloseLightbox} from "../lightbox/renderLightbox.js";
-import {renderBoardMenu} from "../boardMenu/renderBoardMenu.js";
-import {renderTaskMenu} from "../viewTask/renderTaskMenu.js";
+import {renderBoardMenu} from "../menus/renderBoardMenu.js";
+import {renderTaskMenu} from "../menus/renderTaskMenu.js";
 
 // -----------------------------------------------------------------------------
 // Task click
@@ -17,9 +17,7 @@ export async function handleTaskClick(e, clickedTask) {
     // Event delegation
     if (!menuButton) {
         const action = e.target.closest('li').dataset['action'];
-
         const params = new URLSearchParams({'taskID': taskID});
-
         if (action === 'editTask') params.append('action', 'editTaskForm');
         if (action === 'deleteTask') params.append('action', 'deleteTaskWarning');
         if (action === 'viewTask') params.append('action', 'viewTask');
