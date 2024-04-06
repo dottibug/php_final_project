@@ -125,4 +125,98 @@ class TasksDB
             return false;
         }
     }
+
+    // ------------------------------------------------------------------------------
+    // Get task by taskID
+    // ------------------------------------------------------------------------------
+    public function getTask($taskID)
+    {
+        try {
+            $query = 'SELECT * FROM tasks WHERE taskID = :taskID';
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(':taskID', $taskID);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
+
+            $TaskListsDB = new TaskListsDB();
+            $listTitle = $TaskListsDB->getListTitle($row['listID']);
+
+            $Task = new Task();
+            $Task->setTaskID($row['taskID']);
+            $Task->setBoardID($row['boardID']);
+            $Task->setListID($row['listID']);
+            $Task->setTitle($row['title']);
+            $Task->setDescription($row['description']);
+            $Task->setListTitle($listTitle);
+
+            return $Task;
+        } catch (PDOException $e) {
+            Database::showDatabaseError($e->getMessage());
+            return false;
+        }
+    }
+
+    // ------------------------------------------------------------------------------
+    // Update task title
+    // ------------------------------------------------------------------------------
+    public function updateTaskTitle($taskID, $title)
+    {
+        try {
+            $query = 'UPDATE tasks SET title = :title WHERE taskID = :taskID';
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(':title', $title);
+            $stmt->bindValue(':taskID', $taskID);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
+
+            return $row;
+
+        } catch (PDOException $e) {
+            Database::showDatabaseError($e->getMessage());
+            return false;
+        }
+    }
+
+    // ------------------------------------------------------------------------------
+    // Update task description
+    // ------------------------------------------------------------------------------
+    public function updateTaskDescription($taskID, $description)
+    {
+        try {
+            $query = 'UPDATE tasks SET description = :description WHERE taskID = :taskID';
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(':description', $description);
+            $stmt->bindValue(':taskID', $taskID);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
+
+            return $row;
+
+        } catch (PDOException $e) {
+            Database::showDatabaseError($e->getMessage());
+            return false;
+        }
+    }
+
+    // ------------------------------------------------------------------------------
+    // Delete task
+    // ------------------------------------------------------------------------------
+    public function deleteTask($taskID)
+    {
+        try {
+            $query = 'DELETE FROM tasks WHERE taskID = :taskID';
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(':taskID', $taskID);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
+            return $row;
+        } catch (PDOException $e) {
+            Database::showDatabaseError($e->getMessage());
+            return false;
+        }
+    }
 }

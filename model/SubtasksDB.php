@@ -111,4 +111,70 @@ class SubtasksDB
             return false;
         }
     }
+
+    // ------------------------------------------------------------------------------
+    //  Delete subtask
+    // ------------------------------------------------------------------------------
+    public function deleteSubtask($subtaskID)
+    {
+        try {
+            $query = 'DELETE FROM subtasks WHERE subtaskID = :subtaskID';
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(':subtaskID', $subtaskID);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
+            return $row;
+        } catch (PDOException $e) {
+            Database::showDatabaseError($e->getMessage());
+            return false;
+        }
+    }
+
+    // ------------------------------------------------------------------------------
+    //  Check if subtasks exists in the database
+    // ------------------------------------------------------------------------------
+    public function subtaskExists($subtaskID)
+    {
+        try {
+            $query = "SELECT * FROM subtasks WHERE subtaskID = :subtaskID";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(':subtaskID', $subtaskID);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
+
+            if ($row) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (PDOException $e) {
+            Database::showDatabaseError($e->getMessage());
+            return false;
+        }
+    }
+
+    // ------------------------------------------------------------------------------
+    //  Update subtask description
+    // ------------------------------------------------------------------------------
+    public function updateSubtaskDescription($subtaskID, $description)
+    {
+        try {
+            $query = "UPDATE subtasks SET description = :description WHERE subtaskID = :subtaskID";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(':description', $description);
+            $stmt->bindValue(':subtaskID', $subtaskID);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
+
+            return $row;
+
+        } catch (PDOException $e) {
+            Database::showDatabaseError($e->getMessage());
+            return false;
+        }
+    }
+
 }

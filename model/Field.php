@@ -64,6 +64,14 @@ class Field implements JsonSerializable
     }
 
     // ------------------------------------------------------------------------------
+    // Get type
+    // ------------------------------------------------------------------------------
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    // ------------------------------------------------------------------------------
     // Get the HTML markup for a field's error message
     // ------------------------------------------------------------------------------
     public function getErrorHTML()
@@ -104,6 +112,14 @@ class Field implements JsonSerializable
     {
         $this->hasError = false;
         $this->message = '';
+    }
+
+    // ------------------------------------------------------------------------------
+    // Set type
+    // ------------------------------------------------------------------------------
+    public function setType($type)
+    {
+        $this->type = $type;
     }
 }
 

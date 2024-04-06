@@ -1,6 +1,6 @@
 import {renderLightbox} from "../lightbox/renderLightbox.js";
 import {renderSubtaskCheckboxes} from "./renderSubtaskCheckboxes.js";
-import {renderCustomSelect} from "../uiElements/renderCustomSelect.js";
+import {renderCustomSelectOLD} from "../uiElements/renderCustomSelectOLD.js";
 
 export function renderTaskDetails(task, lists) {
     const {taskID, listID, listTitle, title, description, subtasks} = task;
@@ -26,7 +26,7 @@ export function renderTaskDetails(task, lists) {
     if (description) {
         taskContainer.appendChild(taskDescription);
     }
-    
+
     // Compose
     renderSubtaskCheckboxes(subtasks, taskID);
 }

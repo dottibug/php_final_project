@@ -1,4 +1,5 @@
-import {handleTaskClick} from "./viewTask/handlersViewTask.js";
+// import {handleTaskClick} from "./viewTask/handlersViewTask.js";
+import {handleTaskClick} from "./forms/formHandlers.js";
 
 export function renderBoardLists(lists) {
     // Get lists container
@@ -56,8 +57,10 @@ export function renderBoardLists(lists) {
             taskItem.className = 'task';
             taskItem.id = task.taskID;
             taskItem.dataset['taskId'] = task.taskID;
+            taskItem.dataset.action = 'viewTask';
             taskItem.addEventListener('click', (e) => handleTaskClick(e, task, lists));
-            
+
+
             // Task menu <button>
             const taskMenuButton = document.createElement('button');
             taskMenuButton.className = 'taskMenuButton';

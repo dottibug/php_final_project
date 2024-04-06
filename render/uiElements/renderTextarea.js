@@ -1,7 +1,7 @@
 // Render textarea
-export function renderTextarea(className = '', name, value) {
+export function renderTextarea(name, value) {
     const textarea = document.createElement('textarea');
-    textarea.className = className;
+    textarea.className = 'textarea';
     textarea.name = name;
     textarea.innerHTML = value;
 

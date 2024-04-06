@@ -17,13 +17,13 @@ body {
     /*position: relative;*/
 }
 
-.customSelectContainer {
+.dropdownWrapper, .customSelectContainer {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.customSelectButton {
+.dropdownButton, .customSelectButton {
     background-color: white;
     border: 1px solid rgba(130, 143, 163, 0.25);
     border-radius: 4px;
@@ -36,14 +36,14 @@ body {
     width: 416px;
 }
 
-.selectArrow {
+.dropdownArrow, .selectArrow {
     color: #828FA3;
     font-size: 2rem;
     position: relative;
     top: 2px;
 }
 
-.selectDropdown {
+.dropdownOptions, .selectDropdown {
     background-color: white;
     border-radius: 8px;
     box-shadow: 0px 10px 20px 0px rgba(54, 78, 126, 0.25);
@@ -217,7 +217,7 @@ body {
     transition: all 0.2s ease-out;
 }
 
-.iconDeleteButton:hover {
+.deleteListItemButton:hover, .iconDeleteButton:hover {
     color: #EA5555;
     transition: all 0.2s ease-out;
 }
@@ -451,6 +451,7 @@ body {
     height: auto;
     overflow-x: auto;
     overflow-y: hidden;
+    padding-right: 24px;
 }
 
 /*----------------- EMPTY MAIN BOARD -----------------*/
@@ -586,7 +587,7 @@ body {
     border-radius: 6px;
     display: flex;
     flex-direction: column;
-    max-height: 600px;
+    max-height: 648px;
     overflow: scroll;
     padding: 32px;
     width: 480px;
@@ -613,26 +614,26 @@ body {
     line-height: normal;
 }
 
-.lightboxForm {
+.lightboxForm, .form {
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 24px;
     margin-top: 24px;
 }
 
-.lightboxField {
+.lightboxField, .fieldBox {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.labelContainer {
+.labelContainer, .labelBox {
     display: flex;
     flex-direction: row;
     gap: 1rem
 }
 
-.lightboxField label, .listsLabel, .selectLabel, .subtasksLabel {
+.inputLabel, .dynamicListLabel .lightboxField label, .listsLabel, .selectLabel, .subtasksLabel {
     color: #828FA3;
     font-size: 1.2rem;
     font-style: normal;
@@ -644,7 +645,7 @@ body {
     text-transform: capitalize;
 }
 
-.lightboxField input[type="text"], .lightboxField textarea {
+.textInput, .textarea, .lightboxField input[type="text"], .lightboxField textarea {
     background-color: white;
     border: 1px solid rgba(130, 143, 163, 0.25);
     border-radius: 4px;
@@ -658,7 +659,7 @@ body {
     width: 416px;
 }
 
-.lightboxField textarea {
+.textarea, .lightboxField textarea {
     /*height: 134px;*/
     height: 72px;
     resize: none;
@@ -675,7 +676,7 @@ body {
     gap: 18px;
 }
 
-.startingLists, .subtasksContainer {
+.dynamicListWrapper, .startingLists, .subtasksContainer {
     border: none;
     display: flex;
     flex-direction: column;
@@ -683,14 +684,21 @@ body {
     /*margin-bottom: 12px;*/
 }
 
-.startingList, .subtask {
+.dynamicListLabel, .startingList, .subtask {
     align-items: center;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
-input[type="text"].startingListInput, input[type="text"].subtaskInput {
+.dynamicListItem {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.dynamicListInput, input[type="text"].startingListInput, input[type="text"].subtaskInput {
     background-color: white;
     border: 1px solid rgba(130, 143, 163, 0.25);
     border-radius: 4px;
@@ -704,14 +712,14 @@ input[type="text"].startingListInput, input[type="text"].subtaskInput {
     width: 385px;
 }
 
-input[type="text"].startingListInput::placeholder, input[type="text"].subtaskInput::placeholder {
+.dynamicListInput::placeholder, input[type="text"].startingListInput::placeholder, input[type="text"].subtaskInput::placeholder {
     color: #000112;
     font-style: italic;
     opacity: 0.25;
 }
 
 /*----------------- ADD NEW TASK LIGHTBOX -----------------*/
-.taskDetails, .taskInputsContainer {
+.taskDetails, .taskInputsContainer, .fieldsWrapper {
     display: flex;
     flex-direction: column;
     gap: 18px;
@@ -725,7 +733,12 @@ input[type="text"].startingListInput::placeholder, input[type="text"].subtaskInp
     font-style: normal;
     font-weight: 500;
     line-height: 23px;
-    margin: 24px 0;
+    margin: 18px 0;
+}
+
+.warningMessageSpan {
+    color: #635FC7;
+    font-weight: 900;
 }
 
 .actionButtons {
@@ -734,9 +747,24 @@ input[type="text"].startingListInput::placeholder, input[type="text"].subtaskInp
     gap: 16px;
 }
 
+.buttonsWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 6px;
+}
+
+.buttonsWrapperWarning {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+}
+
 /*----------------- TASK DETAILS LIGHTBOX -----------------*/
-.taskContainer {
-    margin-top: 18px;
+.taskWrapper, .taskContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 }
 
 .taskDescription {
@@ -748,24 +776,36 @@ input[type="text"].startingListInput::placeholder, input[type="text"].subtaskInp
     line-height: 23px;
 }
 
-.subtasksCheckboxesContainer {
+.subtasksWrapper, .subtasksCheckboxesContainer {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 12px;
     list-style: none;
 }
 
-.subtaskCheckboxItem {
-    width: 416px;
-    height: fit-content;
-    min-height: 40px;
-    background-color: #F4F7FD;
+.checkboxesWrapper {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.checkboxItem, .subtaskCheckboxItem {
     align-items: center;
-    gap: 16px;
-    padding: 12px;
+    background-color: #F4F7FD;
     border-radius: 4px;
+    color: #828FA3;
+    display: flex;
+    gap: 16px;
+    height: fit-content;
+    flex-direction: row;
+    min-height: 40px;
+    padding: 12px;
+    width: 416px;
+}
+
+.checkboxItem:hover {
+    background-color: #dfdff3;
+    color: #000112;
 }
 
 input[type="checkbox"] {

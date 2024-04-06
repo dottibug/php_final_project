@@ -1,14 +1,18 @@
 import {renderTaskDetails} from "./renderTaskDetails.js";
 import {renderSubtaskCheckboxes} from "./renderSubtaskCheckboxes.js";
-import {renderEditTaskForm} from "./renderEditTaskForm.js";
+import {renderEditTaskFormOLD} from "./renderEditTaskFormOLD.js";
 import {renderTaskMenu} from "./renderTaskMenu.js";
 import {renderEditTaskSubtasks} from "./renderEditTaskSubtasks.js";
+
+import {renderForm} from "../forms/renderForm.js";
 
 // ------------------------------------
 // EVENT: Task click
 // ------------------------------------
 export function handleTaskClick(e, task, lists) {
-    console.log('Handle task click: ');
+    console.log('Handle task click: ', task);
+    const {title} = task;
+
     const taskID = task.taskID;
     const taskMenu = document.getElementById(`taskMenu${taskID}`);
     const menuButton = e.target.closest('button');
@@ -18,9 +22,10 @@ export function handleTaskClick(e, task, lists) {
         const action = e.target.closest('li').dataset['action'];
 
         // Render edit task form, delete task warning, or task details based on action
-        if (action === 'editTask') renderEditTaskForm(task, lists);
+        // if (action === 'editTask') renderEditTaskForm(task, lists);
+        if (action === 'editTask') renderForm('Edit Task', 'editTask', null, lists, null, '', task);
         else if (action === 'deleteTask') console.log('show delete task warning'); // TODO
-        else renderTaskDetails(task, lists);
+        else renderForm(title, 'viewTask', null, lists, null, '', task);
 
         // Remove task menu from UI
         if (taskMenu) taskMenu.remove();
