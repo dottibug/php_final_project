@@ -5,7 +5,7 @@ session_start();
 
 // Only allow valid users access to this page
 if (!$_SESSION['validUser']) {
-    header('Location: ../index.php?action=show_login');
+    header('Location: ../login?action=showLoginForm');
 }
 
 include 'mainBoard.php';

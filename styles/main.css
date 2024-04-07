@@ -5,16 +5,15 @@ body {
     overflow-x: hidden;
     padding: 0;
     position: relative;
+
+    /* TODO for the login form background; for board, make white areas white*/
+    background-color: #E9EFFA;
 }
 
 /*----------------- UI -----------------*/
 .kebab {
     height: 20px;
     width: 4.615px;
-}
-
-.customSelect {
-    /*position: relative;*/
 }
 
 .dropdownWrapper, .customSelectContainer {
@@ -97,18 +96,6 @@ body {
     border-radius: 0 0 8px 8px;
 }
 
-/*.optionRadioLabel {*/
-/*    color: #828FA3;*/
-/*    display: inline-flex;*/
-/*    font-family: "Plus Jakarta Sans", sans-serif;*/
-/*    font-size: 13px;*/
-/*    font-style: normal;*/
-/*    font-weight: 500;*/
-/*    line-height: 23px;*/
-/*    text-transform: capitalize;*/
-/*    width: 100%;*/
-/*}*/
-
 .option:hover {
     background-color: #efeff9;
     cursor: pointer;
@@ -127,6 +114,10 @@ body {
 
 /*----------------- FIELDS -----------------*/
 .formField {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
 }
 
 .fieldError {
@@ -148,7 +139,10 @@ body {
     font-style: normal;
     font-weight: 700;
     text-align: center;
-    width: 255px;
+
+
+    /*TODO check that this didn't affect board forms. if it did, create a custom width for the login button*/
+    /*width: 255px;*/
 }
 
 .primary {
@@ -234,7 +228,34 @@ body {
     margin-top: 1rem;
 }
 
+#loginButton {
+    margin-top: 8px;
+}
+
 /*----------------- LOGIN -----------------*/
+.loginForm {
+    background-color: white;
+    border-radius: 6px;
+    margin: auto;
+    width: 480px;
+    top: 100px;
+    position: relative;
+
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.loginHeading {
+    color: #000112;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
 .loginError {
 }
 
@@ -249,7 +270,7 @@ body {
 
 /*----------------- SIDEBAR -----------------*/
 .sidebar {
-    /*padding-left: 34px;*/
+    background-color: white;
 }
 
 .sidebarLogo {
@@ -450,7 +471,7 @@ body {
     flex-grow: 1;
     height: auto;
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: auto;
     padding-right: 24px;
 }
 
@@ -512,6 +533,7 @@ body {
     flex-direction: column;
     list-style: none;
     gap: 20px;
+    padding-bottom: 24px;
 }
 
 .task {

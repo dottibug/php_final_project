@@ -2,6 +2,7 @@
 require_once '../util/main.php';
 require_once 'model/BoardsDB.php';
 
+//session_start();
 header('Content-Type: application/x-www-form-urlencoded');
 
 function fetchBoards()
@@ -29,7 +30,7 @@ function fetchBoards()
         $response = ['success' => true, 'currentBoardID' => $currentBoardID, 'boardTitle' =>
             $boardTitle, 'boards' => $boards];
         echo json_encode($response);
-        
+
     } catch (Exception $e) {
         $response = ['success' => false, 'message' => $e->getMessage()];
         echo json_encode($response);

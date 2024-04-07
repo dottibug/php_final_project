@@ -72,14 +72,6 @@ class Field implements JsonSerializable
     }
 
     // ------------------------------------------------------------------------------
-    // Get the HTML markup for a field's error message
-    // ------------------------------------------------------------------------------
-    public function getErrorHTML()
-    {
-        return '<p class="fieldError">&ast;' . $this->message . '</p>';
-    }
-
-    // ------------------------------------------------------------------------------
     // Set name for the field
     // ------------------------------------------------------------------------------
     public function setName($name)
@@ -122,5 +114,3 @@ class Field implements JsonSerializable
         $this->type = $type;
     }
 }
-
-?>

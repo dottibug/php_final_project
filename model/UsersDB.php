@@ -29,8 +29,14 @@ class UsersDB
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt->closeCursor();
-            $hash = $row['password'];
-            return password_verify($password, $hash);
+
+            if (!$row) {
+                return false;
+            } else {
+                $hash = $row['password'];
+                return password_verify($password, $hash);
+            }
+
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;
