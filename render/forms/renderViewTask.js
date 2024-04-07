@@ -119,7 +119,6 @@ async function handleCheckSubtask(e, taskID) {
         const {subtasks, taskID} = data;
 
         const subtasksWrapper = document.getElementById('subtasksWrapper');
-        // subtasksWrapper.innerHTML = '';
         subtasksWrapper.remove();
 
         const subtaskCheckboxes = renderCheckboxes(subtasks, taskID);

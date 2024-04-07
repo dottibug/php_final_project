@@ -1,10 +1,8 @@
 import {renderFields} from "./renderFields.js";
 import {renderDropdown} from "../uiElements/renderDropdown.js";
 import {handleAddDynamicListItem, renderDynamicList} from "../uiElements/renderDynamicList.js";
-import {deleteSubtask, renderErrors} from "./formHandlers.js";
+import {renderErrors, refreshBoards} from "./formHandlers.js";
 import {renderButton} from "../uiElements/renderButton.js";
-import {fetchCurrentBoardLists} from "../../fetch/script.js";
-import {handleCloseLightbox} from "../lightbox/renderLightbox.js";
 
 export function renderAddTaskForm(fields, lists, subtasks) {
     const labelText = 'Subtasks';
@@ -73,14 +71,8 @@ async function handleAddTask(e, labelText, placeholder) {
     const data = await response.json();
 
     // Rendering
-    if (!data.success) {
-        const {fields, subtasks} = data;
-        renderErrors('deleteSubtask', fields, subtasks, labelText, placeholder);
-    }
+    if (!data.success) renderErrors('deleteSubtask', data.fields, data.subtasks, labelText, placeholder);
 
     // Re-fetch updated lists, tasks, and subtasks
-    if (data.success) {
-        await fetchCurrentBoardLists();
-        handleCloseLightbox();
-    }
+    if (data.success) await refreshBoards();
 }

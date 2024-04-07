@@ -1,6 +1,6 @@
 import {renderButton} from "../uiElements/renderButton.js";
 import {handleCloseLightbox} from "../lightbox/renderLightbox.js";
-import {fetchBoards, fetchCurrentBoardLists} from "../../fetch/script.js";
+import {refreshBoards} from "./formHandlers.js";
 
 export function renderDeleteTaskWarning(task) {
     const {title, taskID} = task;
@@ -53,9 +53,6 @@ async function handleDeleteTask(e, taskID) {
     const response = await fetch('../fetch/fetchController.php', fetchOptions);
     const data = await response.json();
 
-    if (data.success) {
-        await fetchBoards();
-        await fetchCurrentBoardLists();
-        handleCloseLightbox();
-    }
+    // Rendering
+    if (data.success) await refreshBoards();
 }

@@ -1,10 +1,8 @@
 import {renderFields} from "./renderFields.js";
 import {handleAddDynamicListItem, renderDynamicList} from "../uiElements/renderDynamicList.js";
 import {renderDropdown} from "../uiElements/renderDropdown.js";
-import {deleteSubtask, renderErrors} from "./formHandlers.js";
+import {renderErrors, refreshBoards} from "./formHandlers.js";
 import {renderButton} from "../uiElements/renderButton.js";
-import {fetchBoards, fetchCurrentBoardLists} from "../../fetch/script.js";
-import {handleCloseLightbox} from "../lightbox/renderLightbox.js";
 
 export function renderEditTaskForm(task, fields, lists, subtasks) {
     const {taskID, listID, listTitle} = task;
@@ -71,15 +69,9 @@ async function handleSaveTaskChanges(e, taskID, labelText, placeholder) {
     const response = await fetch('../fetch/fetchController.php', fetchOptions);
     const data = await response.json();
 
-    if (!data.success) {
-        const {fields, subtasks} = data;
-        renderErrors('deleteSubtask', fields, subtasks, labelText, placeholder);
-    }
+    if (!data.success) renderErrors('deleteSubtask', data.fields, data.subtasks, labelText, placeholder);
+
 
     // Re-fetch updated lists, tasks, and subtasks
-    if (data.success) {
-        await fetchBoards();
-        await fetchCurrentBoardLists();
-        handleCloseLightbox();
-    }
+    if (data.success) await refreshBoards();
 }

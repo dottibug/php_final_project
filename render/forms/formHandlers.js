@@ -7,6 +7,15 @@ import {renderBoardMenu} from "../menus/renderBoardMenu.js";
 import {renderTaskMenu} from "../menus/renderTaskMenu.js";
 
 // -----------------------------------------------------------------------------
+// Re-fetch board data and close the lightbox form
+// -----------------------------------------------------------------------------
+export async function refreshBoards() {
+    await fetchBoards();
+    await fetchCurrentBoardLists();
+    handleCloseLightbox();
+}
+
+// -----------------------------------------------------------------------------
 // Task click
 // -----------------------------------------------------------------------------
 export async function handleTaskClick(e, clickedTask) {
@@ -96,17 +105,8 @@ export async function handleAddBoard(e, labelText, placeholder) {
     const data = await response.json();
 
     // Rendering
-    if (!data.success) {
-        const {fields, lists} = data;
-        renderErrors('deleteList', fields, lists, labelText, placeholder);
-    }
-
-    // Re-fetch updated lists, tasks, and subtasks
-    if (data.success) {
-        await fetchBoards();
-        await fetchCurrentBoardLists();
-        handleCloseLightbox();
-    }
+    if (!data.success) renderErrors('deleteList', data.fields, data.lists, labelText, placeholder);
+    if (data.success) refreshBoards();
 }
 
 // -----------------------------------------------------------------------------
@@ -162,18 +162,9 @@ export async function handleSaveBoardChanges(e, labelText, placeholder) {
     const response = await fetch('../fetch/fetchController.php', fetchOptions);
     const data = await response.json();
 
-    if (!data.success) {
-        const {fields, lists} = data;
-        renderErrors('deleteList', fields, lists, labelText, placeholder);
-    }
-
-    // Re-fetch updated lists, tasks, and subtasks
-    if (data.success) {
-        await fetchBoards();
-        await fetchCurrentBoardLists();
-        handleCloseLightbox();
-    }
-
+    // Rendering
+    if (!data.success) renderErrors('deleteList', data.fields, data.lists, labelText, placeholder);
+    if (data.success) refreshBoards();
 }
 
 
@@ -258,92 +249,7 @@ export async function handleDeleteBoard() {
     const response = await fetch('../fetch/fetchController.php', fetchOptions);
     const data = await response.json();
 
-    if (data.success) {
-        await fetchBoards();
-        await fetchCurrentBoardLists();
-        handleCloseLightbox();
-    }
-}
-
-//////////////////////////////////////////////////////////////////////////////////////
-
-// -----------------------------------------------------------------------------
-// Add list
-// -----------------------------------------------------------------------------
-export async function handleAddList(e, labelText, placeholder) {
-    e.preventDefault();
-
-    // Form data
-    const form = document.getElementById('form');
-    const formData = new FormData(form);
-
-    // Temporary name for new input field
-    const numLists = document.querySelectorAll('.dynamicListInput').length;
-    const randomNumber = Math.floor(Math.random() * 10000);
-    const tempName = `list${numLists + randomNumber}`;
-
-    // Fetch
-    const params = new URLSearchParams(formData);
-    params.append('action', 'addList');
-    params.append(tempName, '');
-
-    const fetchOptions = {
-        method: 'POST',
-        body: params
-    }
-
-    const response = await fetch('../fetch/fetchController.php', fetchOptions);
-    const data = await response.json();
-
-    // Rendering
-    if (data.success) {
-        const {lists} = data;
-
-        const dynamicListWrapper = document.getElementById('dynamicListWrapper');
-        dynamicListWrapper.remove();
-
-        const dynamicList = renderDynamicList(lists, labelText, deleteList, placeholder);
-
-        const buttonsWrapper = document.getElementById('buttonsWrapper');
-        buttonsWrapper.insertAdjacentElement('beforebegin', dynamicList);
-    }
-}
-
-// -----------------------------------------------------------------------------
-// Delete list
-// -----------------------------------------------------------------------------
-export async function deleteList(itemToDelete, labelText, placeholder) {
-    // Form data
-    const form = document.getElementById('form');
-    const formData = new FormData(form);
-
-    // Fetch
-    const params = new URLSearchParams(formData);
-    params.append('listToDelete', itemToDelete);
-    params.append('action', 'deleteList');
-
-    const fetchOptions = {
-        method: 'POST',
-        body: params
-    }
-
-    const response = await fetch('../fetch/fetchController.php', fetchOptions);
-    const data = await response.json();
-
-    console.log('delete list data: ', data);
-    // Rendering
-    if (data.success) {
-        const {lists} = data;
-
-        const dynamicListWrapper = document.getElementById('dynamicListWrapper');
-        dynamicListWrapper.remove();
-
-        const dynamicList = renderDynamicList(lists, labelText, deleteSubtask, placeholder);
-
-        const buttonsWrapper = document.getElementById('buttonsWrapper');
-        buttonsWrapper.insertAdjacentElement('beforebegin', dynamicList);
-    }
-
+    if (data.success) refreshBoards();
 }
 
 // -----------------------------------------------------------------------------
@@ -365,82 +271,5 @@ export async function handleShowAddTaskForm() {
     if (data.success) {
         const {fields, lists, subtasks} = data;
         renderForm('Add Task', 'addTask', fields, lists, subtasks);
-    }
-}
-
-// -----------------------------------------------------------------------------
-// Add subtask
-// -----------------------------------------------------------------------------
-export async function handleAddSubtask(e, labelText, placeholder) {
-    e.preventDefault();
-
-    // Form data
-    const form = document.getElementById('form');
-    const formData = new FormData(form);
-
-    // Temporary name for new input field
-    const numLists = document.querySelectorAll('.dynamicListInput').length;
-    const randomNumber = Math.floor(Math.random() * 10000);
-    const tempName = `subtask${numLists + randomNumber}`;
-
-    // Fetch
-    const params = new URLSearchParams(formData);
-    params.append('action', 'addSubtask');
-    params.append(tempName, '');
-
-    const fetchOptions = {
-        method: 'POST',
-        body: params
-    }
-
-    const response = await fetch('../fetch/fetchController.php', fetchOptions);
-    const data = await response.json();
-
-    // Rendering
-    if (data.success) {
-        const {subtasks} = data;
-
-        const dynamicListWrapper = document.getElementById('dynamicListWrapper');
-        dynamicListWrapper.remove();
-
-        const dynamicList = renderDynamicList(subtasks, labelText, deleteSubtask, placeholder);
-
-        const buttonsWrapper = document.getElementById('buttonsWrapper');
-        buttonsWrapper.insertAdjacentElement('beforebegin', dynamicList);
-    }
-}
-
-// -----------------------------------------------------------------------------
-// Delete subtask
-// -----------------------------------------------------------------------------
-export async function deleteSubtask(itemToDelete, labelText, placeholder) {
-    // Form data
-    const form = document.getElementById('form');
-    const formData = new FormData(form);
-
-    // Fetch
-    const params = new URLSearchParams(formData);
-    params.append('subtaskToDelete', itemToDelete);
-    params.append('action', 'deleteSubtask');
-
-    const fetchOptions = {
-        method: 'POST',
-        body: params
-    }
-
-    const response = await fetch('../fetch/fetchController.php', fetchOptions);
-    const data = await response.json();
-
-    // Rendering
-    if (data.success) {
-        const {subtasks} = data;
-
-        const dynamicListWrapper = document.getElementById('dynamicListWrapper');
-        dynamicListWrapper.remove();
-
-        const dynamicList = renderDynamicList(subtasks, labelText, deleteSubtask, placeholder);
-
-        const buttonsWrapper = document.getElementById('buttonsWrapper');
-        buttonsWrapper.insertAdjacentElement('beforebegin', dynamicList);
     }
 }
