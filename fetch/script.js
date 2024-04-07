@@ -1,4 +1,8 @@
-import {handleShowAddTaskForm, handleShowBoardMenu} from "../render/forms/formHandlers.js";
+import {
+    fetchData,
+    handleShowAddTaskForm,
+    handleShowBoardMenu
+} from "../render/forms/formHandlers.js";
 import {renderSidebar} from "../render/menus/renderSidebar.js";
 import {renderBoardLists} from '../render/renderBoardLists.js';
 
@@ -14,34 +18,23 @@ document.addEventListener('DOMContentLoaded', async function () {
 // Fetch user boards to render sidebar
 // -----------------------------------------------------------------------------
 export async function fetchBoards() {
-    // Fetch request
-    const params = new URLSearchParams(
-        {'action': 'fetchBoards'}
-    );
+    // Fetch
+    const action = 'fetchBoards';
+    const data = await fetchData(action);
 
-    const fetchOptions = {
-        method: 'POST',
-        body: params
-    }
-
-    const response = await fetch('../fetch/fetchController.php', fetchOptions);
-    const data = await response.json();
-
-    // Rendering
+    // Render
     if (data.success) {
         const {boards, boardTitle, currentBoardID} = data;
-
-        // Render sidebar
         renderSidebar(boards, currentBoardID);
 
         // Set main board heading
         document.getElementById('boardTitle').innerText = boardTitle;
 
-        // Add event listener to "Add New Task" button
+        // 'Add New Task' button event listener
         const addNewTaskButton = document.getElementById('addNewTaskButton');
         addNewTaskButton.addEventListener('click', handleShowAddTaskForm);
 
-        // Add event listener to board menu
+        // Board menu event listener
         const boardMenu = document.getElementById("mainBoardHeaderKebab");
         boardMenu.addEventListener('click', handleShowBoardMenu);
     }
@@ -51,20 +44,11 @@ export async function fetchBoards() {
 // Fetch lists for the current board
 // -----------------------------------------------------------------------------
 export async function fetchCurrentBoardLists() {
-    // Fetch request
-    const params = new URLSearchParams(
-        {'action': 'fetchCurrentBoardLists'}
-    );
+    // Fetch
+    const action = 'fetchCurrentBoardLists';
+    const data = await fetchData(action);
 
-    const fetchOptions = {
-        method: 'POST',
-        body: params
-    }
-
-    const response = await fetch('../fetch/fetchController.php', fetchOptions);
-    const data = await response.json();
-
-    // Rendering
+    // Render
     if (data.success) {
         const {currentBoardLists} = data;
         const lists = Object.values(currentBoardLists[0]['lists']);

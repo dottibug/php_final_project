@@ -17,5 +17,12 @@ require_once 'util/main.php';
                 <span class="boardLink">Create New Board</span>
             </li>
         </ul>
+
+        <!-- Logout Button -->
+        <form action="../fetch/fetchController.php" method="post">
+            <input type="hidden" name="action" value="logout">
+            <button class="button secondary small" id="logoutButton">Logout</button>
+        </form>
+
     </nav>
 </section>

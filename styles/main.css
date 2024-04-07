@@ -143,6 +143,7 @@ body {
 
     /*TODO check that this didn't affect board forms. if it did, create a custom width for the login button*/
     /*width: 255px;*/
+    width: 100%;
 }
 
 .primary {
@@ -232,6 +233,12 @@ body {
     margin-top: 8px;
 }
 
+#logoutButton {
+    margin-left: 34px;
+    margin-top: 56px;
+    width: 120px;
+}
+
 /*----------------- LOGIN -----------------*/
 .loginForm {
     background-color: white;
@@ -271,6 +278,7 @@ body {
 /*----------------- SIDEBAR -----------------*/
 .sidebar {
     background-color: white;
+    overflow-y: auto;
 }
 
 .sidebarLogo {
@@ -288,6 +296,10 @@ body {
     width: 300px;
     margin-bottom: 20px;
     margin-left: 34px;
+}
+
+.boardsNav {
+    padding-bottom: 56px;
 }
 
 .boards {

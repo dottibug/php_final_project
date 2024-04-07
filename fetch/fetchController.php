@@ -22,6 +22,7 @@ require_once 'fetch/fetchFunctions/editTask.php';
 require_once 'fetch/fetchFunctions/viewTask.php';
 require_once 'fetch/fetchFunctions/deleteTaskWarning.php';
 require_once 'fetch/fetchFunctions/deleteTask.php';
+require_once 'fetch/fetchFunctions/logout.php';
 
 session_start();
 header('Content-Type: application/x-www-form-urlencoded');
@@ -93,6 +94,9 @@ switch ($action) {
         break;
     case('deleteTask'):
         deleteTask();
+        break;
+    case('logout'):
+        logout();
         break;
 }
 
