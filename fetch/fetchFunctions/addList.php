@@ -16,7 +16,7 @@ function addList()
 
         // Fields array
         $fields = [$Form->getField('title')];
-
+        
         // Lists
         $lists = [];
         foreach ($_POST as $key => $value) {

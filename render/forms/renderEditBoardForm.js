@@ -1,6 +1,6 @@
 import {renderFields} from "./renderFields.js";
-import {renderDynamicList} from "../uiElements/renderDynamicList.js";
-import {deleteList, handleAddList, handleSaveBoardChanges} from "./formHandlers.js";
+import {handleAddDynamicListItem, renderDynamicList} from "../uiElements/renderDynamicList.js";
+import {handleSaveBoardChanges} from "./formHandlers.js";
 import {renderButton} from "../uiElements/renderButton.js";
 
 
@@ -17,15 +17,16 @@ export function renderEditBoardForm(fields, lists) {
     const fieldsElement = renderFields(fields);
 
     // Dynamic list
-    const dynamicList = renderDynamicList(lists, labelText, deleteList, placeholder);
+    const dynamicList = renderDynamicList('deleteList', lists, labelText, placeholder);
 
+    // Buttons
     const buttonsWrapper = document.createElement('div');
     buttonsWrapper.className = 'buttonsWrapper';
     buttonsWrapper.id = 'buttonsWrapper';
 
     // Add list button
     const addListButton = renderButton('secondary', 'small', 'Add New List', 'addListButton', 'submit');
-    addListButton.addEventListener('click', (e) => handleAddList(e, labelText, placeholder));
+    addListButton.addEventListener('click', (e) => handleAddDynamicListItem(e, 'addList', labelText, placeholder));
 
     // Save changes button
     const saveChangesButton = renderButton('primary', 'small', 'Save Changes', 'saveChangesButton', 'submit');

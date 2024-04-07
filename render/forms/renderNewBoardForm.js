@@ -1,7 +1,7 @@
 import {renderFields} from "./renderFields.js";
-import {renderDynamicList} from "../uiElements/renderDynamicList.js";
+import {handleAddDynamicListItem, renderDynamicList} from "../uiElements/renderDynamicList.js";
 import {renderButton} from "../uiElements/renderButton.js";
-import {handleAddBoard, handleAddList, deleteList} from "./formHandlers.js";
+import {handleAddBoard} from "./formHandlers.js";
 
 
 export function renderNewBoardForm(fields, lists) {
@@ -17,7 +17,7 @@ export function renderNewBoardForm(fields, lists) {
     const fieldsElement = renderFields(fields);
 
     // Dynamic list
-    const dynamicList = renderDynamicList(lists, labelText, deleteList, placeholder);
+    const dynamicList = renderDynamicList('deleteList', lists, labelText, placeholder);
 
     const buttonsWrapper = document.createElement('div');
     buttonsWrapper.className = 'buttonsWrapper';
@@ -25,7 +25,8 @@ export function renderNewBoardForm(fields, lists) {
 
     // Add list button
     const addListButton = renderButton('secondary', 'small', 'Add New List', 'addListButton', 'submit');
-    addListButton.addEventListener('click', (e) => handleAddList(e, labelText, placeholder));
+    addListButton.addEventListener('click', (e) => handleAddDynamicListItem(e, 'addList', labelText, placeholder));
+
 
     // Create board button
     const createBoardButton = renderButton('primary', 'small', 'Create Board', 'createBoardButton', 'submit');

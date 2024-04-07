@@ -10,9 +10,9 @@ function deleteSubtask()
     try {
         $title = filter_input(INPUT_POST, 'title');
         $description = filter_input(INPUT_POST, 'description');
-        $subtaskToDelete = filter_input(INPUT_POST, 'subtaskToDelete');
+        $itemToDelete = filter_input(INPUT_POST, 'itemToDelete');
 
-        $_SESSION['subtasksToDelete'][] = $subtaskToDelete;
+        $_SESSION['subtasksToDelete'][] = $itemToDelete;
 
         // Create form
         $Form = new Form();
@@ -28,12 +28,12 @@ function deleteSubtask()
         $TaskListsDB = new TaskListsDB();
         $currentBoardID = $_SESSION['currentBoardID'];
         $lists = $TaskListsDB->getAllLists($currentBoardID);
-
+        
         // Subtasks array
         $subtasks = [];
         foreach ($_POST as $key => $value) {
             if ($key != 'title' && $key != 'description' && $key != 'action'
-                && $key != 'subtaskToDelete' && $key != $subtaskToDelete) {
+                && $key != 'itemToDelete' && $key != $itemToDelete) {
                 $Form->addField($key);
                 $Form->getField($key)->setValue($value);
                 $subtasks[] = $Form->getField($key);

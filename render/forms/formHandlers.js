@@ -98,30 +98,7 @@ export async function handleAddBoard(e, labelText, placeholder) {
     // Rendering
     if (!data.success) {
         const {fields, lists} = data;
-        // Re-render fields if any have errors
-        fields.forEach(field => {
-            if (field.hasError) {
-                const fieldsWrapper = document.getElementById('fieldsWrapper');
-                fieldsWrapper.remove();
-
-                const newFieldsWrapper = renderFields(fields);
-                const form = document.getElementById('form');
-                form.insertAdjacentElement('afterbegin', newFieldsWrapper);
-            }
-        })
-
-        // Re-render subtasks if any have errors
-        lists.forEach(list => {
-            const {message} = list;
-            if (list.hasError) {
-                const dynamicListWrapper = document.getElementById('dynamicListWrapper');
-                dynamicListWrapper.remove();
-
-                const newDynamicListWrapper = renderDynamicList(lists, labelText, deleteList, placeholder, true, message);
-                const buttonsWrapper = document.getElementById('buttonsWrapper');
-                buttonsWrapper.insertAdjacentElement('beforebegin', newDynamicListWrapper);
-            }
-        })
+        renderErrors('deleteList', fields, lists, labelText, placeholder);
     }
 
     // Re-fetch updated lists, tasks, and subtasks
@@ -131,6 +108,37 @@ export async function handleAddBoard(e, labelText, placeholder) {
         handleCloseLightbox();
     }
 }
+
+// -----------------------------------------------------------------------------
+// Render errors
+// -----------------------------------------------------------------------------
+export function renderErrors(deleteAction, fields, dynamicList, labelText, placeholder) {
+    fields.forEach(field => {
+        // Render field errors
+        if (field.hasError) {
+            const fieldsWrapper = document.getElementById('fieldsWrapper');
+            fieldsWrapper.remove();
+
+            const newFieldsWrapper = renderFields(fields);
+            const form = document.getElementById('form');
+            form.insertAdjacentElement('afterbegin', newFieldsWrapper);
+        }
+    })
+
+    // Render dynamic list errors
+    dynamicList.forEach(list => {
+        const {message} = list;
+        if (list.hasError) {
+            const dynamicListWrapper = document.getElementById('dynamicListWrapper');
+            dynamicListWrapper.remove();
+
+            const newDynamicListWrapper = renderDynamicList(deleteAction, dynamicList, labelText, placeholder, true, message);
+            const buttonsWrapper = document.getElementById('buttonsWrapper');
+            buttonsWrapper.insertAdjacentElement('beforebegin', newDynamicListWrapper);
+        }
+    })
+}
+
 
 // -----------------------------------------------------------------------------
 // Edit board
@@ -156,30 +164,7 @@ export async function handleSaveBoardChanges(e, labelText, placeholder) {
 
     if (!data.success) {
         const {fields, lists} = data;
-        // Re-render fields if any have errors
-        fields.forEach(field => {
-            if (field.hasError) {
-                const fieldsWrapper = document.getElementById('fieldsWrapper');
-                fieldsWrapper.remove();
-
-                const newFieldsWrapper = renderFields(fields);
-                const form = document.getElementById('form');
-                form.insertAdjacentElement('afterbegin', newFieldsWrapper);
-            }
-        })
-
-        // Re-render subtasks if any have errors
-        lists.forEach(list => {
-            const {message} = list;
-            if (list.hasError) {
-                const dynamicListWrapper = document.getElementById('dynamicListWrapper');
-                dynamicListWrapper.remove();
-
-                const newDynamicListWrapper = renderDynamicList(lists, labelText, deleteList, placeholder, true, message);
-                const buttonsWrapper = document.getElementById('buttonsWrapper');
-                buttonsWrapper.insertAdjacentElement('beforebegin', newDynamicListWrapper);
-            }
-        })
+        renderErrors('deleteList', fields, lists, labelText, placeholder);
     }
 
     // Re-fetch updated lists, tasks, and subtasks
@@ -295,7 +280,7 @@ export async function handleAddList(e, labelText, placeholder) {
     // Temporary name for new input field
     const numLists = document.querySelectorAll('.dynamicListInput').length;
     const randomNumber = Math.floor(Math.random() * 10000);
-    const tempName = `subtask${numLists + randomNumber}`;
+    const tempName = `list${numLists + randomNumber}`;
 
     // Fetch
     const params = new URLSearchParams(formData);

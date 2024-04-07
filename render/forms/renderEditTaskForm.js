@@ -1,7 +1,7 @@
 import {renderFields} from "./renderFields.js";
-import {renderDynamicList} from "../uiElements/renderDynamicList.js";
+import {handleAddDynamicListItem, renderDynamicList} from "../uiElements/renderDynamicList.js";
 import {renderDropdown} from "../uiElements/renderDropdown.js";
-import {deleteSubtask, handleAddSubtask} from "./formHandlers.js";
+import {deleteSubtask, renderErrors} from "./formHandlers.js";
 import {renderButton} from "../uiElements/renderButton.js";
 import {fetchBoards, fetchCurrentBoardLists} from "../../fetch/script.js";
 import {handleCloseLightbox} from "../lightbox/renderLightbox.js";
@@ -23,7 +23,7 @@ export function renderEditTaskForm(task, fields, lists, subtasks) {
     const listsDropdown = renderDropdown(lists, 'Move To List', listID, listTitle);
 
     // Subtasks
-    const dynamicList = renderDynamicList(subtasks, labelText, deleteSubtask, placeholder);
+    const dynamicList = renderDynamicList('deleteSubtask', subtasks, labelText, placeholder);
 
     // Buttons
     const buttonsWrapper = document.createElement('div');
@@ -32,7 +32,7 @@ export function renderEditTaskForm(task, fields, lists, subtasks) {
 
     // Add subtask button
     const addSubtaskButton = renderButton('secondary', 'small', 'Add New Subtask', 'addSubtaskButton', 'submit');
-    addSubtaskButton.addEventListener('click', (e) => handleAddSubtask(e, labelText, placeholder));
+    addSubtaskButton.addEventListener('click', (e) => handleAddDynamicListItem(e, 'addSubtask', labelText, placeholder));
 
     // Save changes
     const saveChangesButton = renderButton('primary', 'small', 'Save Changes', 'saveChangesButton', 'submit');
@@ -73,30 +73,7 @@ async function handleSaveTaskChanges(e, taskID, labelText, placeholder) {
 
     if (!data.success) {
         const {fields, subtasks} = data;
-        // Re-render fields if any have errors
-        fields.forEach(field => {
-            if (field.hasError) {
-                const fieldsWrapper = document.getElementById('fieldsWrapper');
-                fieldsWrapper.remove();
-
-                const newFieldsWrapper = renderFields(fields);
-                const form = document.getElementById('form');
-                form.insertAdjacentElement('afterbegin', newFieldsWrapper);
-            }
-        })
-
-        // Re-render subtasks if any have errors
-        subtasks.forEach(subtask => {
-            const {message} = subtask;
-            if (subtask.hasError) {
-                const dynamicListWrapper = document.getElementById('dynamicListWrapper');
-                dynamicListWrapper.remove();
-
-                const newDynamicListWrapper = renderDynamicList(subtasks, labelText, deleteSubtask, placeholder, true, message);
-                const buttonsWrapper = document.getElementById('buttonsWrapper');
-                buttonsWrapper.insertAdjacentElement('beforebegin', newDynamicListWrapper);
-            }
-        })
+        renderErrors('deleteSubtask', fields, subtasks, labelText, placeholder);
     }
 
     // Re-fetch updated lists, tasks, and subtasks

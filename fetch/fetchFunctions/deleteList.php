@@ -8,10 +8,10 @@ function deleteList()
 {
     try {
         $title = filter_input(INPUT_POST, 'title');
-        $listToDelete = filter_input(INPUT_POST, 'listToDelete');
+        $itemToDelete = filter_input(INPUT_POST, 'itemToDelete');
 
         // Add to session data (the lists here will only be deleted when the user clicks 'Save')
-        $_SESSION['listsToDelete'][] = $listToDelete;
+        $_SESSION['listsToDelete'][] = $itemToDelete;
 
         // Create form
         $Form = new Form();
@@ -24,8 +24,8 @@ function deleteList()
         // Lists
         $lists = [];
         foreach ($_POST as $key => $value) {
-            if ($key != 'title' && $key != 'action' && $key != 'listToDelete' && $key !=
-                $listToDelete) {
+            if ($key != 'title' && $key != 'action' && $key != 'itemToDelete' && $key !=
+                $itemToDelete) {
                 $Form->addField($key);
                 $Form->getField($key)->setValue($value);
                 $lists[] = $Form->getField($key);
