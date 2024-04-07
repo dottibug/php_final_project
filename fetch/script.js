@@ -1,7 +1,7 @@
 import {
     fetchData,
     handleShowAddTaskForm,
-    handleShowBoardMenu
+    handleShowBoardMenu, handleShowEditBoardForm
 } from "../render/forms/formHandlers.js";
 import {renderSidebar} from "../render/menus/renderSidebar.js";
 import {renderBoardLists} from '../render/renderBoardLists.js';
@@ -37,6 +37,10 @@ export async function fetchBoards() {
         // Board menu event listener
         const boardMenu = document.getElementById("mainBoardHeaderKebab");
         boardMenu.addEventListener('click', handleShowBoardMenu);
+
+        // 'New List' button event listener
+        const newListButton = document.getElementById('newListButton');
+        newListButton.addEventListener('click', handleShowEditBoardForm);
     }
 }
 

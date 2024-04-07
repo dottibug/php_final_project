@@ -150,7 +150,7 @@ export async function handleShowEditBoardForm() {
     // Render
     if (data.success) {
         const boardMenu = document.getElementById('boardMenu');
-        boardMenu.remove();
+        if (boardMenu) boardMenu.remove();
         renderForm('Edit Board', 'editBoard', data.fields, data.lists);
     }
 }

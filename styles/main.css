@@ -239,6 +239,27 @@ body {
     width: 120px;
 }
 
+#newListButton {
+    background-color: #E4EBFA;
+    border: none;
+    border-radius: 6px;
+    color: #828FA3;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    height: calc(100% - 36px);
+    line-height: normal;
+    margin-left: 24px;
+    min-width: 280px;
+    position: relative;
+    top: 80.5px;
+}
+
+#newListButton:hover {
+    cursor: pointer;
+}
+
 /*----------------- LOGIN -----------------*/
 .loginForm {
     background-color: white;
@@ -278,6 +299,7 @@ body {
 /*----------------- SIDEBAR -----------------*/
 .sidebar {
     background-color: white;
+    min-width: 300px;
     overflow-y: auto;
 }
 
