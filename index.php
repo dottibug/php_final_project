@@ -15,11 +15,8 @@ if (!isset($_SESSION['validUser'])) {
     $_SESSION['validUser'] = false;
 }
 
-const SHOW_LOGIN = 'showLogin';
-const LOGIN = 'login';
-
 // Get action. Default is 'show_login'.
-$action = Action::getAction(SHOW_LOGIN);
+$action = Action::getAction('showLogin');
 
 // Create LoginForm object
 $LoginForm = new Form();
@@ -31,10 +28,10 @@ $Validate = new Validate($LoginForm);
 
 // Controller
 switch ($action) {
-    case (SHOW_LOGIN):
+    case ('showLogin'):
         Auth::handleShowLogin($LoginForm);
         break;
-    case (LOGIN):
+    case ('login'):
         Auth::handleLogin($LoginForm, $Validate);
         break;
 }
