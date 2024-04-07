@@ -1,6 +1,6 @@
 import {renderButton} from "../uiElements/renderButton.js";
 import {handleCloseLightbox} from "../lightbox/renderLightbox.js";
-import {refreshBoards} from "./formHandlers.js";
+import {fetchData, refreshBoards} from "./formHandlers.js";
 
 export function renderDeleteTaskWarning(task) {
     const {title, taskID} = task;
@@ -40,19 +40,10 @@ export function renderDeleteTaskWarning(task) {
 async function handleDeleteTask(e, taskID) {
     e.preventDefault();
 
-    const params = new URLSearchParams({
-        'action': 'deleteTask',
-        'taskID': taskID
-    });
+    // Fetch
+    const action = 'deleteTask';
+    const data = await fetchData(action, {}, {'taskID': taskID});
 
-    const fetchOptions = {
-        method: 'POST',
-        body: params
-    }
-
-    const response = await fetch('../fetch/fetchController.php', fetchOptions);
-    const data = await response.json();
-
-    // Rendering
+    // Render
     if (data.success) await refreshBoards();
 }

@@ -25,33 +25,25 @@ export async function handleTaskClick(e, clickedTask) {
 
     // Event delegation
     if (!menuButton) {
+        // Fetch
+        let data;
         const action = e.target.closest('li').dataset['action'];
-        const params = new URLSearchParams({'taskID': taskID});
-        if (action === 'editTask') params.append('action', 'editTaskForm');
-        if (action === 'deleteTask') params.append('action', 'deleteTaskWarning');
-        if (action === 'viewTask') params.append('action', 'viewTask');
+        if (action === 'editTask') data = await fetchData('editTaskForm', {}, {'taskID': taskID});
+        if (action === 'deleteTask') data = await fetchData('deleteTaskWarning', {}, {'taskID': taskID});
+        if (action === 'viewTask') data = await fetchData('viewTask', {}, {'taskID': taskID});
 
-        const fetchOptions = {
-            method: 'POST',
-            body: params
-        }
-
-        const response = await fetch('../fetch/fetchController.php', fetchOptions);
-        const data = await response.json();
-
+        // Render
         if (data.success) {
             const {fields, lists, subtasks, task} = data;
             if (action === 'editTask') renderForm('Edit Task', 'editTask', fields, lists, subtasks, '', task);
             if (action === 'deleteTask') renderForm(title, 'deleteTaskWarning', null, null, null, null, task);
             if (action === 'viewTask') renderForm(title, 'viewTask', fields, lists, subtasks, '', task);
         }
-
-        // Remove task menu from UI
-        if (taskMenu) taskMenu.remove();
+        if (taskMenu) taskMenu.remove(); // Remove task menu from UI
     }
 
     if (menuButton) {
-        if (taskMenu) taskMenu.remove();
+        if (taskMenu) taskMenu.remove(); // Remove task menu from UI
 
         else {
             // Remove other task menus before rendering the new task menu
@@ -66,20 +58,12 @@ export async function handleTaskClick(e, clickedTask) {
 // Show 'Create Board' form
 // -----------------------------------------------------------------------------
 export async function handleShowNewBoardForm() {
-    const params = new URLSearchParams({'action': 'showNewBoardForm'});
+    // Fetch
+    const action = 'showNewBoardForm';
+    const data = await fetchData(action);
 
-    const fetchOptions = {
-        method: 'POST',
-        body: params
-    }
-
-    const response = await fetch('../fetch/fetchController.php', fetchOptions);
-    const data = await response.json();
-
-    if (data.success) {
-        const {fields, lists} = data;
-        renderForm('Create New Board', 'createBoard', fields, lists, null);
-    }
+    // Render
+    if (data.success) renderForm('Create New Board', 'createBoard', data.fields, data.lists, null);
 }
 
 // -----------------------------------------------------------------------------
@@ -88,23 +72,12 @@ export async function handleShowNewBoardForm() {
 export async function handleAddBoard(e, labelText, placeholder) {
     e.preventDefault();
 
-    // Form data
-    const form = document.getElementById('form');
-    const formData = new FormData(form);
-
-    const params = new URLSearchParams(formData);
-    params.append('action', 'addBoard');
-
     // Fetch
-    const fetchOptions = {
-        method: 'POST',
-        body: params
-    }
+    const action = 'addBoard';
+    const formData = getFormData();
+    const data = await fetchData(action, formData)
 
-    const response = await fetch('../fetch/fetchController.php', fetchOptions);
-    const data = await response.json();
-
-    // Rendering
+    // Render
     if (!data.success) renderErrors('deleteList', data.fields, data.lists, labelText, placeholder);
     if (data.success) refreshBoards();
 }
@@ -146,23 +119,12 @@ export function renderErrors(deleteAction, fields, dynamicList, labelText, place
 export async function handleSaveBoardChanges(e, labelText, placeholder) {
     e.preventDefault();
 
-    // Form data
-    const form = document.getElementById('form');
-    const formData = new FormData(form);
-
-    const params = new URLSearchParams(formData);
-    params.append('action', 'editBoard');
-
-    const fetchOptions = {
-        method: 'POST',
-        body: params,
-    }
-
     // Fetch
-    const response = await fetch('../fetch/fetchController.php', fetchOptions);
-    const data = await response.json();
+    const action = 'editBoard';
+    const formData = getFormData();
+    const data = await fetchData(action, formData);
 
-    // Rendering
+    // Render
     if (!data.success) renderErrors('deleteList', data.fields, data.lists, labelText, placeholder);
     if (data.success) refreshBoards();
 }
@@ -173,56 +135,35 @@ export async function handleSaveBoardChanges(e, labelText, placeholder) {
 // -----------------------------------------------------------------------------
 export function handleShowBoardMenu() {
     const boardMenu = document.getElementById('boardMenu');
-
-    // Hide board menu
-    if (boardMenu) boardMenu.remove();
-
-    // Show board menu
-    else renderBoardMenu();
+    if (boardMenu) boardMenu.remove(); // hide board menu
+    else renderBoardMenu(); // show board menu
 }
 
 // -----------------------------------------------------------------------------
 // Show 'Edit Board' form
 // -----------------------------------------------------------------------------
 export async function handleShowEditBoardForm() {
-    const params = new URLSearchParams({
-        'action': 'editBoardForm'
-    });
+    // Fetch
+    const action = 'editBoardForm';
+    const data = await fetchData(action);
 
-    const fetchOptions = {
-        method: 'POST',
-        body: params
-    }
-
-    const response = await fetch('../fetch/fetchController.php', fetchOptions);
-    const data = await response.json();
-
+    // Render
     if (data.success) {
         const boardMenu = document.getElementById('boardMenu');
         boardMenu.remove();
-
-        const {fields, lists} = data;
-        renderForm('Edit Board', 'editBoard', fields, lists);
+        renderForm('Edit Board', 'editBoard', data.fields, data.lists);
     }
-
 }
 
 // -----------------------------------------------------------------------------
 // Show 'Delete Board' warning
 // -----------------------------------------------------------------------------
 export async function handleShowDeleteBoardWarning() {
-    const params = new URLSearchParams({
-        'action': 'deleteBoardWarning'
-    });
+    // Fetch
+    const action = 'deleteBoardWarning';
+    const data = await fetchData(action);
 
-    const fetchOptions = {
-        method: 'POST',
-        body: params
-    }
-
-    const response = await fetch('../fetch/fetchController.php', fetchOptions);
-    const data = await response.json();
-
+    // Render
     if (data.success) {
         const {boardTitle} = data;
 
@@ -239,16 +180,8 @@ export async function handleShowDeleteBoardWarning() {
 // Delete board
 // -----------------------------------------------------------------------------
 export async function handleDeleteBoard() {
-    const params = new URLSearchParams({'action': 'deleteBoard'});
-
-    const fetchOptions = {
-        method: 'POST',
-        body: params
-    }
-
-    const response = await fetch('../fetch/fetchController.php', fetchOptions);
-    const data = await response.json();
-
+    const action = 'deleteBoard';
+    const data = await fetchData(action);
     if (data.success) refreshBoards();
 }
 
@@ -256,8 +189,31 @@ export async function handleDeleteBoard() {
 // Show 'Add Task' form
 // -----------------------------------------------------------------------------
 export async function handleShowAddTaskForm() {
-    // Fetch
-    const params = new URLSearchParams({'action': 'showAddTaskForm'});
+    const action = 'showAddTaskForm';
+    const data = await fetchData(action);
+    if (data.success) renderForm('Add Task', 'addTask', data.fields, data.lists, data.subtasks);
+}
+
+// -----------------------------------------------------------------------------
+// Get form data
+// -----------------------------------------------------------------------------
+export function getFormData() {
+    const form = document.getElementById('form');
+    const formData = new FormData(form);
+    return formData;
+}
+
+
+// -----------------------------------------------------------------------------
+// Fetch data
+// -----------------------------------------------------------------------------
+export async function fetchData(action, formData = {}, otherParams = {}) {
+    const params = new URLSearchParams(formData);
+    params.append('action', action);
+
+    for (const [key, value] of Object.entries(otherParams)) {
+        params.append(key, value);
+    }
 
     const fetchOptions = {
         method: 'POST',
@@ -267,9 +223,5 @@ export async function handleShowAddTaskForm() {
     const response = await fetch('../fetch/fetchController.php', fetchOptions);
     const data = await response.json();
 
-    // Rendering
-    if (data.success) {
-        const {fields, lists, subtasks} = data;
-        renderForm('Add Task', 'addTask', fields, lists, subtasks);
-    }
+    return data;
 }

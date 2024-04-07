@@ -1,7 +1,7 @@
 import {renderFields} from "./renderFields.js";
 import {handleAddDynamicListItem, renderDynamicList} from "../uiElements/renderDynamicList.js";
 import {renderDropdown} from "../uiElements/renderDropdown.js";
-import {renderErrors, refreshBoards} from "./formHandlers.js";
+import {renderErrors, refreshBoards, getFormData, fetchData} from "./formHandlers.js";
 import {renderButton} from "../uiElements/renderButton.js";
 
 export function renderEditTaskForm(task, fields, lists, subtasks) {
@@ -50,28 +50,13 @@ export function renderEditTaskForm(task, fields, lists, subtasks) {
 async function handleSaveTaskChanges(e, taskID, labelText, placeholder) {
     e.preventDefault();
 
-    // Form data
-    const form = document.getElementById('form');
-    const formData = new FormData(form);
-
-    const params = new URLSearchParams(formData);
-    params.append('action', 'editTask');
-    params.append('taskID', taskID);
-
+    // Fetch
+    const action = 'editTask';
+    const formData = getFormData();
     const listID = document.getElementById('dropdownButton').dataset.selectedId;
-    params.append('listID', listID);
-
-    const fetchOptions = {
-        method: 'POST',
-        body: params
-    }
-
-    const response = await fetch('../fetch/fetchController.php', fetchOptions);
-    const data = await response.json();
-
+    const data = await fetchData(action, formData, {'taskID': taskID, 'listID': listID});
+    
+    // Render
     if (!data.success) renderErrors('deleteSubtask', data.fields, data.subtasks, labelText, placeholder);
-
-
-    // Re-fetch updated lists, tasks, and subtasks
     if (data.success) await refreshBoards();
 }

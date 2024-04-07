@@ -1,3 +1,5 @@
+import {fetchData} from "./formHandlers.js";
+
 export function renderViewTask(task, subtasks) {
     const {taskID, description} = task;
     const subtasksArray = Object.values(subtasks);
@@ -97,24 +99,17 @@ function renderCheckboxes(subtasks, taskID) {
 async function handleCheckSubtask(e, taskID) {
     const checkboxID = e.target.id;
     const checked = document.getElementById(checkboxID).checked;
+    const newStatus = checked ? 'checked' : 'unchecked';
 
-    const params = new URLSearchParams({
-        'action': 'updateSubtaskStatus',
+    // Fetch
+    const action = 'updateSubtaskStatus';
+    const data = await fetchData(action, {}, {
         'subtaskID': checkboxID,
-        'taskID': taskID
+        'taskID': taskID,
+        'newStatus': newStatus
     })
 
-    if (!checked) params.append('newStatus', 'unchecked');
-    else params.append('newStatus', 'checked');
-
-    const fetchOptions = {
-        method: 'POST',
-        body: params
-    }
-
-    const response = await fetch('../fetch/fetchController.php', fetchOptions);
-    const data = await response.json();
-
+    // Render
     if (data.success) {
         const {subtasks, taskID} = data;
 
