@@ -1,8 +1,11 @@
 import {closeOtherMenus} from "../forms/formHandlers.js";
 
-export function renderTaskMenu(taskID) {
-    closeOtherMenus();
+function hideTaskMenu(e) {
+    const taskMenu = e.target;
+    taskMenu.remove();
+}
 
+export function renderTaskMenu(taskID) {
     // Task
     const taskElement = document.getElementById(taskID);
 
@@ -10,6 +13,7 @@ export function renderTaskMenu(taskID) {
     const taskMenu = document.createElement('div');
     taskMenu.className = 'menu taskMenu';
     taskMenu.id = `taskMenu${taskID}`;
+    taskMenu.addEventListener('mouseleave', (e) => hideTaskMenu(e));
 
     // Menu nav <ul>
     const taskMenuNav = document.createElement('ul');

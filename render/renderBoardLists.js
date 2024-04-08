@@ -10,9 +10,6 @@ export function renderBoardLists(lists) {
     // Render each list
     lists.forEach(list => {
         const {tasks, listID, color, title} = list;
-
-        console.log('listID: ', listID);
-
         // Number of tasks
         const numOfTasks = Object.keys(tasks).length;
 
@@ -65,13 +62,16 @@ export function renderBoardLists(lists) {
 }
 
 function showSortMenu(e) {
-    const listID = e.target.closest('button').dataset.listId;
-    const sortMenu = document.getElementById(`sortMenu${listID}`);
+    const event = e.type;
 
-    if (sortMenu) sortMenu.remove();
-    else {
-        closeOtherMenus();
+    if (event === 'click') {
+        const listID = e.target.closest('button').dataset.listId;
         renderSortMenu(listID);
+    }
+
+    if (event === 'mouseleave') {
+        const sortMenu = e.target;
+        sortMenu.remove();
     }
 }
 
@@ -82,6 +82,7 @@ function renderSortMenu(listID) {
     const sortMenu = document.createElement('div');
     sortMenu.className = 'menu sortMenu';
     sortMenu.id = `sortMenu${listID}`;
+    sortMenu.addEventListener('mouseleave', (e) => showSortMenu(e));
 
     // Menu nav <ul>
     const sortMenuNav = document.createElement('ul');

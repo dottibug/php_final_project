@@ -1,11 +1,11 @@
 import {
     handleShowEditBoardForm,
     handleShowDeleteBoardWarning,
-    closeOtherMenus
+    closeOtherMenus, handleShowBoardMenu
 } from "../forms/formHandlers.js";
 
 export function renderBoardMenu() {
-    closeOtherMenus();
+    // closeOtherMenus();
 
     // Dashboard
     const dashboard = document.getElementById('dashboard');
@@ -14,6 +14,7 @@ export function renderBoardMenu() {
     const boardMenu = document.createElement('div');
     boardMenu.className = 'menu boardMenu';
     boardMenu.id = 'boardMenu';
+    boardMenu.addEventListener('mouseleave', (e) => handleShowBoardMenu(e));
 
     // Menu nav <ul>
     const boardMenuNav = document.createElement('ul');

@@ -51,14 +51,14 @@ export async function handleTaskClick(e, clickedTask) {
     }
 
     if (menuButton) {
-        if (taskMenu) taskMenu.remove(); // Remove task menu from UI
+        // if (taskMenu) taskMenu.remove(); // Remove task menu from UI
 
-        else {
-            // Remove other task menus before rendering the new task menu
-            const taskMenus = document.querySelectorAll('.taskMenu');
-            taskMenus.forEach(menu => menu.remove());
-            renderTaskMenu(taskID);
-        }
+        // else {
+        // Remove other task menus before rendering the new task menu
+        // const taskMenus = document.querySelectorAll('.taskMenu');
+        // taskMenus.forEach(menu => menu.remove());
+        renderTaskMenu(taskID);
+        // }
     }
 }
 
@@ -141,10 +141,19 @@ export async function handleSaveBoardChanges(e, labelText, placeholder) {
 // -----------------------------------------------------------------------------
 // Show board menu
 // -----------------------------------------------------------------------------
-export function handleShowBoardMenu() {
-    const boardMenu = document.getElementById('boardMenu');
-    if (boardMenu) boardMenu.remove(); // hide board menu
-    else renderBoardMenu(); // show board menu
+export function handleShowBoardMenu(e) {
+    console.log(e);
+
+    const event = e.type;
+
+    if (event === 'click') renderBoardMenu();
+
+    if (event === 'mouseleave') {
+        const boardMenu = document.getElementById('boardMenu');
+        if (boardMenu) boardMenu.remove(); // hide board menu
+    }
+
+    // else renderBoardMenu(); // show board menu
 }
 
 // -----------------------------------------------------------------------------

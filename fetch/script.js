@@ -35,8 +35,8 @@ export async function fetchBoards() {
         addNewTaskButton.addEventListener('click', handleShowAddTaskForm);
 
         // Board menu event listener
-        const boardMenu = document.getElementById("mainBoardHeaderKebab");
-        boardMenu.addEventListener('click', handleShowBoardMenu);
+        const boardMenuKebab = document.getElementById("mainBoardHeaderKebab");
+        boardMenuKebab.addEventListener('click', (e) => handleShowBoardMenu(e));
 
         // 'New List' button event listener
         const newListButton = document.getElementById('newListButton');

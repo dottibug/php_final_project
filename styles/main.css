@@ -458,7 +458,10 @@ body {
 
 .boardMenu {
     right: 24px;
-    top: 90px;
+    /*top: 90px;*/
+    top: 24px;
+    width: 124px;
+    z-index: 2;
 }
 
 .taskMenu {
