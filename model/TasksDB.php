@@ -5,6 +5,7 @@
 require_once 'Database.php';
 require_once 'Task.php';
 require_once 'TaskListsDB.php';
+require_once 'Subtask.php';
 
 class TasksDB
 {
@@ -214,6 +215,46 @@ class TasksDB
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt->closeCursor();
             return $row;
+        } catch (PDOException $e) {
+            Database::showDatabaseError($e->getMessage());
+            return false;
+        }
+    }
+
+    // ------------------------------------------------------------------------------
+    // Delete task
+    // ------------------------------------------------------------------------------
+    public function getSortedTasks($listID, $sortBy)
+    {
+        if ($sortBy == 'oldest') {
+            $query = 'SELECT * FROM tasks WHERE listID = :listID ORDER BY taskID';
+        } else $query = 'SELECT * FROM tasks WHERE listID = :listID ORDER BY taskID DESC';
+
+        try {
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(':listID', $listID);
+            $stmt->execute();
+            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
+
+            $TaskListsDB = new TaskListsDB();
+            $listTitle = $TaskListsDB->getListTitle($listID);
+
+            $tasks = [];
+            foreach ($rows as $row) {
+                $taskID = $row['taskID'];
+                $Task = new Task();
+                $Task->setTaskID($taskID);
+                $Task->setListID($listID);
+                $Task->setListTitle($listTitle);
+                $Task->setTitle($row['title']);
+                $Task->setDescription($row['description']);
+                $Task->setSubtasks([]);
+                $tasks[$taskID] = $Task;
+            }
+
+            return $tasks;
+
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;

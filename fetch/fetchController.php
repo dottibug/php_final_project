@@ -23,6 +23,7 @@ require_once 'fetch/fetchFunctions/viewTask.php';
 require_once 'fetch/fetchFunctions/deleteTaskWarning.php';
 require_once 'fetch/fetchFunctions/deleteTask.php';
 require_once 'fetch/fetchFunctions/logout.php';
+require_once 'fetch/fetchFunctions/sortTasks.php';
 
 session_start();
 header('Content-Type: application/x-www-form-urlencoded');
@@ -97,6 +98,10 @@ switch ($action) {
         break;
     case('logout'):
         logout();
+        break;
+    case('newest'):
+    case('oldest'):
+        sortTasks();
         break;
 }
 

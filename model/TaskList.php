@@ -90,4 +90,10 @@ class TaskList implements JsonSerializable
         $this->tasks = $tasks;
     }
 
+    public function addTask($task)
+    {
+        $this->tasks[] = $task;
+    }
+
+
 }

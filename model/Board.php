@@ -89,4 +89,9 @@ class Board implements JsonSerializable
     {
         $this->lists = $lists;
     }
+
+    public function addList($list)
+    {
+        $this->lists[] = $list;
+    }
 }

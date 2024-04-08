@@ -444,7 +444,7 @@ body {
 }
 
 /*----------------- BOARD MENU -----------------*/
-.boardMenu, .taskMenu {
+.boardMenu, .taskMenu, .sortMenu {
     align-items: center;
     background-color: white;
     border-radius: 8px;
@@ -468,18 +468,25 @@ body {
     width: 124px;
 }
 
-.boardMenuNav, .taskMenuNav {
+.sortMenu {
+    height: 64px;
+    top: 44px;
+    right: 0px;
+    width: 132px;
+}
+
+.boardMenuNav, .taskMenuNav, .sortMenuNav {
     display: flex;
     flex-direction: column;
     gap: 16px;
     list-style: none;
 }
 
-.taskMenuNav {
+.taskMenuNav, .sortMenuNav {
     gap: 4px;
 }
 
-.boardMenuNavItem, .taskMenuNavItem {
+.boardMenuNavItem, .taskMenuNavItem, .sortMenuNavItem {
     color: #828FA3;
     font-family: "Plus Jakarta Sans", sans-serif;
     font-size: 13px;
@@ -488,7 +495,7 @@ body {
     line-height: 23px;
 }
 
-.boardMenuNavItem:hover, .taskMenuNavItem:hover {
+.boardMenuNavItem:hover, .taskMenuNavItem:hover, .sortMenuNavItem:hover {
     cursor: pointer;
 }
 
@@ -537,11 +544,21 @@ body {
     margin-left: 24px;
     margin-top: 24px;
     width: 280px;
+
+    position: relative;
 }
 
 .listHeader {
     display: flex;
     align-items: center;
+    gap: 12px;
+    justify-content: space-between;
+}
+
+.listHeadingWrapper {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
     gap: 12px;
 }
 
@@ -561,13 +578,43 @@ body {
     position: relative;
 }
 
+.sortButtonWrapper {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.sortButton {
+    align-items: center;
+    color: #828FA3;
+    display: flex;
+    flex-direction: row;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    background-color: transparent;
+    border: none;
+}
+
+.sortButton::after {
+    content: 'arrow_drop_down';
+    font-family: "Material Symbols Outlined";
+    font-size: 2rem;
+}
+
+.sortButton:hover {
+    cursor: pointer;
+}
+
 /*----------------- TASKS -----------------*/
 .tasks {
     display: flex;
     flex-direction: column;
     list-style: none;
     gap: 20px;
-    padding-bottom: 24px;
+    /*padding-bottom: 24px;*/
 }
 
 .task {
@@ -581,6 +628,10 @@ body {
     flex-direction: column;
     gap: 8px;
     position: relative;
+}
+
+.task:last-child {
+    margin-bottom: 24px;
 }
 
 .task:hover {

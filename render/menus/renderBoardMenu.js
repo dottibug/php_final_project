@@ -1,12 +1,18 @@
-import {handleShowEditBoardForm, handleShowDeleteBoardWarning} from "../forms/formHandlers.js";
+import {
+    handleShowEditBoardForm,
+    handleShowDeleteBoardWarning,
+    closeOtherMenus
+} from "../forms/formHandlers.js";
 
 export function renderBoardMenu() {
+    closeOtherMenus();
+
     // Dashboard
     const dashboard = document.getElementById('dashboard');
 
     // Menu <div>
     const boardMenu = document.createElement('div');
-    boardMenu.className = 'boardMenu';
+    boardMenu.className = 'menu boardMenu';
     boardMenu.id = 'boardMenu';
 
     // Menu nav <ul>

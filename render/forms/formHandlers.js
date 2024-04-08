@@ -16,6 +16,14 @@ export async function refreshBoards() {
 }
 
 // -----------------------------------------------------------------------------
+// Close other menus
+// -----------------------------------------------------------------------------
+export function closeOtherMenus() {
+    const menus = document.querySelectorAll('.menu');
+    menus.forEach(menu => menu.remove());
+}
+
+// -----------------------------------------------------------------------------
 // Task click
 // -----------------------------------------------------------------------------
 export async function handleTaskClick(e, clickedTask) {

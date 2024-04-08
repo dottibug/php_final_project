@@ -143,4 +143,12 @@ class Task implements JsonSerializable
     {
         $this->subtasks = $subtasks;
     }
+
+    // ------------------------------------------------------------------------------
+    //  Add subtask
+    // ------------------------------------------------------------------------------
+    public function addSubtask($subtask)
+    {
+        $this->subtasks[] = $subtask;
+    }
 }

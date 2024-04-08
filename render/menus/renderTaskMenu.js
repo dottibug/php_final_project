@@ -1,10 +1,14 @@
+import {closeOtherMenus} from "../forms/formHandlers.js";
+
 export function renderTaskMenu(taskID) {
+    closeOtherMenus();
+
     // Task
     const taskElement = document.getElementById(taskID);
 
     // Menu <div>
     const taskMenu = document.createElement('div');
-    taskMenu.className = 'taskMenu';
+    taskMenu.className = 'menu taskMenu';
     taskMenu.id = `taskMenu${taskID}`;
 
     // Menu nav <ul>

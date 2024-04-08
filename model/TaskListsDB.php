@@ -41,7 +41,7 @@ class TaskListsDB
                 $lists[] = $List;
             }
 
-            return array_values($lists);
+            return $lists;
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;
@@ -177,4 +177,31 @@ class TaskListsDB
         }
     }
 
+    // ------------------------------------------------------------------------------
+    // Get list by listID
+    // ------------------------------------------------------------------------------
+    public function getList($listID)
+    {
+        try {
+            $query = 'SELECT * FROM lists WHERE listID = :listID';
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(':listID', $listID);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
+
+            $list = new TaskList();
+            $list->setListID($listID);
+            $list->setBoardID($row['boardID']);
+            $list->setTitle($row['title']);
+            $list->setColor($row['color']);
+            
+            return $list;
+
+
+        } catch (PDOException $e) {
+            Database::showDatabaseError($e->getMessage());
+            return false;
+        }
+    }
 }

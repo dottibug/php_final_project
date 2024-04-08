@@ -1,10 +1,13 @@
 import {renderOverlay} from "./renderOverlay.js";
 import {renderXButton} from "../uiElements/renderButton.js";
+import {closeOtherMenus} from "../forms/formHandlers.js";
 
 // ------------------------------------
 // Render an overlay and lightbox
 // ------------------------------------
 export function renderLightbox(heading = 'Heading') {
+    closeOtherMenus();
+
     // Disable body scrolling in the background
     const body = document.getElementById('body');
     body.setAttribute('style', "overflow: hidden");
@@ -52,5 +55,5 @@ export function handleCloseLightbox() {
 
     // Remove overlay element from DOM
     const overlay = document.getElementById('overlay');
-    overlay.remove();
+    if (overlay) overlay.remove();
 }
