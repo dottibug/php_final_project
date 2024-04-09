@@ -1,22 +1,20 @@
 import {
     fetchData,
-    handleShowAddTaskForm,
-    handleShowBoardMenu, handleShowEditBoardForm
 } from "../render/forms/formHandlers.js";
 import {renderSidebar} from "../render/menus/renderSidebar.js";
-import {renderBoardLists} from '../render/renderBoardLists.js';
+import {renderBoardLists} from '../render/menus/renderBoardLists.js';
+import {showBoardMenu, showEditBoardForm} from "../eventHandlers/menus/boardMenuHandlers.js";
+import {showAddTaskForm} from "../eventHandlers/forms/taskHandlers.js";
 
-// -----------------------------------------------------------------------------
-// Fetch requests after document is loaded
-// -----------------------------------------------------------------------------
+// Fetch board data after document loads
+// -----------------------------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', async function () {
     await fetchBoards();
     await fetchCurrentBoardLists();
 });
 
-// -----------------------------------------------------------------------------
 // Fetch user boards to render sidebar
-// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------
 export async function fetchBoards() {
     // Fetch
     const action = 'fetchBoards';
@@ -32,21 +30,20 @@ export async function fetchBoards() {
 
         // 'Add New Task' button event listener
         const addNewTaskButton = document.getElementById('addNewTaskButton');
-        addNewTaskButton.addEventListener('click', handleShowAddTaskForm);
+        addNewTaskButton.addEventListener('click', showAddTaskForm);
 
         // Board menu event listener
         const boardMenuKebab = document.getElementById("mainBoardHeaderKebab");
-        boardMenuKebab.addEventListener('click', (e) => handleShowBoardMenu(e));
+        boardMenuKebab.addEventListener('click', (e) => showBoardMenu(e));
 
         // 'New List' button event listener
         const newListButton = document.getElementById('newListButton');
-        newListButton.addEventListener('click', handleShowEditBoardForm);
+        newListButton.addEventListener('click', showEditBoardForm);
     }
 }
 
-// -----------------------------------------------------------------------------
 // Fetch lists for the current board
-// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------
 export async function fetchCurrentBoardLists() {
     // Fetch
     const action = 'fetchCurrentBoardLists';

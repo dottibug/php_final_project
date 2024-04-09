@@ -1,6 +1,9 @@
 import {renderOverlay} from "./renderOverlay.js";
 import {renderXButton} from "../uiElements/renderButton.js";
-import {closeOtherMenus} from "../forms/formHandlers.js";
+import {closeOtherMenus, refreshBoards} from "../forms/formHandlers.js";
+import {findElement} from "../uiElements/findElement.js";
+import {removeElement} from "../uiElements/removeElement.js";
+import {createElement} from "../uiElements/createElement.js";
 
 // ------------------------------------
 // Render an overlay and lightbox
@@ -9,27 +12,21 @@ export function renderLightbox(heading = 'Heading') {
     closeOtherMenus();
 
     // Disable body scrolling in the background
-    const body = document.getElementById('body');
+    const body = findElement('body');
     body.setAttribute('style', "overflow: hidden");
 
     // Overlay
     renderOverlay();
-    const overlay = document.getElementById('overlay');
+    const overlay = findElement('overlay');
 
     // Lightbox <div>
-    const lightbox = document.createElement('div');
-    lightbox.className = 'lightbox';
-    lightbox.id = 'lightbox';
+    const lightbox = createElement('div', 'lightbox', 'lightbox');
 
     // Lightbox <header>
-    const lightboxHeader = document.createElement('header');
-    lightboxHeader.className = 'lightboxHeader';
-    lightboxHeader.id = 'lightboxHeader';
+    const lightboxHeader = createElement('header', 'lightboxHeader', 'lightboxHeader');
 
     // Lightbox <h1>
-    const lightboxHeading = document.createElement('h1');
-    lightboxHeading.id = 'lightboxHeading';
-    lightboxHeading.innerText = heading;
+    const lightboxHeading = createElement('h1', 'lightboxHeading', 'lightboxHeading', heading);
 
     // Close lightbox <button>
     const closeLightbox = renderXButton('iconCloseButton');
@@ -50,10 +47,8 @@ export function renderLightbox(heading = 'Heading') {
 // ------------------------------------
 export function handleCloseLightbox() {
     // Re-enable body scroll
-    const body = document.getElementById('body');
+    const body = findElement('body');
     body.setAttribute('style', "overflow: visible");
 
-    // Remove overlay element from DOM
-    const overlay = document.getElementById('overlay');
-    if (overlay) overlay.remove();
+    removeElement('overlay');
 }

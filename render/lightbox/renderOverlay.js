@@ -1,17 +1,8 @@
-// Render Overlay
+import {findElement} from "../uiElements/findElement.js";
+import {createElement} from "../uiElements/createElement.js";
+
 export function renderOverlay() {
-    // Hide board menu if it's rendered
-    const boardMenu = document.getElementById('boardMenu');
-    if (boardMenu) {
-        boardMenu.remove();
-    }
-
-    // <body>
-    const body = document.getElementById('body');
-
-    // Overlay <div>
-    const overlay = document.createElement('div');
-    overlay.className = 'overlay';
-    overlay.id = 'overlay';
+    const body = findElement('body');
+    const overlay = createElement('div', 'overlay', 'overlay');
     body.insertAdjacentElement('afterbegin', overlay);
 }

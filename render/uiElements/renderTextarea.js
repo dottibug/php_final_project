@@ -1,9 +1,8 @@
 // Render textarea
-export function renderTextarea(name, value) {
-    const textarea = document.createElement('textarea');
-    textarea.className = 'textarea';
-    textarea.name = name;
-    textarea.innerHTML = value;
+import {createElement} from "./createElement.js";
 
+export function renderTextarea(name, value) {
+    const textarea = createElement('textarea', 'textarea', '', value);
+    textarea.name = name;
     return textarea;
 }

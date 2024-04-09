@@ -1,27 +1,20 @@
 import {renderTextarea} from "../uiElements/renderTextarea.js";
 import {renderInput} from "../uiElements/renderInput.js";
+import {createElement} from "../uiElements/createElement.js";
 
 export function renderFields(fields) {
-    const fieldsWrapper = document.createElement('div');
-    fieldsWrapper.className = 'fieldsWrapper';
-    fieldsWrapper.id = 'fieldsWrapper';
+    const fieldsWrapper = createElement('div', 'fieldsWrapper', 'fieldsWrapper');
 
     fields.forEach(field => {
         const {name, hasError, message, type, value} = field;
 
         // Field wrapper
-        const fieldBox = document.createElement('div');
-        fieldBox.className = 'fieldBox';
-        fieldBox.id = name;
+        const fieldBox = createElement('div', 'fieldBox', name);
 
         // Field label
-        const labelBox = document.createElement('div');
-        labelBox.className = 'labelBox';
-
-        const label = document.createElement('label');
-        label.className = 'inputLabel';
+        const labelBox = createElement('div', 'labelBox');
+        const label = createElement('label', 'inputLabel', '', name);
         label.for = name;
-        label.innerText = name;
 
         // Input
         const input = type === 'textarea'
@@ -36,9 +29,7 @@ export function renderFields(fields) {
 
         // Field error
         if (hasError) {
-            const fieldError = document.createElement('p');
-            fieldError.className = 'fieldError';
-            fieldError.innerText = message;
+            const fieldError = createElement('div', 'fieldError', '', message);
             labelBox.appendChild(fieldError);
         }
     })

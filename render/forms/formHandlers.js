@@ -1,18 +1,18 @@
 import {renderDynamicList} from "../uiElements/renderDynamicList.js";
-import {renderForm} from "./renderForm.js";
 import {renderFields} from "./renderFields.js";
 import {fetchBoards, fetchCurrentBoardLists} from "../../fetch/script.js";
 import {handleCloseLightbox} from "../lightbox/renderLightbox.js";
-import {renderBoardMenu} from "../menus/renderBoardMenu.js";
-import {renderTaskMenu} from "../menus/renderTaskMenu.js";
+import {removeElement} from "../uiElements/removeElement.js";
+import {findElement} from "../uiElements/findElement.js";
+
 
 // -----------------------------------------------------------------------------
 // Re-fetch board data and close the lightbox form
 // -----------------------------------------------------------------------------
-export async function refreshBoards() {
+export async function refreshBoards(closeLightbox = false) {
     await fetchBoards();
     await fetchCurrentBoardLists();
-    handleCloseLightbox();
+    if (closeLightbox) handleCloseLightbox();
 }
 
 // -----------------------------------------------------------------------------
@@ -24,84 +24,15 @@ export function closeOtherMenus() {
 }
 
 // -----------------------------------------------------------------------------
-// Task click
-// -----------------------------------------------------------------------------
-export async function handleTaskClick(e, clickedTask) {
-    const {title, taskID} = clickedTask;
-    const taskMenu = document.getElementById(`taskMenu${taskID}`);
-    const menuButton = e.target.closest('button');
-
-    // Event delegation
-    if (!menuButton) {
-        // Fetch
-        let data;
-        const action = e.target.closest('li').dataset['action'];
-        if (action === 'editTask') data = await fetchData('editTaskForm', {}, {'taskID': taskID});
-        if (action === 'deleteTask') data = await fetchData('deleteTaskWarning', {}, {'taskID': taskID});
-        if (action === 'viewTask') data = await fetchData('viewTask', {}, {'taskID': taskID});
-
-        // Render
-        if (data.success) {
-            const {fields, lists, subtasks, task} = data;
-            if (action === 'editTask') renderForm('Edit Task', 'editTask', fields, lists, subtasks, '', task);
-            if (action === 'deleteTask') renderForm(title, 'deleteTaskWarning', null, null, null, null, task);
-            if (action === 'viewTask') renderForm(title, 'viewTask', fields, lists, subtasks, '', task);
-        }
-        if (taskMenu) taskMenu.remove(); // Remove task menu from UI
-    }
-
-    if (menuButton) {
-        // if (taskMenu) taskMenu.remove(); // Remove task menu from UI
-
-        // else {
-        // Remove other task menus before rendering the new task menu
-        // const taskMenus = document.querySelectorAll('.taskMenu');
-        // taskMenus.forEach(menu => menu.remove());
-        renderTaskMenu(taskID);
-        // }
-    }
-}
-
-// -----------------------------------------------------------------------------
-// Show 'Create Board' form
-// -----------------------------------------------------------------------------
-export async function handleShowNewBoardForm() {
-    // Fetch
-    const action = 'showNewBoardForm';
-    const data = await fetchData(action);
-
-    // Render
-    if (data.success) renderForm('Create New Board', 'createBoard', data.fields, data.lists, null);
-}
-
-// -----------------------------------------------------------------------------
-// Add new board
-// -----------------------------------------------------------------------------
-export async function handleAddBoard(e, labelText, placeholder) {
-    e.preventDefault();
-
-    // Fetch
-    const action = 'addBoard';
-    const formData = getFormData();
-    const data = await fetchData(action, formData)
-
-    // Render
-    if (!data.success) renderErrors('deleteList', data.fields, data.lists, labelText, placeholder);
-    if (data.success) refreshBoards();
-}
-
-// -----------------------------------------------------------------------------
 // Render errors
 // -----------------------------------------------------------------------------
 export function renderErrors(deleteAction, fields, dynamicList, labelText, placeholder) {
     fields.forEach(field => {
         // Render field errors
         if (field.hasError) {
-            const fieldsWrapper = document.getElementById('fieldsWrapper');
-            fieldsWrapper.remove();
-
+            removeElement('fieldsWrapper');
             const newFieldsWrapper = renderFields(fields);
-            const form = document.getElementById('form');
+            const form = findElement('form');
             form.insertAdjacentElement('afterbegin', newFieldsWrapper);
         }
     })
@@ -110,106 +41,14 @@ export function renderErrors(deleteAction, fields, dynamicList, labelText, place
     dynamicList.forEach(list => {
         const {message} = list;
         if (list.hasError) {
-            const dynamicListWrapper = document.getElementById('dynamicListWrapper');
-            dynamicListWrapper.remove();
-
+            removeElement('dynamicListWrapper');
             const newDynamicListWrapper = renderDynamicList(deleteAction, dynamicList, labelText, placeholder, true, message);
-            const buttonsWrapper = document.getElementById('buttonsWrapper');
+            const buttonsWrapper = findElement('buttonsWrapper');
             buttonsWrapper.insertAdjacentElement('beforebegin', newDynamicListWrapper);
         }
     })
 }
 
-
-// -----------------------------------------------------------------------------
-// Edit board
-// -----------------------------------------------------------------------------
-export async function handleSaveBoardChanges(e, labelText, placeholder) {
-    e.preventDefault();
-
-    // Fetch
-    const action = 'editBoard';
-    const formData = getFormData();
-    const data = await fetchData(action, formData);
-
-    // Render
-    if (!data.success) renderErrors('deleteList', data.fields, data.lists, labelText, placeholder);
-    if (data.success) refreshBoards();
-}
-
-
-// -----------------------------------------------------------------------------
-// Show board menu
-// -----------------------------------------------------------------------------
-export function handleShowBoardMenu(e) {
-    console.log(e);
-
-    const event = e.type;
-
-    if (event === 'click') renderBoardMenu();
-
-    if (event === 'mouseleave') {
-        const boardMenu = document.getElementById('boardMenu');
-        if (boardMenu) boardMenu.remove(); // hide board menu
-    }
-
-    // else renderBoardMenu(); // show board menu
-}
-
-// -----------------------------------------------------------------------------
-// Show 'Edit Board' form
-// -----------------------------------------------------------------------------
-export async function handleShowEditBoardForm() {
-    // Fetch
-    const action = 'editBoardForm';
-    const data = await fetchData(action);
-
-    // Render
-    if (data.success) {
-        const boardMenu = document.getElementById('boardMenu');
-        if (boardMenu) boardMenu.remove();
-        renderForm('Edit Board', 'editBoard', data.fields, data.lists);
-    }
-}
-
-// -----------------------------------------------------------------------------
-// Show 'Delete Board' warning
-// -----------------------------------------------------------------------------
-export async function handleShowDeleteBoardWarning() {
-    // Fetch
-    const action = 'deleteBoardWarning';
-    const data = await fetchData(action);
-
-    // Render
-    if (data.success) {
-        const {boardTitle} = data;
-
-        // Remove the board menu
-        const boardMenu = document.getElementById('boardMenu');
-        boardMenu.remove();
-
-        renderForm('Delete this board?', 'deleteBoardWarning', null, null, null, boardTitle);
-    }
-
-}
-
-// -----------------------------------------------------------------------------
-// Delete board
-// -----------------------------------------------------------------------------
-export async function handleDeleteBoard() {
-    const action = 'deleteBoard';
-    const data = await fetchData(action);
-    if (data.success) refreshBoards();
-}
-
-// -----------------------------------------------------------------------------
-// Show 'Add Task' form
-// -----------------------------------------------------------------------------
-export async function handleShowAddTaskForm() {
-    const action = 'showAddTaskForm';
-    const data = await fetchData(action);
-    if (data.success) renderForm('Add Task', 'addTask', data.fields, data.lists, data.subtasks);
-}
 
 // -----------------------------------------------------------------------------
 // Get form data

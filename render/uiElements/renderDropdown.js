@@ -1,33 +1,22 @@
-// -----------------------------------------------------------------------------
-// Render custom dropdown element
-// -----------------------------------------------------------------------------
+import {findElement} from "./findElement.js";
+import {removeElement} from "./removeElement.js";
+import {createElement} from "./createElement.js";
+
 export function renderDropdown(options, label, selectedID, selectedValue) {
     // Wrapper
-    const dropdownWrapper = document.createElement('div');
-    dropdownWrapper.className = 'dropdownWrapper';
-    dropdownWrapper.id = 'dropdownWrapper';
+    const dropdownWrapper = createElement('div', 'dropdownWrapper', 'dropdownWrapper');
 
     // Label
-    const dropdownLabel = document.createElement('label');
-    dropdownLabel.className = 'inputLabel';
-    dropdownLabel.innerText = label;
+    const dropdownLabel = createElement('div', 'inputLabel', '', label);
 
     // Button
-    const dropdownButton = document.createElement('button');
-    dropdownButton.className = 'dropdownButton';
-    dropdownButton.id = 'dropdownButton';
+    const dropdownButton = createElement('button', 'dropdownButton', 'dropdownButton');
     dropdownButton.dataset['selectedId'] = selectedID;
     dropdownButton.addEventListener('click', (e) => handleShowOptions(e, options));
-
-    const selectedOption = document.createElement('span');
-    selectedOption.className = 'selectedOption';
-    selectedOption.id = 'selectedOption';
-    selectedOption.innerText = selectedValue;
+    const selectedOption = createElement('span', 'selectedOption', 'selectedOption', selectedValue);
 
     // Arrow
-    const dropdownArrow = document.createElement('span');
-    dropdownArrow.className = 'dropdownArrow material-symbols-outlined';
-    dropdownArrow.innerText = 'expand_more';
+    const dropdownArrow = createElement('span', 'dropdownArrow material-symbols-outlined', '', 'expand_more');
 
     // Compose
     dropdownWrapper.appendChild(dropdownLabel);
@@ -42,28 +31,21 @@ export function renderDropdown(options, label, selectedID, selectedValue) {
 // Render the dropdown options
 // -----------------------------------------------------------------------------
 function renderDropdownOptions(options) {
-    const dropdownWrapper = document.getElementById('dropdownWrapper');
-    const dropdownButton = document.getElementById('dropdownButton');
+    const dropdownWrapper = findElement('dropdownWrapper');
+    const dropdownButton = findElement('dropdownButton');
 
     // Dropdown options list
-    const dropdownOptions = document.createElement('ul');
-    dropdownOptions.className = 'dropdownOptions';
-    dropdownOptions.id = 'dropdownOptions';
-
+    const dropdownOptions = createElement('ul', 'dropdownOptions', 'dropdownOptions');
     const bottomDropdownButton = dropdownButton.getBoundingClientRect().bottom;
     const dropdownOptionsOffset = bottomDropdownButton + 10;
     dropdownOptions.setAttribute('style', `top: ${dropdownOptionsOffset}px`);
 
     options.forEach(opt => {
         const {listID, title} = opt;
-
-        const option = document.createElement('li');
-        option.className = 'option';
+        const option = createElement('li', 'option', '', title);
         option.dataset['selectedId'] = listID;
         option.dataset['selectedValue'] = title;
-        option.innerText = title;
         option.addEventListener('click', (e) => handleOptionClick(e));
-
         dropdownOptions.appendChild(option);
     })
     dropdownWrapper.appendChild(dropdownOptions);
@@ -78,17 +60,16 @@ function handleOptionClick(e) {
     const selectedValue = e.target.closest('li').dataset.selectedValue;
 
     // Update the dropdown button <span> to reflect the selected option
-    const selectedOption = document.getElementById('selectedOption');
+    const selectedOption = findElement('selectedOption');
     selectedOption.innerText = selectedValue;
 
     // Update the dropdown button data to reflect the selected id
-    const dropdownButton = document.getElementById('dropdownButton');
+    const dropdownButton = findElement('dropdownButton');
     dropdownButton.dataset.selectedId = selectedID;
 
     // Close the dropdown menu and reset the button to non-active styles
     dropdownButton.setAttribute('style', 'border: 1px solid rgba(130, 143, 163, 0.25)');
-    const dropdownOptions = document.getElementById('dropdownOptions');
-    dropdownOptions.remove();
+    removeElement('dropdownOptions');
 }
 
 // -----------------------------------------------------------------------------
@@ -97,8 +78,8 @@ function handleOptionClick(e) {
 function handleShowOptions(e, options) {
     e.preventDefault();
 
-    const dropdownOptions = document.getElementById('dropdownOptions');
-    const dropdownButton = document.getElementById('dropdownButton');
+    const dropdownOptions = findElement('dropdownOptions');
+    const dropdownButton = findElement('dropdownButton');
 
     if (!dropdownOptions) {
         dropdownButton.setAttribute('style', 'border: 1px solid #635FC7');

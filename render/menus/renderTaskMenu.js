@@ -1,36 +1,28 @@
-import {closeOtherMenus} from "../forms/formHandlers.js";
-
-function hideTaskMenu(e) {
-    const taskMenu = e.target;
-    taskMenu.remove();
-}
+import {hideTaskMenu, handleTaskMenuSelection} from "../../eventHandlers/menus/taskMenuHandlers.js";
+import {findElement} from "../uiElements/findElement.js";
+import {createElement} from "../uiElements/createElement.js";
 
 export function renderTaskMenu(taskID) {
     // Task
-    const taskElement = document.getElementById(taskID);
+    const taskElement = findElement(taskID);
 
     // Menu <div>
-    const taskMenu = document.createElement('div');
-    taskMenu.className = 'menu taskMenu';
-    taskMenu.id = `taskMenu${taskID}`;
+    const taskMenu = createElement('div', 'menu taskMenu', `taskMenu${taskID}`);
     taskMenu.addEventListener('mouseleave', (e) => hideTaskMenu(e));
+    taskMenu.addEventListener('click', (e) => handleTaskMenuSelection(e), false);
 
     // Menu nav <ul>
-    const taskMenuNav = document.createElement('ul');
-    taskMenuNav.className = 'taskMenuNav';
+    const taskMenuNav = createElement('ul', 'taskMenuNav');
 
     // Edit task <li>
-    const editTask = document.createElement('li');
-    editTask.className = 'taskMenuNavItem';
-    editTask.innerText = 'Edit Task';
-    editTask.dataset['taskId'] = taskID;
-    editTask.dataset['action'] = 'editTask';
+    const editTask = createElement('li', 'taskMenuNavItem', '', 'Edit Task');
+    editTask.dataset.taskId = taskID;
+    editTask.dataset.action = 'editTaskForm';
 
     // Delete task <li>
-    const deleteTask = document.createElement('li');
-    deleteTask.className = 'taskMenuNavItem deleteTask';
-    deleteTask.innerText = 'Delete Task';
-    deleteTask.dataset['action'] = 'deleteTask';
+    const deleteTask = createElement('li', 'taskMenuNavItem deleteTask', '', 'Delete Task');
+    deleteTask.dataset.taskId = taskID;
+    deleteTask.dataset.action = 'deleteTaskWarning';
 
     // Compose
     taskElement.appendChild(taskMenu);

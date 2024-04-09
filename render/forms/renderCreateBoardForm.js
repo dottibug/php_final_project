@@ -5,10 +5,9 @@ import {
 } from "../uiElements/renderDynamicList.js";
 import {renderButton, renderButtonsWrapper} from "../uiElements/renderButton.js";
 import {renderFormElement} from "../uiElements/renderFormElement.js";
-import {saveBoardChanges} from "../../eventHandlers/forms/boardHandlers.js";
+import {addBoard} from "../../eventHandlers/forms/boardHandlers.js";
 
-
-export function renderEditBoardForm(fields, lists) {
+export function renderCreateBoardForm(fields, lists) {
     const listLabel = 'Lists';
     const placeholder = 'Title of list';
 
@@ -21,22 +20,22 @@ export function renderEditBoardForm(fields, lists) {
     // Dynamic list
     const dynamicList = renderDynamicList('deleteList', lists, listLabel, placeholder);
 
-    // Buttons
+    // Buttons wrapper
     const buttonsWrapper = renderButtonsWrapper();
 
     // Add list button
     const addListButton = addDynamicItemButton('Add New List', 'addListButton', 'addList', listLabel, placeholder);
 
-    // Save changes button
-    const saveChangesButton = renderButton('primary', 'small', 'Save Changes', 'saveChangesButton', 'submit');
-    saveChangesButton.addEventListener('click', (e) => saveBoardChanges(e, listLabel, placeholder));
+    // Create board button
+    const createBoardButton = renderButton('primary', 'small', 'Create Board', 'createBoardButton', 'submit');
+    createBoardButton.addEventListener('click', (e) => addBoard(e, listLabel, placeholder));
 
     // Compose
     form.appendChild(fieldsElement);
     form.appendChild(dynamicList);
     form.appendChild(buttonsWrapper);
     buttonsWrapper.appendChild(addListButton);
-    buttonsWrapper.appendChild(saveChangesButton);
+    buttonsWrapper.appendChild(createBoardButton);
 
     return form;
 }

@@ -1,38 +1,29 @@
 import {
-    handleShowEditBoardForm,
-    handleShowDeleteBoardWarning,
-    closeOtherMenus, handleShowBoardMenu
-} from "../forms/formHandlers.js";
+    showBoardMenu,
+    showDeleteBoardWarning,
+    showEditBoardForm
+} from "../../eventHandlers/menus/boardMenuHandlers.js";
+import {findElement} from "../uiElements/findElement.js";
+import {createElement} from "../uiElements/createElement.js";
 
 export function renderBoardMenu() {
-    // closeOtherMenus();
-
     // Dashboard
-    const dashboard = document.getElementById('dashboard');
+    const dashboard = findElement('dashboard');
 
     // Menu <div>
-    const boardMenu = document.createElement('div');
-    boardMenu.className = 'menu boardMenu';
-    boardMenu.id = 'boardMenu';
-    boardMenu.addEventListener('mouseleave', (e) => handleShowBoardMenu(e));
+    const boardMenu = createElement('div', 'menu boardMenu', 'boardMenu');
+    boardMenu.addEventListener('mouseleave', (e) => showBoardMenu(e));
 
     // Menu nav <ul>
-    const boardMenuNav = document.createElement('ul');
-    boardMenuNav.className = 'boardMenuNav';
+    const boardMenuNav = createElement('ul', 'boardMenuNav', 'boardMenuNav');
 
     // Edit board <li>
-    const editBoard = document.createElement('li');
-    editBoard.className = 'boardMenuNavItem editBoard';
-    editBoard.id = 'editBoard';
-    editBoard.innerText = 'Edit Board';
-    editBoard.addEventListener('click', handleShowEditBoardForm);
+    const editBoard = createElement('li', 'boardMenuNavItem editBoard', 'editBoard', 'Edit Board');
+    editBoard.addEventListener('click', showEditBoardForm);
 
     // Delete board <li>
-    const deleteBoard = document.createElement('li');
-    deleteBoard.className = 'boardMenuNavItem deleteBoard';
-    deleteBoard.id = 'deleteBoard';
-    deleteBoard.innerText = 'Delete Board';
-    deleteBoard.addEventListener('click', handleShowDeleteBoardWarning);
+    const deleteBoard = createElement('li', 'boardMenuNavItem deleteBoard', 'deleteBoard', 'Delete Board');
+    deleteBoard.addEventListener('click', showDeleteBoardWarning);
 
     // Compose board menu
     dashboard.appendChild(boardMenu);

@@ -8,7 +8,7 @@ require_once 'fetch/fetchFunctions/addTaskForm.php';
 require_once 'fetch/fetchFunctions/deleteSubtask.php';
 require_once 'fetch/fetchFunctions/addSubtask.php';
 require_once 'fetch/fetchFunctions/addTask.php';
-require_once 'fetch/fetchFunctions/newBoardForm.php';
+require_once 'fetch/fetchFunctions/createBoardForm.php';
 require_once 'fetch/fetchFunctions/deleteList.php';
 require_once 'fetch/fetchFunctions/addList.php';
 require_once 'fetch/fetchFunctions/addBoard.php';
@@ -42,8 +42,8 @@ switch ($action) {
     case('updateCurrentBoardID');
         updateCurrentBoardID();
         break;
-    case ('showNewBoardForm'):
-        newBoardForm();
+    case ('showCreateBoardForm'):
+        createBoardForm();
         break;
     case ('editBoard'):
         editBoard();

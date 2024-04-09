@@ -1,9 +1,9 @@
 import {renderLightbox} from "../lightbox/renderLightbox.js";
 import {renderAddTaskForm} from "./renderAddTaskForm.js";
-import {renderNewBoardForm} from "./renderNewBoardForm.js";
+import {renderCreateBoardForm} from "./renderCreateBoardForm.js";
 import {renderEditBoardForm} from "./renderEditBoardForm.js";
 import {renderDeleteBoardWarning} from "./renderDeleteBoardWarning.js";
-import {renderViewTask} from "./renderViewTask.js";
+import {renderTaskDetails} from "./renderTaskDetails.js";
 import {renderEditTaskForm} from "./renderEditTaskForm.js";
 import {renderDeleteTaskWarning} from "./renderDeleteTaskWarning.js";
 
@@ -13,7 +13,7 @@ export function renderForm(heading, formName, fields = null, lists = null, subta
 
     switch (formName) {
         case 'createBoard':
-            form = renderNewBoardForm(fields, lists);
+            form = renderCreateBoardForm(fields, lists);
             break;
         case 'editBoard':
             form = renderEditBoardForm(fields, lists);
@@ -22,7 +22,7 @@ export function renderForm(heading, formName, fields = null, lists = null, subta
             form = renderDeleteBoardWarning(boardTitle);
             break;
         case 'viewTask':
-            form = renderViewTask(task, subtasks);
+            form = renderTaskDetails(task, subtasks);
             break;
         case 'addTask':
             form = renderAddTaskForm(fields, lists, subtasks);

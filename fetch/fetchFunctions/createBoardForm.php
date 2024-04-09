@@ -4,7 +4,7 @@ require_once 'model/Form.php';
 
 header('Content-Type: application/x-www-form-urlencoded');
 
-function newBoardForm()
+function createBoardForm()
 {
     try {
         // Create form

@@ -1,26 +1,23 @@
-import {renderButton} from "../uiElements/renderButton.js";
+import {renderButton, renderButtonsWrapper} from "../uiElements/renderButton.js";
 import {handleCloseLightbox} from "../lightbox/renderLightbox.js";
-import {handleDeleteBoard} from "./formHandlers.js";
+import {deleteBoard} from "../../eventHandlers/forms/boardHandlers.js";
+import {renderFormElement} from "../uiElements/renderFormElement.js";
+import {createElement} from "../uiElements/createElement.js";
 
 export function renderDeleteBoardWarning(boardTitle) {
     // Form element
-    const form = document.createElement('form');
-    form.id = 'form';
-    form.className = 'lightboxForm';
+    const form = renderFormElement();
 
     // Message
-    const warningMessage = document.createElement('p');
-    warningMessage.className = 'warningMessage';
+    const warningMessage = createElement('p', 'warningMessage', 'warningMessage');
     warningMessage.innerHTML = `Are you sure you want to delete <span class="warningMessageSpan">${boardTitle}</span>? This will delete the board and its lists and tasks.`;
 
     // Buttons
-    const buttonsWrapper = document.createElement('div');
-    buttonsWrapper.className = 'buttonsWrapperWarning';
-    buttonsWrapper.id = 'buttonsWrapperWarning';
+    const buttonsWrapper = renderButtonsWrapper('buttonsWrapperWarning', 'buttonsWrapperWarning');
 
     // Delete button
     const deleteBoardButton = renderButton('danger', 'small', 'Delete', 'deleteBoardButton', 'submit');
-    deleteBoardButton.addEventListener('click', handleDeleteBoard);
+    deleteBoardButton.addEventListener('click', deleteBoard);
 
     // Cancel button
     const cancelButton = renderButton('secondary', 'small', 'Cancel', 'cancelDeleteBoardButton', 'submit');
