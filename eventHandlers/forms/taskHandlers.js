@@ -41,10 +41,10 @@ export async function showTaskDetails(taskID, title) {
 
 // Show 'Add Task' form
 // -----------------------------------------------------------------------------------
-export async function showAddTaskForm() {
+export async function showAddTaskForm(selectedItem = '') {
     const action = 'showAddTaskForm';
     const data = await fetchData(action);
-    if (data.success) renderForm('Add Task', 'addTask', data.fields, data.lists, data.subtasks);
+    if (data.success) renderForm('Add Task', 'addTask', data.fields, data.lists, data.subtasks, '', null, selectedItem);
 }
 
 // Add task to list

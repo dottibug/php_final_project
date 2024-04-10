@@ -1,19 +1,14 @@
 import {renderBoardMenu} from "../../render/menus/renderBoardMenu.js";
 import {renderForm} from "../../render/forms/renderForm.js";
 import {fetchData} from "../../render/forms/formHandlers.js";
-import {findElement} from "../../render/uiElements/findElement.js";
+import {removeElement} from "../../render/uiElements/removeElement.js";
 
 // Show board menu on click; hide on mouse leave
 // -----------------------------------------------------------------------------------
 export function showBoardMenu(e) {
     const event = e.type;
-
     if (event === 'click') renderBoardMenu();
-
-    if (event === 'mouseleave') {
-        const boardMenu = findElement('boardMenu');
-        if (boardMenu) boardMenu.remove();
-    }
+    if (event === 'mouseleave') removeElement('boardMenu');
 }
 
 // Show 'Edit Board' form

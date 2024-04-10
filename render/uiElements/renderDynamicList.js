@@ -17,8 +17,10 @@ export function renderDynamicList(deleteAction, list, listLabel, placeholder, ha
     const label = createElement('label', 'inputLabel', '', listLabel);
 
     // Compose
-    dynamicListWrapper.appendChild(labelBox);
-    labelBox.appendChild(label);
+    if (list.length !== 0) {
+        dynamicListWrapper.appendChild(labelBox);
+        labelBox.appendChild(label);
+    }
 
     // Conditional error <p>
     if (hasErrors) {

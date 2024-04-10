@@ -5,7 +5,7 @@ import {renderButton, renderButtonsWrapper} from "../uiElements/renderButton.js"
 import {renderFormElement} from "../uiElements/renderFormElement.js";
 import {addTask} from "../../eventHandlers/forms/taskHandlers.js";
 
-export function renderAddTaskForm(fields, lists, subtasks) {
+export function renderAddTaskForm(fields, lists, subtasks, selectedItem) {
     const listLabel = 'Subtasks';
     const placeholder = 'Add a subtask';
 
@@ -16,8 +16,7 @@ export function renderAddTaskForm(fields, lists, subtasks) {
     const fieldsElement = renderFields(fields);
 
     // Dropdown menu
-    const selectedID = lists[0]['listID'];
-    const selectedValue = lists[0]['title'];
+    const {selectedID, selectedValue} = getSelectedItem(selectedItem, lists);
     const dropdownMenu = renderDropdown(lists, 'Add To List', selectedID, selectedValue);
 
     // Dynamic list
@@ -42,4 +41,17 @@ export function renderAddTaskForm(fields, lists, subtasks) {
     buttonsWrapper.appendChild(createTaskButton);
 
     return form;
+}
+
+function getSelectedItem(selectedItem, lists) {
+    if (selectedItem) {
+        const list = lists.find(list => list.listID === selectedItem);
+        const selectedID = list.listID;
+        const selectedValue = list.title;
+        return {selectedID, selectedValue};
+    } else {
+        const selectedID = lists[0]['listID'];
+        const selectedValue = lists[0]['title'];
+        return {selectedID, selectedValue};
+    }
 }

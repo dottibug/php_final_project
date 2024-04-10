@@ -2,9 +2,10 @@ import {
     fetchData,
 } from "../render/forms/formHandlers.js";
 import {renderSidebar} from "../render/menus/renderSidebar.js";
-import {renderBoardLists} from '../render/menus/renderBoardLists.js';
-import {showBoardMenu, showEditBoardForm} from "../eventHandlers/menus/boardMenuHandlers.js";
+import {renderBoardLists} from '../render/lists/renderBoardLists.js';
+import {showBoardMenu} from "../eventHandlers/menus/boardMenuHandlers.js";
 import {showAddTaskForm} from "../eventHandlers/forms/taskHandlers.js";
+import {findElement} from "../render/uiElements/findElement.js";
 
 // Fetch board data after document loads
 // -----------------------------------------------------------------------------------
@@ -26,19 +27,15 @@ export async function fetchBoards() {
         renderSidebar(boards, currentBoardID);
 
         // Set main board heading
-        document.getElementById('boardTitle').innerText = boardTitle;
+        findElement('boardTitle').innerText = boardTitle;
 
         // 'Add New Task' button event listener
-        const addNewTaskButton = document.getElementById('addNewTaskButton');
-        addNewTaskButton.addEventListener('click', showAddTaskForm);
+        const addNewTaskButton = findElement('addNewTaskButton');
+        addNewTaskButton.addEventListener('click', () => showAddTaskForm());
 
         // Board menu event listener
-        const boardMenuKebab = document.getElementById("mainBoardHeaderKebab");
+        const boardMenuKebab = findElement("mainBoardHeaderKebab");
         boardMenuKebab.addEventListener('click', (e) => showBoardMenu(e));
-
-        // 'New List' button event listener
-        const newListButton = document.getElementById('newListButton');
-        newListButton.addEventListener('click', showEditBoardForm);
     }
 }
 

@@ -1,13 +1,11 @@
 body {
+    background-color: #E9EFFA;
     font-size: 1.6rem;
     height: 100%;
     margin: 0;
     overflow-x: hidden;
     padding: 0;
     position: relative;
-
-    /* TODO for the login form background; for board, make white areas white*/
-    background-color: #E9EFFA;
 }
 
 /*----------------- UI -----------------*/
@@ -48,7 +46,6 @@ body {
     box-shadow: 0px 10px 20px 0px rgba(54, 78, 126, 0.25);
     display: flex;
     flex-direction: column;
-    /*height: 117px;*/
     justify-content: center;
     list-style: none;
     position: absolute;
@@ -73,19 +70,18 @@ body {
 
 .option {
     align-items: center;
-    display: flex;
-    height: 100%;
-    padding: 2px 16px;
-    transition: all 0.15s ease-out;
-    width: 100%;
-
     color: #828FA3;
+    display: flex;
     font-family: "Plus Jakarta Sans", sans-serif;
     font-size: 13px;
     font-style: normal;
     font-weight: 500;
+    height: 100%;
     line-height: 23px;
+    padding: 2px 16px;
     text-transform: capitalize;
+    transition: all 0.15s ease-out;
+    width: 100%;
 }
 
 .option:nth-child(1) {
@@ -141,10 +137,6 @@ body {
     font-style: normal;
     font-weight: 700;
     text-align: center;
-
-
-    /*TODO check that this didn't affect board forms. if it did, create a custom width for the login button*/
-    /*width: 255px;*/
     width: 100%;
 }
 
@@ -160,14 +152,12 @@ body {
 }
 
 .secondary {
-    /*background-color: rgba(99, 95, 199, 0.10);*/
     background-color: #efeff9;
     color: #635FC7;
     transition: all 0.2s ease-out;
 }
 
 .secondary:hover {
-    /*background-color: rgba(99, 95, 199, 0.25);*/
     background-color: #dfdff3;
     transition: all 0.2s ease-out;
 }
@@ -227,6 +217,12 @@ body {
     'opsz' 24
 }
 
+#addNewTaskButton {
+    margin-left: auto;
+    margin-right: 24px;
+    width: 164px;
+}
+
 #addNewListButton {
     margin-top: 1rem;
 }
@@ -249,7 +245,7 @@ body {
     font-family: "Plus Jakarta Sans", sans-serif;
     font-size: 20px;
     font-style: normal;
-    font-weight: 700;
+    font-weight: 600;
     height: calc(100% - 36px);
     line-height: normal;
     margin-left: 24px;
@@ -262,18 +258,21 @@ body {
     cursor: pointer;
 }
 
+#emptyBoardNewListButton {
+    width: 174px;
+}
+
 /*----------------- LOGIN -----------------*/
 .loginForm {
     background-color: white;
     border-radius: 6px;
-    margin: auto;
-    width: 480px;
-    top: 100px;
-    position: relative;
-
-    padding: 24px;
     display: flex;
     flex-direction: column;
+    margin: auto;
+    padding: 24px;
+    position: relative;
+    top: 100px;
+    width: 480px;
 }
 
 
@@ -284,9 +283,6 @@ body {
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-}
-
-.loginError {
 }
 
 /*----------------- DASHBOARD -----------------*/
@@ -315,11 +311,11 @@ body {
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 1.2rem;
     font-weight: 700;
-    line-height: normal;
     letter-spacing: 2.4px;
-    width: 300px;
+    line-height: normal;
     margin-bottom: 20px;
     margin-left: 34px;
+    width: 300px;
 }
 
 .boardsNav {
@@ -331,43 +327,41 @@ body {
 }
 
 .iconBoard {
+    left: 34px;
     margin-right: 16px;
     position: absolute;
-    left: 34px;
 }
 
 .board {
+    align-items: center;
+    display: flex;
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 15px;
     font-style: normal;
     font-weight: 700;
-    line-height: normal;
-    text-transform: capitalize;
-    width: 276px;
     height: 48px;
-    display: flex;
-    align-items: center;
+    line-height: normal;
     position: relative;
-
+    text-transform: capitalize;
     transition: all 0.5s ease-out;
+    width: 276px;
 }
 
 .current {
     background-color: #635FC7;
     border-radius: 0 100px 100px 0;
     color: white;
-
     transition: all 0.5s ease-out;
 }
 
 .boardLink {
-    text-decoration: none;
-    width: 276px;
+    align-items: center;
+    display: flex;
     height: 48px;
     padding-left: 66px;
-    display: flex;
-    align-items: center;
     position: relative;
+    text-decoration: none;
+    width: 276px;
 }
 
 .boardLink:hover {
@@ -422,11 +416,11 @@ body {
     z-index: 2;
 }
 
-.mainBoard .button {
-    margin-left: auto;
-    margin-right: 24px;
-    width: 164px;
-}
+/*.mainBoard .button {*/
+/*    margin-left: auto;*/
+/*    margin-right: 24px;*/
+/*    width: 164px;*/
+/*}*/
 
 .plus {
     bottom: 2px;
@@ -522,12 +516,12 @@ body {
 
 /*----------------- EMPTY MAIN BOARD -----------------*/
 .emptyMainBoard {
+    align-items: center;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    width: 100%;
     gap: 32px;
+    width: 100%;
 }
 
 .emptyBoardMsg {
@@ -536,6 +530,28 @@ body {
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+}
+
+.emptyBoard {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin: auto;
+}
+
+.emptyBoardMessage {
+    color: #828FA3;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-align: center;
+}
+
+.emptyBoardNewListButton {
+
 }
 
 /*----------------- MAIN BOARD LISTS -----------------*/
@@ -547,14 +563,13 @@ body {
 .list {
     margin-left: 24px;
     margin-top: 24px;
-    width: 280px;
-
     position: relative;
+    width: 280px;
 }
 
 .listHeader {
-    display: flex;
     align-items: center;
+    display: flex;
     gap: 12px;
     justify-content: space-between;
 }
@@ -616,29 +631,44 @@ body {
 .tasks {
     display: flex;
     flex-direction: column;
-    list-style: none;
     gap: 20px;
-    /*padding-bottom: 24px;*/
+    list-style: none;
+}
+
+.emptyTaskBox {
+    align-items: center;
+    background-color: #E4EBFA;
+    border-radius: 8px;
+    color: #828FA3;
+    display: flex;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 600;
+    justify-content: center;
+    height: 88px;
+    line-height: normal;
+    text-align: center;
+    width: 280px;
 }
 
 .task {
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 6px 0 rgba(54, 78, 126, 0.10);
-    min-height: 88px;
-    padding: 20px 16px 0;
-    width: 280px;
     display: flex;
     flex-direction: column;
     gap: 8px;
+    min-height: 88px;
+    padding: 20px 16px 0;
     position: relative;
+    width: 280px;
 }
 
 .task:last-child {
     margin-bottom: 24px;
 }
 
-.task:hover {
+.task:hover, .emptyTaskBox:hover {
     cursor: pointer;
 }
 
@@ -659,15 +689,15 @@ body {
 }
 
 .taskMenuButton {
-    color: #828FA3;
-    position: absolute;
-    border: none;
     background-color: transparent;
+    border: none;
+    color: #828FA3;
+    height: 24px;
+    position: absolute;
     right: 16px;
     top: 8px;
-    width: 24px;
-    height: 24px;
     transition: all 0.1s ease-out;
+    width: 24px;
 }
 
 .taskMenuButton:hover {
@@ -678,18 +708,17 @@ body {
 
 /*----------------- OVERLAY -----------------*/
 .overlay {
-    position: fixed;
-    /*position: absolute;*/
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 10;
-    overflow: scroll;
-    display: flex;
     align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    height: 100%;
     justify-content: center;
+    left: 0;
+    overflow: scroll;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
 }
 
 /*----------------- LIGHTBOX -----------------*/
@@ -702,10 +731,6 @@ body {
     overflow: scroll;
     padding: 32px;
     width: 480px;
-}
-
-.closeLightboxForm {
-    /*align-self: end;*/
 }
 
 .lightboxHeader {
@@ -746,13 +771,13 @@ body {
 
 .inputLabel, .dynamicListLabel .lightboxField label, .listsLabel, .selectLabel, .subtasksLabel {
     color: #828FA3;
+    display: flex;
     font-size: 1.2rem;
     font-style: normal;
     font-weight: 700;
-    line-height: normal;
-    display: flex;
     flex-direction: row;
     gap: 1rem;
+    line-height: normal;
     text-transform: capitalize;
 }
 
@@ -771,7 +796,6 @@ body {
 }
 
 .textarea, .lightboxField textarea {
-    /*height: 134px;*/
     height: 72px;
     resize: none;
 }
@@ -792,7 +816,6 @@ body {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    /*margin-bottom: 12px;*/
 }
 
 .dynamicListLabel, .startingList, .subtask {

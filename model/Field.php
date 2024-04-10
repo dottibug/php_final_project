@@ -8,7 +8,6 @@ class Field implements JsonSerializable
     private $name, $message, $value, $type;
     private $hasError = false;
 
-    // ------------------------------------------------------------------------------
     // Field constructor
     // ------------------------------------------------------------------------------
     public function __construct($name, $message = '')
@@ -17,7 +16,6 @@ class Field implements JsonSerializable
         $this->message = $message;
     }
 
-    // ------------------------------------------------------------------------------
     // Json serializable
     // ------------------------------------------------------------------------------
     public function jsonSerialize(): mixed
@@ -31,7 +29,6 @@ class Field implements JsonSerializable
         ];
     }
 
-    // ------------------------------------------------------------------------------
     // Get the field's name
     // ------------------------------------------------------------------------------
     public function getName()
@@ -39,7 +36,6 @@ class Field implements JsonSerializable
         return $this->name;
     }
 
-    // ------------------------------------------------------------------------------
     // Set value for the field
     // ------------------------------------------------------------------------------
     public function getValue()
@@ -47,7 +43,6 @@ class Field implements JsonSerializable
         return $this->value;
     }
 
-    // ------------------------------------------------------------------------------
     // Get the field's message
     // ------------------------------------------------------------------------------
     public function getMessage()
@@ -55,7 +50,6 @@ class Field implements JsonSerializable
         return $this->message;
     }
 
-    // ------------------------------------------------------------------------------
     // Get the field's error status
     // ------------------------------------------------------------------------------
     public function hasError()
@@ -63,7 +57,6 @@ class Field implements JsonSerializable
         return $this->hasError;
     }
 
-    // ------------------------------------------------------------------------------
     // Get type
     // ------------------------------------------------------------------------------
     public function getType()
@@ -71,7 +64,6 @@ class Field implements JsonSerializable
         return $this->type;
     }
 
-    // ------------------------------------------------------------------------------
     // Set name for the field
     // ------------------------------------------------------------------------------
     public function setName($name)
@@ -79,8 +71,6 @@ class Field implements JsonSerializable
         $this->name = $name;
     }
 
-
-    // ------------------------------------------------------------------------------
     // Set value for the field
     // ------------------------------------------------------------------------------
     public function setValue($value)
@@ -88,7 +78,6 @@ class Field implements JsonSerializable
         $this->value = $value;
     }
 
-    // ------------------------------------------------------------------------------
     // Set an error message for the field
     // ------------------------------------------------------------------------------
     public function setError($message)
@@ -97,7 +86,6 @@ class Field implements JsonSerializable
         $this->message = $message;
     }
 
-    // ------------------------------------------------------------------------------
     // Clear the field's error message
     // ------------------------------------------------------------------------------
     public function clearError()
@@ -106,7 +94,6 @@ class Field implements JsonSerializable
         $this->message = '';
     }
 
-    // ------------------------------------------------------------------------------
     // Set type
     // ------------------------------------------------------------------------------
     public function setType($type)

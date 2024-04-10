@@ -1,6 +1,6 @@
 import {findElement} from "./findElement.js";
 
-export function removeElement(id) {
+export function clearElement(id) {
     const element = findElement(id);
-    if (element) element.remove();
+    element.innerHTML = '';
 }

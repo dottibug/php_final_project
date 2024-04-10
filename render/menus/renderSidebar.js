@@ -2,6 +2,7 @@ import {sidebarBoardSelection} from "../../eventHandlers/menus/sidebarHandlers.j
 import {showCreateBoardForm} from "../../eventHandlers/forms/boardHandlers.js";
 import {findElement} from "../uiElements/findElement.js";
 import {createElement} from "../uiElements/createElement.js";
+import {removeElement} from "../uiElements/removeElement.js";
 
 // -----------------------------------------------------------------------------
 // Render sidebar navigation
@@ -12,29 +13,24 @@ export function renderSidebar(boards, currentBoardID) {
     sidebarHeading.innerText = `All Boards (${boards.length})`;
 
     // Clear previous boards from sidebar
-    boards.forEach(board => {
-        const {boardID} = board;
-        const boardElement = findElement(boardID);
-        if (boardElement !== null) boardElement.remove();
-    });
-
-    const createBoardButton = findElement('createNewBoard');
+    boards.forEach(board => removeElement(board.boardID));
 
     // Create new sidebar boards
+    const createBoardButton = findElement('createNewBoard');
     boards.forEach(board => {
         const {boardID, title} = board;
 
-        // Board <li> element
+        // Board item
         const boardElementClass = boardID === parseInt(currentBoardID) ? 'board current' : 'board';
         const boardElement = createElement('li', boardElementClass, boardID);
         boardElement.dataset['boardId'] = boardID;
         boardElement.addEventListener('click', () => sidebarBoardSelection(boardID));
 
-        // Board icon <img> element
+        // Board icon
         const imageElement = createElement('img', 'iconBoard');
         imageElement.src = boardID === parseInt(currentBoardID) ? '../images/iconBoardWhite.svg' : '../images/iconBoardGray.svg';
 
-        // Board title <span> element
+        // Board title
         const spanElement = createElement('span', 'boardLink', '', title);
 
         // Compose

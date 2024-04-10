@@ -1,5 +1,4 @@
 <?php
-// ------------------------------------------------------------------------------
 // Form class. Creates an array of Field objects within a form.
 // ------------------------------------------------------------------------------
 require_once 'Field.php';
@@ -9,20 +8,6 @@ class Form implements JsonSerializable
     private $fields = array();
     private $hasErrors = false;
 
-    // ------------------------------------------------------------------------------
-    // Create a form from an array of field names.
-    // Call $form->getField($name)->setMessage($message) separately if you want to
-    // add a message to a specific field.
-    // ------------------------------------------------------------------------------
-//    public function createForm($nameArray)
-//    {
-//        foreach ($nameArray as $name) {
-//            $this->addField($name);
-//        }
-//    }
-
-
-    // ------------------------------------------------------------------------------
     // Json serializable
     // ------------------------------------------------------------------------------
     public function jsonSerialize(): mixed
@@ -33,7 +18,6 @@ class Form implements JsonSerializable
         ];
     }
 
-    // ------------------------------------------------------------------------------
     // Add a field to the form
     // ------------------------------------------------------------------------------
     public function addField($name, $message = '')
@@ -42,10 +26,7 @@ class Form implements JsonSerializable
         $this->fields[$name] = $field;
     }
 
-    // ------------------------------------------------------------------------------
     // Add fields to the form.
-    // Call $form->getField($name)->setMessage($message) separately if you want to
-    // add a message to a specific field.
     // ------------------------------------------------------------------------------
     public function addFields($fieldNames)
     {
@@ -54,7 +35,6 @@ class Form implements JsonSerializable
         }
     }
 
-    // ------------------------------------------------------------------------------
     // Delete a field of the form
     // ------------------------------------------------------------------------------
     public function deleteField($name)
@@ -62,7 +42,6 @@ class Form implements JsonSerializable
         unset($this->fields[$name]);
     }
 
-    // ------------------------------------------------------------------------------
     // Get a field by name
     // ------------------------------------------------------------------------------
     public function getField($name)
@@ -70,7 +49,6 @@ class Form implements JsonSerializable
         return $this->fields[$name];
     }
 
-    // ------------------------------------------------------------------------------
     // Check if the form has any fields with errors
     // ------------------------------------------------------------------------------
     public function hasErrors()
@@ -87,5 +65,3 @@ class Form implements JsonSerializable
         return false;
     }
 }
-
-?>

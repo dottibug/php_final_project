@@ -8,12 +8,12 @@ require_once 'TaskList.php';
 require_once 'Task.php';
 require_once 'Subtask.php';
 require_once 'TasksDB.php';
+require_once 'SubtasksDB.php';
 
 class BoardsDB
 {
     private $db;
 
-    // ------------------------------------------------------------------------------
     // Constructor
     // ------------------------------------------------------------------------------
     public function __construct()
@@ -21,7 +21,6 @@ class BoardsDB
         $this->db = Database::getDB();
     }
 
-    // ------------------------------------------------------------------------------
     // Get boards by userID
     // ------------------------------------------------------------------------------
     public function getBoards($userID)
@@ -51,26 +50,6 @@ class BoardsDB
         }
     }
 
-    // ------------------------------------------------------------------------------
-    // Get number of boards by userID
-    // ------------------------------------------------------------------------------
-//    public function getNumberOfBoards($userID)
-//    {
-//        try {
-//            $query = 'SELECT COUNT(*) AS count FROM boards WHERE userID = :userID';
-//            $stmt = $this->db->prepare($query);
-//            $stmt->bindValue(':userID', $userID);
-//            $stmt->execute();
-//            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-//            $stmt->closeCursor();
-//            return $result['count'];
-//        } catch (PDOException $e) {
-//            Database::showDatabaseError($e->getMessage());
-//            return false;
-//        }
-//    }
-
-    // ------------------------------------------------------------------------------
     // Get board title by boardID
     // ------------------------------------------------------------------------------
     public function getBoardTitle($boardID)
@@ -82,16 +61,13 @@ class BoardsDB
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt->closeCursor();
-
             return $row['title'];
-
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;
         }
     }
 
-    // ------------------------------------------------------------------------------
     // Get lists, tasks, and subtasks count by boardID
     // ------------------------------------------------------------------------------
     public function getBoardDetails($boardID)
@@ -131,29 +107,23 @@ class BoardsDB
                 $list->setTitle($row['title']);
                 $list->setColor($row['color']);
                 $list->setTasks([]);
-
-                // Add to the board's lists
                 $boards[$boardID]->addList($list);
             }
 
             // Board tasks
             foreach ($boards as $board) {
                 $lists = $board->getLists();
-
                 foreach ($lists as $list) {
                     $listID = $list->getListID();
-
                     // Check if the user has selected a sort order for this list
                     if (isset($_SESSION['sortOrder'][$listID])) {
                         $sortOrder = $_SESSION['sortOrder'][$listID];
                     } else {
                         $sortOrder = 'oldest'; // default to ascending
                     }
-
                     // Get tasks
                     $TasksDB = new TasksDB();
                     $tasks = $TasksDB->getSortedTasks($listID, $sortOrder);
-
                     // Add tasks to the list
                     foreach ($tasks as $task) {
                         $list->addTask($task);
@@ -164,25 +134,20 @@ class BoardsDB
             // Board subtasks
             foreach ($boards as $board) {
                 $lists = $board->getLists();
-
                 foreach ($lists as $list) {
                     $tasks = $list->getTasks();
-
                     // Get subtasks for each task
                     foreach ($tasks as $task) {
                         $taskID = $task->getTaskID();
-
                         $SubtasksDB = new SubtasksDB();
                         $subtasks = $SubtasksDB->getSubtasks($taskID);
-
                         foreach ($subtasks as $subtask) {
                             $task->addSubtask($subtask);
                         }
                     }
-
                 }
             }
-            
+
             return array_values($boards);
 
         } catch (PDOException $e) {
@@ -191,7 +156,6 @@ class BoardsDB
         }
     }
 
-    // ------------------------------------------------------------------------------
     // Get board ID by title
     // ------------------------------------------------------------------------------
     public function getBoardID($title)
@@ -203,16 +167,13 @@ class BoardsDB
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt->closeCursor();
-
             return $row['boardID'];
-
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;
         }
     }
 
-    // ------------------------------------------------------------------------------
     // Add a new board
     // ------------------------------------------------------------------------------
     public function addBoard($userID, $title)
@@ -232,7 +193,6 @@ class BoardsDB
         }
     }
 
-    // ------------------------------------------------------------------------------
     // Delete a new board
     // ------------------------------------------------------------------------------
     public function deleteBoard($boardID)
@@ -251,7 +211,6 @@ class BoardsDB
         }
     }
 
-    // ------------------------------------------------------------------------------
     // Update board
     // ------------------------------------------------------------------------------
     public function updateBoard($boardID, $title)
@@ -265,7 +224,6 @@ class BoardsDB
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt->closeCursor();
             return $row;
-
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;

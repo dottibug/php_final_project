@@ -7,7 +7,7 @@ import {renderTaskDetails} from "./renderTaskDetails.js";
 import {renderEditTaskForm} from "./renderEditTaskForm.js";
 import {renderDeleteTaskWarning} from "./renderDeleteTaskWarning.js";
 
-export function renderForm(heading, formName, fields = null, lists = null, subtasks = null, boardTitle = '', task = null) {
+export function renderForm(heading, formName, fields = null, lists = null, subtasks = null, boardTitle = '', task = null, selectedItem) {
     const lightbox = renderLightbox(heading);
     let form;
 
@@ -25,7 +25,7 @@ export function renderForm(heading, formName, fields = null, lists = null, subta
             form = renderTaskDetails(task, subtasks);
             break;
         case 'addTask':
-            form = renderAddTaskForm(fields, lists, subtasks);
+            form = renderAddTaskForm(fields, lists, subtasks, selectedItem);
             break;
         case 'editTask':
             form = renderEditTaskForm(task, fields, lists, subtasks);

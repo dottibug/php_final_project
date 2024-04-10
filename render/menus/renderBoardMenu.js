@@ -7,6 +7,10 @@ import {findElement} from "../uiElements/findElement.js";
 import {createElement} from "../uiElements/createElement.js";
 
 export function renderBoardMenu() {
+    // Clear previous board menu event listeners
+    const menus = document.querySelectorAll('.boardMenu');
+    menus.forEach(boardMenu => boardMenu.remove());
+
     // Dashboard
     const dashboard = findElement('dashboard');
 

@@ -1,29 +1,11 @@
 <?php
 require_once '../util/main.php';
 require_once 'model/Action.php';
-require_once 'fetch/fetchFunctions/fetchBoards.php';
-require_once 'fetch/fetchFunctions/fetchCurrentBoardLists.php';
-require_once 'fetch/fetchFunctions/updateCurrentBoardID.php';
-require_once 'fetch/fetchFunctions/addTaskForm.php';
-require_once 'fetch/fetchFunctions/deleteSubtask.php';
-require_once 'fetch/fetchFunctions/addSubtask.php';
-require_once 'fetch/fetchFunctions/addTask.php';
-require_once 'fetch/fetchFunctions/createBoardForm.php';
-require_once 'fetch/fetchFunctions/deleteList.php';
-require_once 'fetch/fetchFunctions/addList.php';
-require_once 'fetch/fetchFunctions/addBoard.php';
-require_once 'fetch/fetchFunctions/editBoardForm.php';
-require_once 'fetch/fetchFunctions/editBoard.php';
-require_once 'fetch/fetchFunctions/deleteBoardWarning.php';
-require_once 'fetch/fetchFunctions/deleteBoard.php';
-require_once 'fetch/fetchFunctions/updateSubtaskStatus.php';
-require_once 'fetch/fetchFunctions/editTaskForm.php';
-require_once 'fetch/fetchFunctions/editTask.php';
-require_once 'fetch/fetchFunctions/viewTask.php';
-require_once 'fetch/fetchFunctions/deleteTaskWarning.php';
-require_once 'fetch/fetchFunctions/deleteTask.php';
+require_once 'fetch/fetchFunctions/BoardFunctions.php';
+require_once 'fetch/fetchFunctions/ListFunctions.php';
+require_once 'fetch/fetchFunctions/TaskFunctions.php';
+require_once 'fetch/fetchFunctions/SubtaskFunctions.php';
 require_once 'fetch/fetchFunctions/logout.php';
-require_once 'fetch/fetchFunctions/sortTasks.php';
 
 session_start();
 header('Content-Type: application/x-www-form-urlencoded');
@@ -31,77 +13,91 @@ header('Content-Type: application/x-www-form-urlencoded');
 // Action
 $action = Action::getAction('fetchBoards');
 
+$BoardFunctions = new BoardFunctions();
+$ListFunctions = new ListFunctions();
+$TaskFunctions = new TaskFunctions();
+$SubtaskFunctions = new SubtaskFunctions();
+
 // Controller
 switch ($action) {
+    // Boards
     case ('fetchBoards'):
-        fetchBoards();
+        $BoardFunctions->fetchBoards();
         break;
     case ('fetchCurrentBoardLists'):
-        fetchCurrentBoardLists();
+        $BoardFunctions->fetchCurrentBoardLists();
         break;
     case('updateCurrentBoardID');
-        updateCurrentBoardID();
+        $BoardFunctions->updateCurrentBoardID();
         break;
     case ('showCreateBoardForm'):
-        createBoardForm();
-        break;
-    case ('editBoard'):
-        editBoard();
-        break;
-    case('deleteBoardWarning'):
-        deleteBoardWarning();
-        break;
-    case ('deleteBoard'):
-        deleteBoard();
-        break;
-    case ('addList'):
-        addList();
-        break;
-    case ('deleteList'):
-        deleteList();
-        break;
-    case ('addBoard'):
-        addBoard();
+        $BoardFunctions->showCreateBoardForm();
         break;
     case ('editBoardForm'):
-        editBoardForm();
+        $BoardFunctions->showEditBoardForm();
         break;
-    case ('showAddTaskForm'):
-        showAddTaskForm();
+    case ('editBoard'):
+        $BoardFunctions->editBoard();
         break;
-    case ('addSubtask'):
-        addSubtask();
+    case('deleteBoardWarning'):
+        $BoardFunctions->showDeleteBoardWarning();
         break;
-    case('updateSubtaskStatus'):
-        updateSubtaskStatus();
+    case ('deleteBoard'):
+        $BoardFunctions->deleteBoard();
         break;
-    case('deleteSubtask'):
-        deleteSubtask();
+    case ('addBoard'):
+        $BoardFunctions->addBoard();
         break;
-    case ('viewTask'):
-        viewTask();
+
+    // List
+    case ('addList'):
+        $ListFunctions->addList();
         break;
-    case ('addTask'):
-        addTask();
-        break;
-    case ('editTask'):
-        editTask();
-        break;
-    case('editTaskForm'):
-        editTaskForm();
-        break;
-    case ('deleteTaskWarning'):
-        deleteTaskWarning();
-        break;
-    case('deleteTask'):
-        deleteTask();
-        break;
-    case('logout'):
-        logout();
+    case ('deleteList'):
+        $ListFunctions->deleteList();
         break;
     case('newest'):
     case('oldest'):
-        sortTasks();
+        $ListFunctions->sortTasks();
+        break;
+
+    // Tasks
+    case ('viewTask'):
+        $TaskFunctions->viewTask();
+        break;
+    case ('showAddTaskForm'):
+        $TaskFunctions->showAddTaskForm();
+        break;
+    case ('addTask'):
+        $TaskFunctions->addTask();
+        break;
+    case('editTaskForm'):
+        $TaskFunctions->showEditTaskForm();
+        break;
+    case ('editTask'):
+        $TaskFunctions->editTask();
+        break;
+    case ('deleteTaskWarning'):
+        $TaskFunctions->showDeleteTaskWarning();
+        break;
+    case('deleteTask'):
+        $TaskFunctions->deleteTask();
+        break;
+
+    // Subtasks
+    case('updateSubtaskStatus'):
+        $SubtaskFunctions->updateSubtaskStatus();
+        break;
+    case ('addSubtask'):
+        $SubtaskFunctions->addSubtask();
+        break;
+    case('deleteSubtask'):
+        $SubtaskFunctions->deleteSubtask();
+        break;
+
+    // Logout
+    case('logout'):
+        logout();
         break;
 }
 
