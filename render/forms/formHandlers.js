@@ -10,8 +10,15 @@ import {findElement} from "../uiElements/findElement.js";
 // Re-fetch board data and close the lightbox form
 // -----------------------------------------------------------------------------
 export async function refreshBoards(closeLightbox = false) {
+    console.log('Refreshing boards');
+
     await fetchBoards();
+    console.log('boards fetched');
+
+
     await fetchCurrentBoardLists();
+    console.log('current board lists fetched')
+
     if (closeLightbox) await handleCloseLightbox();
 }
 

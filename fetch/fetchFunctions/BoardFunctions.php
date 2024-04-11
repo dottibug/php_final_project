@@ -56,12 +56,6 @@ class BoardFunctions
             $newBoardID = filter_input(INPUT_POST, 'newBoardID');
             $_SESSION['currentBoardID'] = $newBoardID;
             Response::sendResponse('true', ['newCurrentBoardID' => $newBoardID]);
-        } else {
-            echo "POST: ";
-            print_r($_POST);
-
-            echo "SESSION: ";
-            print_r($_SESSION);
         }
     }
 

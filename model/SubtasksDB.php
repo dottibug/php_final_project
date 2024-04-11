@@ -82,9 +82,7 @@ class SubtasksDB
             $stmt->bindValue(":status", $status);
             $stmt->bindValue(':subtaskID', $subtaskID);
             $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt->closeCursor();
-            return $row;
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;
@@ -103,9 +101,7 @@ class SubtasksDB
             $stmt->bindValue(':description', $description);
             $stmt->bindValue(':status', $status);
             $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt->closeCursor();
-            return $row;
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;
@@ -122,9 +118,9 @@ class SubtasksDB
             $stmt = $this->db->prepare($query);
             $stmt->bindValue(':subtaskID', $subtaskID);
             $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+//            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt->closeCursor();
-            return $row;
+//            return $row;
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;
@@ -166,11 +162,7 @@ class SubtasksDB
             $stmt->bindValue(':description', $description);
             $stmt->bindValue(':subtaskID', $subtaskID);
             $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt->closeCursor();
-
-            return $row;
-
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;

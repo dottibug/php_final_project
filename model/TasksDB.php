@@ -98,9 +98,7 @@ class TasksDB
             $stmt->bindValue(':title', $title);
             $stmt->bindValue(':description', $description);
             $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt->closeCursor();
-            return $row;
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;
@@ -169,11 +167,7 @@ class TasksDB
             $stmt->bindValue(':title', $title);
             $stmt->bindValue(':taskID', $taskID);
             $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt->closeCursor();
-
-            return $row;
-
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;
@@ -191,11 +185,7 @@ class TasksDB
             $stmt->bindValue(':description', $description);
             $stmt->bindValue(':taskID', $taskID);
             $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt->closeCursor();
-
-            return $row;
-
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;
@@ -212,9 +202,7 @@ class TasksDB
             $stmt = $this->db->prepare($query);
             $stmt->bindValue(':taskID', $taskID);
             $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt->closeCursor();
-            return $row;
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;

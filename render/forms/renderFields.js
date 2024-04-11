@@ -7,7 +7,7 @@ export function renderFields(fields) {
 
     fields.forEach(field => {
         const {name, hasError, message, type, value} = field;
-
+        
         // Field wrapper
         const fieldBox = createElement('div', 'fieldBox', name);
 

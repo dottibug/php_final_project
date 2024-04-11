@@ -1,12 +1,29 @@
 <?php
 
 require_once '../util/main.php';
-require_once 'model/Form.php';
+require_once 'model/SubtasksDB.php';
 
 header('Content-Type: application/x-www-form-urlencoded');
 
 class SubtaskFunctions
 {
+    private $form, $subtasksDB, $taskListsDB;
+
+    // Constructor
+    // ------------------------------------------------------------------------------
+    public function __construct()
+    {
+        $this->subtasksDB = new SubtasksDB();
+        $this->taskListsDB = new TaskListsDB();
+    }
+
+    // Set form
+    // ------------------------------------------------------------------------------
+    public function setForm(Form $form)
+    {
+        $this->form = $form;
+    }
+
     // Update subtask status (checked or unchecked)
     // ------------------------------------------------------------------------------
     public function updateSubtaskStatus()
@@ -16,46 +33,60 @@ class SubtaskFunctions
         $newStatus = filter_input(INPUT_POST, 'newStatus');
 
         // Update subtask status
-        $SubtasksDB = new SubtasksDB();
-        $SubtasksDB->updateStatus($newStatus, $subtaskID);
+        $this->subtasksDB->updateStatus($newStatus, $subtaskID);
 
         // Re-fetch subtasks for the task
-        $subtasks = $SubtasksDB->getSubtasks($taskID);
-        
+        $subtasks = $this->subtasksDB->getSubtasks($taskID);
+
         Response::sendResponse(true, ['subtasks' => $subtasks, 'taskID' => $taskID]);
+    }
+
+    // Set up form fields
+    // ------------------------------------------------------------------------------
+    private function setupFormFields(Form $form, array $fieldsToExclude)
+    {
+        foreach ($_POST as $key => $value) {
+            // TODO validation/sanitation
+            if (!in_array($key, $fieldsToExclude)) {
+                $filteredValue = filter_var($value, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $form->addField($key);
+                $form->getField($key)->setValue($filteredValue);
+            }
+        }
+    }
+
+    // Get subtask fields
+    // ------------------------------------------------------------------------------
+    private function getSubtaskFields(Form $form, array $fieldsToExclude)
+    {
+        $subtasks = [];
+        foreach ($_POST as $key => $value) {
+            if (!in_array($key, $fieldsToExclude)) {
+                $subtasks[] = $form->getField($key);
+            }
+        }
+        return $subtasks;
     }
 
     // Add subtask
     // ------------------------------------------------------------------------------
-    public function addSubtask()
+    public function addSubtask(Form $form)
     {
         $title = filter_input(INPUT_POST, 'title');
         $description = filter_input(INPUT_POST, 'description');
 
         // Create form
-        $Form = new Form();
-        $formFields = ['title', 'description'];
-        $Form->addFields($formFields);
-        $Form->getField('title')->setValue($title);
-        $Form->getField('description')->setValue($description);
-
+        $this->setupFormFields($form, array('action'));
+        
         // Fields array
-        $fields = [$Form->getField('title'), $Form->getField('description')];
+        $fields = [$form->getField('title'), $form->getField('description')];
 
         // Lists for dropdown menu
-        $TaskListsDB = new TaskListsDB();
         $currentBoardID = $_SESSION['currentBoardID'];
-        $lists = $TaskListsDB->getAllLists($currentBoardID);
+        $lists = $this->taskListsDB->getAllLists($currentBoardID);
 
         // Subtasks array
-        $subtasks = [];
-        foreach ($_POST as $key => $value) {
-            if ($key != 'title' && $key != 'description' && $key != 'action') {
-                $Form->addField($key);
-                $Form->getField($key)->setValue($value);
-                $subtasks[] = $Form->getField($key);
-            }
-        }
+        $subtasks = $this->getSubtaskFields($form, array('title', 'description', 'action'));
 
         Response::sendResponse(true, ['fields' => $fields, 'lists' => $lists,
             'subtasks' => $subtasks]);
@@ -63,7 +94,7 @@ class SubtaskFunctions
 
     // Delete subtask
     // ------------------------------------------------------------------------------
-    public function deleteSubtask()
+    public function deleteSubtask(Form $form)
     {
         $title = filter_input(INPUT_POST, 'title');
         $description = filter_input(INPUT_POST, 'description');
@@ -72,30 +103,17 @@ class SubtaskFunctions
         $_SESSION['subtasksToDelete'][] = $itemToDelete;
 
         // Create form
-        $Form = new Form();
-        $formFields = ['title', 'description'];
-        $Form->addFields($formFields);
-        $Form->getField('title')->setValue($title);
-        $Form->getField('description')->setValue($description);
+        $this->setupFormFields($form, array('action', 'itemToDelete', $itemToDelete));
 
         // Fields array
-        $fields = [$Form->getField('title'), $Form->getField('description')];
+        $fields = [$form->getField('title'), $form->getField('description')];
 
         // Lists for dropdown menu
-        $TaskListsDB = new TaskListsDB();
         $currentBoardID = $_SESSION['currentBoardID'];
-        $lists = $TaskListsDB->getAllLists($currentBoardID);
+        $lists = $this->taskListsDB->getAllLists($currentBoardID);
 
         // Subtasks array
-        $subtasks = [];
-        foreach ($_POST as $key => $value) {
-            if ($key != 'title' && $key != 'description' && $key != 'action'
-                && $key != 'itemToDelete' && $key != $itemToDelete) {
-                $Form->addField($key);
-                $Form->getField($key)->setValue($value);
-                $subtasks[] = $Form->getField($key);
-            }
-        }
+        $subtasks = $this->getSubtaskFields($form, array('title', 'description', 'action', 'itemToDelete', $itemToDelete));
 
         Response::sendResponse(true, ['fields' => $fields, 'lists' => $lists, 'subtasks' =>
             array_values($subtasks)]);

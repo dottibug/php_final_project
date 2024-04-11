@@ -230,6 +230,7 @@ class TaskFunctions
             Response::sendResponse(false, ['fields' => $fields, 'lists' => $lists, 'subtasks' =>
                 $subtasks], 'Input errors');
         } else {
+
             // Update the task title and description
             $TasksDB = new TasksDB();
             $TasksDB->updateTaskTitle($taskID, $title);
@@ -248,16 +249,14 @@ class TaskFunctions
                 $subtaskExists = $SubtasksDB->subtaskExists($subtaskID);
 
                 if ($subtaskExists) {
-                    // Update subtask if it exists
                     $subtaskValue = $subtask->getValue();
                     $SubtasksDB->updateSubtaskDescription($subtaskID, $subtaskValue);
                 } else {
-                    // Add subtask if it doesn't exist yet
                     $subtaskValue = $subtask->getValue();
                     $SubtasksDB->addSubtask($taskID, $subtaskValue, 'unchecked');
                 }
             }
-
+            
             Response::sendResponse(true);
         }
     }

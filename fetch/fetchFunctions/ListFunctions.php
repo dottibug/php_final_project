@@ -30,7 +30,6 @@ class ListFunctions
         $title = filter_input(INPUT_POST, 'title');
 
         // Create form
-        $this->form = new Form();
         $this->form->addField('title');
         $this->form->getField('title')->setValue($title);
 
@@ -49,30 +48,6 @@ class ListFunctions
 
         Response::sendResponse(true, ['fields' => $fields, 'lists' => $lists]);
     }
-
-    // Create form with fields.
-    // excludeKeys ['action']
-    // fixedFields ['title']
-    // ------------------------------------------------------------------------------
-//    private function createFormWithFields($excludeKeys, $fixedFields)
-//    {
-//        $Form = new Form();
-//
-//        $lists = [];
-//        foreach ($_POST as $key => $value) {
-//            // Add fields to form and set their values
-//            if (!in_array($key, $excludeKeys)) {
-//                $Form->addField($key);
-//                $Form->getField($key)->setValue($value);
-//
-//                if (!in_array($key, $fixedFields)) {
-//                    $lists[] = $Form->getField($key);
-//                }
-//            }
-//        }
-//        return ['form' => $Form, 'lists' => $lists];
-//    }
-
 
     // Delete list
     // ------------------------------------------------------------------------------

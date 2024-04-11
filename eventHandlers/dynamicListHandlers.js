@@ -21,7 +21,7 @@ export async function addDynamicListItem(e, action, listLabel, placeholder, hasE
 
 // Generate temporary field name for a newly added list input
 // -----------------------------------------------------------------------------------
-function getTempFieldName() {
+export function getTempFieldName() {
     const numLists = document.querySelectorAll('.dynamicListInput').length;
     const randomNumber = Math.floor(Math.random() * 10000);
     return `item${numLists + randomNumber}`;
@@ -36,7 +36,10 @@ export async function deleteDynamicListItem(e, action, listLabel, placeholder, h
     const form = findElement('form');
     const formData = new FormData(form);
     const itemToDelete = e.target.closest('button').dataset.listItemName;
+    console.log('Item to delete from dynamic list: ', itemToDelete);
+
     const res = await fetchData(action, formData, {'itemToDelete': itemToDelete});
+
 
     // Render
     if (res.success) refreshDynamicList(res.data, action, listLabel, placeholder, hasErrors, message);
@@ -48,7 +51,7 @@ export function refreshDynamicList(data, action, listLabel, placeholder, hasErro
     const list = (action === 'addList' || action === 'deleteList')
         ? data.lists : data.subtasks;
 
-    const deleteAction = action === 'addList' ? 'deleteList' : 'deleteSubtask';
+    const deleteAction = (action === 'addList' || action === 'deleteList') ? 'deleteList' : 'deleteSubtask';
 
     removeElement('dynamicListWrapper');
     const dynamicList = renderDynamicList(deleteAction, list, listLabel, placeholder, hasErrors, message);

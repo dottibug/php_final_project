@@ -86,11 +86,14 @@ export async function addTask(e, listLabel, placeholder) {
 export async function saveTaskChanges(e, taskID, listLabel, placeholder) {
     e.preventDefault();
 
+
     // Fetch
     const action = 'editTask';
     const formData = getFormData();
     const listID = findElement('dropdownButton').dataset.selectedId;
     const res = await fetchData(action, formData, {'taskID': taskID, 'listID': listID});
+
+    console.log("Edit task res: ", res);
 
     // Render
     if (!res.success) renderErrors('deleteSubtask', res.data.fields, res.data.subtasks, listLabel, placeholder);

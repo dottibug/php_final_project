@@ -98,10 +98,14 @@ switch ($action) {
         $subtaskFunctions->updateSubtaskStatus();
         break;
     case ('addSubtask'):
-        $subtaskFunctions->addSubtask();
+        $form = new Form();
+        $subtaskFunctions->setForm($form);
+        $subtaskFunctions->addSubtask($form);
         break;
     case('deleteSubtask'):
-        $subtaskFunctions->deleteSubtask();
+        $form = new Form();
+        $subtaskFunctions->setForm($form);
+        $subtaskFunctions->deleteSubtask($form);
         break;
 
     // Logout
