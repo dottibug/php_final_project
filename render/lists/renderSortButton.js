@@ -1,5 +1,5 @@
 import {createElement} from "../uiElements/createElement.js";
-import {showSortMenu} from "../../eventHandlers/menus/sortMenuHandlers.js";
+import {showSortMenu} from "../../eventHandlers/sortMenuHandlers.js";
 
 export function renderSortButton(listID, listHeader) {
     const sortButtonWrapper = createElement('div', 'sortButtonWrapper', 'sortButtonWrapper');

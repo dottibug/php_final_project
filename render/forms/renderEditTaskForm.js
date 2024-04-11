@@ -6,7 +6,7 @@ import {
 import {renderDropdown} from "../uiElements/renderDropdown.js";
 import {renderButton, renderButtonsWrapper} from "../uiElements/renderButton.js";
 import {renderFormElement} from "../uiElements/renderFormElement.js";
-import {saveTaskChanges} from "../../eventHandlers/forms/taskHandlers.js";
+import {saveTaskChanges} from "../../eventHandlers/taskHandlers.js";
 
 export function renderEditTaskForm(task, fields, lists, subtasks) {
     const {taskID, listID, listTitle} = task;

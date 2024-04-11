@@ -1,12 +1,12 @@
-import {renderForm} from "../../render/forms/renderForm.js";
+import {renderForm} from "../render/forms/renderForm.js";
 import {
     fetchData,
     getFormData,
     refreshBoards,
     renderErrors
-} from "../../render/forms/formHandlers.js";
-import {renderTaskMenu} from "../../render/menus/renderTaskMenu.js";
-import {findElement} from "../../render/uiElements/findElement.js";
+} from "../render/forms/formHandlers.js";
+import {renderTaskMenu} from "../render/menus/renderTaskMenu.js";
+import {findElement} from "../render/uiElements/findElement.js";
 
 // Click a task
 // -----------------------------------------------------------------------------------
@@ -31,11 +31,20 @@ export async function handleTaskClick(e) {
 // Show task details
 // -----------------------------------------------------------------------------------
 export async function showTaskDetails(taskID, title) {
-    const data = await fetchData('viewTask', {}, {'taskID': taskID});
+    const res = await fetchData('viewTask', {}, {'taskID': taskID});
 
-    if (data.success) {
-        const {fields, lists, subtasks, task} = data;
-        renderForm(title, 'viewTask', fields, lists, subtasks, '', task);
+    console.log('show task res: ', res);
+
+    if (res.success) {
+        const {subtasks, task} = res.data;
+        const options = {
+            heading: title,
+            formName: 'viewTask',
+            subtasks,
+            task,
+            refreshOnClose: true
+        };
+        renderForm(options);
     }
 }
 
@@ -43,8 +52,17 @@ export async function showTaskDetails(taskID, title) {
 // -----------------------------------------------------------------------------------
 export async function showAddTaskForm(selectedItem = '') {
     const action = 'showAddTaskForm';
-    const data = await fetchData(action);
-    if (data.success) renderForm('Add Task', 'addTask', data.fields, data.lists, data.subtasks, '', null, selectedItem);
+    const res = await fetchData(action);
+    const {fields, lists, subtasks} = res.data;
+    const options = {
+        heading: 'Add Task',
+        formName: 'addTask',
+        fields,
+        lists,
+        subtasks,
+        selectedItem
+    };
+    if (res.success) renderForm(options);
 }
 
 // Add task to list
@@ -56,11 +74,11 @@ export async function addTask(e, listLabel, placeholder) {
     const action = 'addTask';
     const formData = getFormData();
     const listID = findElement('dropdownButton').dataset.selectedId;
-    const data = await fetchData(action, formData, {'listID': listID});
+    const res = await fetchData(action, formData, {'listID': listID});
 
     // Render
-    if (!data.success) renderErrors('deleteSubtask', data.fields, data.subtasks, listLabel, placeholder);
-    if (data.success) await refreshBoards(true);
+    if (!res.success) renderErrors('deleteSubtask', res.data.fields, res.data.subtasks, listLabel, placeholder);
+    if (res.success) await refreshBoards(true);
 }
 
 // Save changes to task
@@ -72,11 +90,11 @@ export async function saveTaskChanges(e, taskID, listLabel, placeholder) {
     const action = 'editTask';
     const formData = getFormData();
     const listID = findElement('dropdownButton').dataset.selectedId;
-    const data = await fetchData(action, formData, {'taskID': taskID, 'listID': listID});
+    const res = await fetchData(action, formData, {'taskID': taskID, 'listID': listID});
 
     // Render
-    if (!data.success) renderErrors('deleteSubtask', data.fields, data.subtasks, listLabel, placeholder);
-    if (data.success) await refreshBoards(true);
+    if (!res.success) renderErrors('deleteSubtask', res.data.fields, res.data.subtasks, listLabel, placeholder);
+    if (res.success) await refreshBoards(true);
 }
 
 // Delete task
@@ -86,8 +104,8 @@ export async function deleteTask(e, taskID) {
 
     // Fetch
     const action = 'deleteTask';
-    const data = await fetchData(action, {}, {'taskID': taskID});
+    const res = await fetchData(action, {}, {'taskID': taskID});
 
     // Render
-    if (data.success) await refreshBoards(true);
+    if (res.success) await refreshBoards(true);
 }

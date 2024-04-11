@@ -2,7 +2,7 @@ import {renderButton, renderButtonsWrapper} from "../uiElements/renderButton.js"
 import {handleCloseLightbox} from "../lightbox/renderLightbox.js";
 import {renderFormElement} from "../uiElements/renderFormElement.js";
 import {createElement} from "../uiElements/createElement.js";
-import {deleteTask} from "../../eventHandlers/forms/taskHandlers.js";
+import {deleteTask} from "../../eventHandlers/taskHandlers.js";
 
 export function renderDeleteTaskWarning(task) {
     const {title, taskID} = task;

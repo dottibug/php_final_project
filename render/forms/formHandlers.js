@@ -12,7 +12,7 @@ import {findElement} from "../uiElements/findElement.js";
 export async function refreshBoards(closeLightbox = false) {
     await fetchBoards();
     await fetchCurrentBoardLists();
-    if (closeLightbox) handleCloseLightbox();
+    if (closeLightbox) await handleCloseLightbox();
 }
 
 // -----------------------------------------------------------------------------
@@ -77,7 +77,5 @@ export async function fetchData(action, formData = {}, otherParams = {}) {
     }
 
     const response = await fetch('../fetch/fetchController.php', fetchOptions);
-    const data = await response.json();
-
-    return data;
+    return await response.json();
 }

@@ -5,7 +5,7 @@ import {
 } from "../uiElements/renderDynamicList.js";
 import {renderButton, renderButtonsWrapper} from "../uiElements/renderButton.js";
 import {renderFormElement} from "../uiElements/renderFormElement.js";
-import {addBoard} from "../../eventHandlers/forms/boardHandlers.js";
+import {addBoard} from "../../eventHandlers/boardHandlers.js";
 
 export function renderCreateBoardForm(fields, lists) {
     const listLabel = 'Lists';

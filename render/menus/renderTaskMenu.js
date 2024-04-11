@@ -1,4 +1,4 @@
-import {hideTaskMenu, handleTaskMenuSelection} from "../../eventHandlers/menus/taskMenuHandlers.js";
+import {hideTaskMenu, handleTaskMenuSelection} from "../../eventHandlers/taskMenuHandlers.js";
 import {findElement} from "../uiElements/findElement.js";
 import {createElement} from "../uiElements/createElement.js";
 

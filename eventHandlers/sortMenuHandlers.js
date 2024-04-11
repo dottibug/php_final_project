@@ -1,5 +1,5 @@
-import {renderSortMenu} from "../../render/menus/renderSortMenu.js";
-import {fetchData, refreshBoards} from "../../render/forms/formHandlers.js";
+import {renderSortMenu} from "../render/menus/renderSortMenu.js";
+import {fetchData, refreshBoards} from "../render/forms/formHandlers.js";
 
 // Show sort menu on click; hide on mouse leave
 // -----------------------------------------------------------------------------------
@@ -23,8 +23,8 @@ export async function sortTasks(e) {
     // Fetch
     const action = e.target.dataset.action;
     const listID = e.target.dataset.listId;
-    const data = await fetchData(action, {}, {'listID': listID});
+    const res = await fetchData(action, {}, {'listID': listID});
 
     // Render
-    if (data.success) await refreshBoards();
+    if (res.success) await refreshBoards();
 }

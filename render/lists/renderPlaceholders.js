@@ -1,7 +1,7 @@
 import {createElement} from "../uiElements/createElement.js";
 import {renderButton} from "../uiElements/renderButton.js";
-import {showEditBoardForm} from "../../eventHandlers/menus/boardMenuHandlers.js";
-import {showAddTaskForm} from "../../eventHandlers/forms/taskHandlers.js";
+import {showEditBoardForm} from "../../eventHandlers/boardMenuHandlers.js";
+import {showAddTaskForm} from "../../eventHandlers/taskHandlers.js";
 import {clearElement} from "../uiElements/clearElement.js";
 
 export function renderEmptyBoard() {

@@ -3,8 +3,8 @@ import {
 } from "../render/forms/formHandlers.js";
 import {renderSidebar} from "../render/menus/renderSidebar.js";
 import {renderBoardLists} from '../render/lists/renderBoardLists.js';
-import {showBoardMenu} from "../eventHandlers/menus/boardMenuHandlers.js";
-import {showAddTaskForm} from "../eventHandlers/forms/taskHandlers.js";
+import {showBoardMenu} from "../eventHandlers/boardMenuHandlers.js";
+import {showAddTaskForm} from "../eventHandlers/taskHandlers.js";
 import {findElement} from "../render/uiElements/findElement.js";
 
 // Fetch board data after document loads
@@ -19,19 +19,22 @@ document.addEventListener('DOMContentLoaded', async function () {
 export async function fetchBoards() {
     // Fetch
     const action = 'fetchBoards';
-    const data = await fetchData(action);
+    const res = await fetchData(action);
 
     // Render
-    if (data.success) {
-        const {boards, boardTitle, currentBoardID} = data;
+    if (res.success) {
+        const {boards, currentBoardID, currentBoardTitle,} = res.data;
+
+        console.log('boards: ', boards);
+
         renderSidebar(boards, currentBoardID);
 
         // Set main board heading
-        findElement('boardTitle').innerText = boardTitle;
+        findElement('boardTitle').innerText = currentBoardTitle;
 
-        // 'Add New Task' button event listener
-        const addNewTaskButton = findElement('addNewTaskButton');
-        addNewTaskButton.addEventListener('click', () => showAddTaskForm());
+        // // 'Add New Task' button event listener
+        // const addNewTaskButton = findElement('addNewTaskButton');
+        // addNewTaskButton.addEventListener('click', (e) => showAddTaskForm();
 
         // Board menu event listener
         const boardMenuKebab = findElement("mainBoardHeaderKebab");
@@ -44,16 +47,26 @@ export async function fetchBoards() {
 export async function fetchCurrentBoardLists() {
     // Fetch
     const action = 'fetchCurrentBoardLists';
-    const data = await fetchData(action);
+    const res = await fetchData(action);
+
+    console.log('current board lists dat: ', res)
 
     // Render
-    if (data.success) {
-        const {currentBoardLists} = data;
-        const lists = Object.values(currentBoardLists[0]['lists']);
+    if (res.success) {
+        const {currentBoardLists} = res.data;
+        const lists = Object.values(currentBoardLists.lists);
+
+        // // 'Add New Task' button event listener
+        const addNewTaskButton = findElement('addNewTaskButton');
+        addNewTaskButton.addEventListener('click', handleShowAddTaskForm);
+
         renderBoardLists(lists);
     }
 }
 
+async function handleShowAddTaskForm() {
+    await showAddTaskForm();
+}
 
 
 

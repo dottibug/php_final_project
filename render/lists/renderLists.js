@@ -1,7 +1,7 @@
 import {createElement} from "../uiElements/createElement.js";
 import {renderSortButton} from "./renderSortButton.js";
 import {renderTasks} from "./renderTasks.js";
-import {showEditBoardForm} from "../../eventHandlers/menus/boardMenuHandlers.js";
+import {showEditBoardForm} from "../../eventHandlers/boardMenuHandlers.js";
 import {findElement} from "../uiElements/findElement.js";
 
 export function renderLists(lists) {

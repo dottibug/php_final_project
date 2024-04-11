@@ -3,7 +3,7 @@ import {renderDropdown} from "../uiElements/renderDropdown.js";
 import {addDynamicItemButton, renderDynamicList} from "../uiElements/renderDynamicList.js";
 import {renderButton, renderButtonsWrapper} from "../uiElements/renderButton.js";
 import {renderFormElement} from "../uiElements/renderFormElement.js";
-import {addTask} from "../../eventHandlers/forms/taskHandlers.js";
+import {addTask} from "../../eventHandlers/taskHandlers.js";
 
 export function renderAddTaskForm(fields, lists, subtasks, selectedItem) {
     const listLabel = 'Subtasks';
@@ -44,8 +44,11 @@ export function renderAddTaskForm(fields, lists, subtasks, selectedItem) {
 }
 
 function getSelectedItem(selectedItem, lists) {
+    console.log('selectedItem: ', selectedItem);
+
     if (selectedItem) {
         const list = lists.find(list => list.listID === selectedItem);
+        console.log('list: ', list);
         const selectedID = list.listID;
         const selectedValue = list.title;
         return {selectedID, selectedValue};

@@ -17,7 +17,7 @@ $overlay = $_SESSION['overlay'];
                 <h1 id="boardTitle"></h1>
                 <div class="mainBoardHeaderActions">
                     <button class="button secondary large" id="addNewTaskButton">
-                        <span class="plus">&plus;</span> Add New Task
+                        Add New Task
                     </button>
                     <div class="kebab" id="mainBoardHeaderKebab">
                         <svg xmlns="http://www.w3.org/2000/svg" width="5" height="20"

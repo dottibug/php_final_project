@@ -1,7 +1,7 @@
-import {renderDynamicList} from "../../render/uiElements/renderDynamicList.js";
-import {fetchData} from "../../render/forms/formHandlers.js";
-import {removeElement} from "../../render/uiElements/removeElement.js";
-import {findElement} from "../../render/uiElements/findElement.js";
+import {renderDynamicList} from "../render/uiElements/renderDynamicList.js";
+import {fetchData} from "../render/forms/formHandlers.js";
+import {removeElement} from "../render/uiElements/removeElement.js";
+import {findElement} from "../render/uiElements/findElement.js";
 
 // Add list to the dynamic input list
 // -----------------------------------------------------------------------------------
@@ -12,10 +12,10 @@ export async function addDynamicListItem(e, action, listLabel, placeholder, hasE
     const form = findElement('form');
     const formData = new FormData(form);
     const tempName = getTempFieldName();
-    const data = await fetchData(action, formData, {[tempName]: ''});
+    const res = await fetchData(action, formData, {[tempName]: ''});
 
     // Render
-    if (data.success) refreshDynamicList(data, action, listLabel, placeholder, hasErrors, message);
+    if (res.success) refreshDynamicList(res.data, action, listLabel, placeholder, hasErrors, message);
 
 }
 
@@ -36,10 +36,10 @@ export async function deleteDynamicListItem(e, action, listLabel, placeholder, h
     const form = findElement('form');
     const formData = new FormData(form);
     const itemToDelete = e.target.closest('button').dataset.listItemName;
-    const data = await fetchData(action, formData, {'itemToDelete': itemToDelete});
+    const res = await fetchData(action, formData, {'itemToDelete': itemToDelete});
 
     // Render
-    if (data.success) refreshDynamicList(data, action, listLabel, placeholder, hasErrors, message);
+    if (res.success) refreshDynamicList(res.data, action, listLabel, placeholder, hasErrors, message);
 }
 
 // Refresh dynamic input list

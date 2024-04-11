@@ -1,10 +1,12 @@
 <?php
 require_once '../util/main.php';
 require_once 'model/Action.php';
-require_once 'fetch/fetchFunctions/BoardFunctions.php';
 require_once 'fetch/fetchFunctions/ListFunctions.php';
-require_once 'fetch/fetchFunctions/TaskFunctions.php';
-require_once 'fetch/fetchFunctions/SubtaskFunctions.php';
+require_once 'model/Form.php';
+
+require_once 'fetch/fetchFunctions/boardFunctions.php';
+require_once 'fetch/fetchFunctions/taskFunctions.php';
+require_once 'fetch/fetchFunctions/subtaskFunctions.php';
 require_once 'fetch/fetchFunctions/logout.php';
 
 session_start();
@@ -13,86 +15,93 @@ header('Content-Type: application/x-www-form-urlencoded');
 // Action
 $action = Action::getAction('fetchBoards');
 
-$BoardFunctions = new BoardFunctions();
-$ListFunctions = new ListFunctions();
-$TaskFunctions = new TaskFunctions();
-$SubtaskFunctions = new SubtaskFunctions();
+// Instantiate classes
+$listFunctions = new ListFunctions();
+$boardFunctions = new BoardFunctions();
+$taskFunctions = new TaskFunctions();
+$subtaskFunctions = new SubtaskFunctions();
+
+// FIXME : something wrong going on when deleting lists from board
 
 // Controller
 switch ($action) {
     // Boards
     case ('fetchBoards'):
-        $BoardFunctions->fetchBoards();
+        $boardFunctions->fetchBoards();
         break;
     case ('fetchCurrentBoardLists'):
-        $BoardFunctions->fetchCurrentBoardLists();
+        $boardFunctions->fetchCurrentBoardLists();
         break;
     case('updateCurrentBoardID');
-        $BoardFunctions->updateCurrentBoardID();
+        $boardFunctions->updateCurrentBoardID();
         break;
     case ('showCreateBoardForm'):
-        $BoardFunctions->showCreateBoardForm();
+        $boardFunctions->showCreateBoardForm();
         break;
     case ('editBoardForm'):
-        $BoardFunctions->showEditBoardForm();
+        $boardFunctions->showEditBoardForm();
         break;
     case ('editBoard'):
-        $BoardFunctions->editBoard();
+        $boardFunctions->editBoard();
         break;
     case('deleteBoardWarning'):
-        $BoardFunctions->showDeleteBoardWarning();
+        $boardFunctions->showDeleteBoardWarning();
         break;
     case ('deleteBoard'):
-        $BoardFunctions->deleteBoard();
+        $boardFunctions->deleteBoard();
         break;
     case ('addBoard'):
-        $BoardFunctions->addBoard();
+        $boardFunctions->addBoard();
         break;
 
     // List
     case ('addList'):
-        $ListFunctions->addList();
+        $form = new Form();
+        $listFunctions->setForm($form);
+        $listFunctions->addList();
         break;
     case ('deleteList'):
-        $ListFunctions->deleteList();
+        $form = new Form();
+        $listFunctions->setForm($form);
+        $listFunctions->deleteList();
         break;
     case('newest'):
     case('oldest'):
-        $ListFunctions->sortTasks();
+        $listFunctions->sortTasks();
         break;
 
     // Tasks
     case ('viewTask'):
-        $TaskFunctions->viewTask();
+        $taskFunctions->viewTask();
         break;
     case ('showAddTaskForm'):
-        $TaskFunctions->showAddTaskForm();
+        $taskFunctions->showAddTaskForm();
         break;
     case ('addTask'):
-        $TaskFunctions->addTask();
+        $taskFunctions->addTask();
         break;
     case('editTaskForm'):
-        $TaskFunctions->showEditTaskForm();
+        $taskFunctions->showEditTaskForm();
         break;
     case ('editTask'):
-        $TaskFunctions->editTask();
+        $taskFunctions->editTask();
         break;
     case ('deleteTaskWarning'):
-        $TaskFunctions->showDeleteTaskWarning();
+        $taskFunctions->showDeleteTaskWarning();
         break;
     case('deleteTask'):
-        $TaskFunctions->deleteTask();
+        $taskFunctions->deleteTask();
         break;
 
     // Subtasks
     case('updateSubtaskStatus'):
-        $SubtaskFunctions->updateSubtaskStatus();
+        $subtaskFunctions->updateSubtaskStatus();
         break;
     case ('addSubtask'):
-        $SubtaskFunctions->addSubtask();
+        $subtaskFunctions->addSubtask();
         break;
     case('deleteSubtask'):
-        $SubtaskFunctions->deleteSubtask();
+        $subtaskFunctions->deleteSubtask();
         break;
 
     // Logout

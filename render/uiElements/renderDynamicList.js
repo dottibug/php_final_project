@@ -3,7 +3,7 @@ import {renderButton, renderXButton} from "./renderButton.js";
 import {
     addDynamicListItem,
     deleteDynamicListItem,
-} from "../../eventHandlers/components/dynamicListHandlers.js";
+} from "../../eventHandlers/dynamicListHandlers.js";
 import {createElement} from "./createElement.js";
 
 // Create dynamic list component that allows user to add/delete input fields

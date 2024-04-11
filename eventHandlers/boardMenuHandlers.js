@@ -1,7 +1,7 @@
-import {renderBoardMenu} from "../../render/menus/renderBoardMenu.js";
-import {renderForm} from "../../render/forms/renderForm.js";
-import {fetchData} from "../../render/forms/formHandlers.js";
-import {removeElement} from "../../render/uiElements/removeElement.js";
+import {renderBoardMenu} from "../render/menus/renderBoardMenu.js";
+import {renderForm} from "../render/forms/renderForm.js";
+import {fetchData} from "../render/forms/formHandlers.js";
+import {removeElement} from "../render/uiElements/removeElement.js";
 
 // Show board menu on click; hide on mouse leave
 // -----------------------------------------------------------------------------------
@@ -16,12 +16,13 @@ export function showBoardMenu(e) {
 export async function showEditBoardForm() {
     // Fetch
     const action = 'editBoardForm';
-    const data = await fetchData(action);
+    const res = await fetchData(action);
 
     // Render
-    if (data.success) {
-        const {fields, lists} = data;
-        renderForm('Edit Board', 'editBoard', fields, lists);
+    if (res.success) {
+        const {fields, lists} = res.data;
+        const options = {heading: 'Edit Board', formName: 'editBoard', fields, lists};
+        renderForm(options);
     }
 }
 
@@ -30,11 +31,12 @@ export async function showEditBoardForm() {
 export async function showDeleteBoardWarning() {
     // Fetch
     const action = 'deleteBoardWarning';
-    const data = await fetchData(action);
+    const res = await fetchData(action);
 
     // Render
-    if (data.success) {
-        const {boardTitle} = data;
-        renderForm('Delete this board?', 'deleteBoardWarning', null, null, null, boardTitle);
+    if (res.success) {
+        const {boardTitle} = res.data;
+        const options = {heading: 'Delete this board?', formName: 'deleteBoardWarning', boardTitle};
+        renderForm(options);
     }
 }

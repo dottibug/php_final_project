@@ -1,5 +1,5 @@
-import {sidebarBoardSelection} from "../../eventHandlers/menus/sidebarHandlers.js";
-import {showCreateBoardForm} from "../../eventHandlers/forms/boardHandlers.js";
+import {sidebarBoardSelection} from "../../eventHandlers/sidebarHandlers.js";
+import {showCreateBoardForm} from "../../eventHandlers/boardHandlers.js";
 import {findElement} from "../uiElements/findElement.js";
 import {createElement} from "../uiElements/createElement.js";
 import {removeElement} from "../uiElements/removeElement.js";

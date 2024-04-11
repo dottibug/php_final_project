@@ -58,15 +58,16 @@ async function handleCheckSubtask(e, taskID) {
 
     // Fetch
     const action = 'updateSubtaskStatus';
-    const data = await fetchData(action, {}, {
+    const res = await fetchData(action, {}, {
         'subtaskID': checkboxID,
         'taskID': taskID,
         'newStatus': newStatus
     })
 
     // Render
-    if (data.success) {
-        const {subtasks, taskID} = data;
+    if (res.success) {
+        const {taskID} = res.data;
+        const subtasks = Object.values(res.data.subtasks);
         removeElement('subtasksWrapper');
         const subtaskCheckboxes = renderCheckboxList(subtasks, taskID);
         const taskDescription = findElement('taskDescription');

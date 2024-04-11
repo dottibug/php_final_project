@@ -5,7 +5,7 @@ import {
 } from "../uiElements/renderDynamicList.js";
 import {renderButton, renderButtonsWrapper} from "../uiElements/renderButton.js";
 import {renderFormElement} from "../uiElements/renderFormElement.js";
-import {saveBoardChanges} from "../../eventHandlers/forms/boardHandlers.js";
+import {saveBoardChanges} from "../../eventHandlers/boardHandlers.js";
 
 
 export function renderEditBoardForm(fields, lists) {

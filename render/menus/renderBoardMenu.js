@@ -2,7 +2,7 @@ import {
     showBoardMenu,
     showDeleteBoardWarning,
     showEditBoardForm
-} from "../../eventHandlers/menus/boardMenuHandlers.js";
+} from "../../eventHandlers/boardMenuHandlers.js";
 import {findElement} from "../uiElements/findElement.js";
 import {createElement} from "../uiElements/createElement.js";
 

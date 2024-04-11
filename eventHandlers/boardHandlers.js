@@ -1,22 +1,23 @@
-import {renderForm} from "../../render/forms/renderForm.js";
+import {renderForm} from "../render/forms/renderForm.js";
 import {
     fetchData,
     getFormData,
     refreshBoards,
     renderErrors
-} from "../../render/forms/formHandlers.js";
+} from "../render/forms/formHandlers.js";
 
 // Show 'Create Board' form
 // -----------------------------------------------------------------------------------
 export async function showCreateBoardForm() {
     // Fetch
     const action = 'showCreateBoardForm';
-    const data = await fetchData(action);
+    const res = await fetchData(action);
 
     // Render
-    if (data.success) {
-        const {fields, lists} = data;
-        renderForm('Create New Board', 'createBoard', fields, lists, null);
+    if (res.success) {
+        const {fields, lists} = res.data;
+        const options = {heading: 'Create New Board', formName: 'createBoard', fields, lists};
+        renderForm(options);
     }
 }
 
@@ -28,19 +29,19 @@ export async function addBoard(e, labelText, placeholder) {
     // Fetch
     const action = 'addBoard';
     const formData = getFormData();
-    const data = await fetchData(action, formData)
+    const res = await fetchData(action, formData)
 
     // Render
-    if (!data.success) renderErrors('deleteList', data.fields, data.lists, labelText, placeholder);
-    if (data.success) await refreshBoards(true);
+    if (!res.success) renderErrors('deleteList', res.data.fields, res.data.lists, labelText, placeholder);
+    if (res.success) await refreshBoards(true);
 }
 
 // Delete board
 // -----------------------------------------------------------------------------------
 export async function deleteBoard() {
     const action = 'deleteBoard';
-    const data = await fetchData(action);
-    if (data.success) await refreshBoards(true);
+    const res = await fetchData(action);
+    if (res.success) await refreshBoards(true);
 }
 
 // Edit board
@@ -51,9 +52,9 @@ export async function saveBoardChanges(e, labelText, placeholder) {
     // Fetch
     const action = 'editBoard';
     const formData = getFormData();
-    const data = await fetchData(action, formData);
+    const res = await fetchData(action, formData);
 
     // Render
-    if (!data.success) renderErrors('deleteList', data.fields, data.lists, labelText, placeholder);
-    if (data.success) await refreshBoards(true);
+    if (!res.success) renderErrors('deleteList', res.data.fields, res.data.lists, labelText, placeholder);
+    if (res.success) await refreshBoards(true);
 }

@@ -7,8 +7,16 @@ import {renderTaskDetails} from "./renderTaskDetails.js";
 import {renderEditTaskForm} from "./renderEditTaskForm.js";
 import {renderDeleteTaskWarning} from "./renderDeleteTaskWarning.js";
 
-export function renderForm(heading, formName, fields = null, lists = null, subtasks = null, boardTitle = '', task = null, selectedItem) {
-    const lightbox = renderLightbox(heading);
+// export function renderForm(heading, formName, fields = null, lists = null, subtasks = null, boardTitle = '', task = null, selectedItem, refreshOnClose = false) {
+export function renderForm(options) {
+
+    const formName = options.formName;
+    const heading = options.heading;
+    const boardTitle = options.boardTitle || '';
+    const refreshOnClose = options.refreshOnClose || false;
+    const {fields, lists, subtasks, task, selectedItem} = options || {};
+
+    const lightbox = renderLightbox(heading, refreshOnClose);
     let form;
 
     switch (formName) {

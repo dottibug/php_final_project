@@ -1,6 +1,6 @@
 import {renderButton, renderButtonsWrapper} from "../uiElements/renderButton.js";
 import {handleCloseLightbox} from "../lightbox/renderLightbox.js";
-import {deleteBoard} from "../../eventHandlers/forms/boardHandlers.js";
+import {deleteBoard} from "../../eventHandlers/boardHandlers.js";
 import {renderFormElement} from "../uiElements/renderFormElement.js";
 import {createElement} from "../uiElements/createElement.js";
 

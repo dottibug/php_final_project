@@ -36,21 +36,16 @@ class BoardFunctions
         $boardTitle = $this->BoardsDB->getBoardTitle($_SESSION['currentBoardID']);
 
         // Response
-        $response = ['success' => true, 'currentBoardID' => $_SESSION['currentBoardID'], 'boardTitle' =>
-            $boardTitle, 'boards' => $boards];
-        echo json_encode($response);
+        Response::sendResponse(true, ['currentBoardID' => $_SESSION['currentBoardID'],
+            'currentBoardTitle' => $boardTitle, 'boards' => $boards]);
     }
 
     // Fetch current board lists
     // ------------------------------------------------------------------------------
     public function fetchCurrentBoardLists()
     {
-        // Get the lists, tasks, and subtasks of the current board
         $currentBoardsLists = $this->BoardsDB->getBoardDetails($_SESSION['currentBoardID']);
-
-        // Response
-        $response = ['success' => true, 'currentBoardLists' => $currentBoardsLists];
-        echo json_encode($response);
+        Response::sendResponse(true, ['currentBoardLists' => $currentBoardsLists[0]]);
     }
 
     // Fetch current board lists
@@ -60,13 +55,13 @@ class BoardFunctions
         if (isset($_POST['newBoardID'])) {
             $newBoardID = filter_input(INPUT_POST, 'newBoardID');
             $_SESSION['currentBoardID'] = $newBoardID;
-
-            $response = ['success' => true, 'newCurrentBoardID' => $newBoardID];
-            echo json_encode($response);
-
+            Response::sendResponse('true', ['newCurrentBoardID' => $newBoardID]);
         } else {
-            $response = ['success' => false, 'message' => 'The current board ID was not changed.'];
-            echo json_encode($response);
+            echo "POST: ";
+            print_r($_POST);
+
+            echo "SESSION: ";
+            print_r($_SESSION);
         }
     }
 
@@ -96,8 +91,7 @@ class BoardFunctions
             $lists[] = $Form->getField($list);
         }
 
-        $response = ['success' => true, 'fields' => $fields, 'lists' => $lists];
-        echo json_encode($response);
+        Response::sendResponse(true, ['fields' => $fields, 'lists' => $lists]);
     }
 
     // Edit board form
@@ -130,9 +124,7 @@ class BoardFunctions
             $lists[] = $Form->getField($listID);
         }
 
-        // Response
-        $response = ['success' => true, 'fields' => $fields, 'lists' => $lists];
-        echo json_encode($response);
+        Response::sendResponse(true, ['fields' => $fields, 'lists' => $lists]);
     }
 
     // Edit the board
@@ -175,9 +167,8 @@ class BoardFunctions
 
         // Responses
         if ($Form->hasErrors()) {
-            $response = ['success' => false, 'message' => 'input errors', 'fields' => $fields,
-                'lists' => $lists];
-            echo json_encode($response);
+            Response::sendResponse(false, ['fields' => $fields,
+                'lists' => $lists], 'Input errors');
         } else {
             // Update the board title
             $currentBoardID = $_SESSION['currentBoardID'];
@@ -213,9 +204,7 @@ class BoardFunctions
                 }
                 $i++;
             }
-            // Response
-            $response = ['success' => true];
-            echo json_encode($response);
+            Response::sendResponse(true);
         }
     }
 
@@ -224,9 +213,7 @@ class BoardFunctions
     public function showDeleteBoardWarning()
     {
         $boardTitle = $this->BoardsDB->getBoardTitle($_SESSION['currentBoardID']);
-
-        $response = ['success' => true, 'boardTitle' => $boardTitle];
-        echo json_encode($response);
+        Response::sendResponse(true, ['boardTitle' => $boardTitle]);
     }
 
     // Delete board
@@ -234,17 +221,9 @@ class BoardFunctions
     public function deleteBoard()
     {
         // Delete board
-//        $BoardsDB = new BoardsDB();
-//        $currentBoardID = $_SESSION['currentBoardID'];
-//        echo "Current board ID: $this->currentBoardID";
         $this->BoardsDB->deleteBoard($_SESSION['currentBoardID']);
-
-        // Unset currentBoardID in session
         unset($_SESSION['currentBoardID']);
-
-        // Response
-        $response = ['success' => true];
-        echo json_encode($response);
+        Response::sendResponse(true);
     }
 
     // Add board
@@ -291,9 +270,8 @@ class BoardFunctions
 
         // Responses
         if ($Form->hasErrors()) {
-            $response = ['success' => false, 'message' => 'input errors', 'fields' => $fields,
-                'lists' => $lists];
-            echo json_encode($response);
+            Response::sendResponse(false, ['fields' => $fields,
+                'lists' => $lists], 'Input errors');
         } else {
             // Add the new board and its lists
             $BoardsDB = new BoardsDB();
@@ -319,10 +297,7 @@ class BoardFunctions
                     $i++;
                 }
             }
-
-            // Response
-            $response = ['success' => true];
-            echo json_encode($response);
+            Response::sendResponse(true);
         }
     }
 }

@@ -1,4 +1,3 @@
-// Render textarea
 import {createElement} from "./createElement.js";
 
 export function renderTextarea(name, value) {

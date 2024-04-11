@@ -21,10 +21,8 @@ class SubtaskFunctions
 
         // Re-fetch subtasks for the task
         $subtasks = $SubtasksDB->getSubtasks($taskID);
-
-        // Response
-        $response = ['success' => true, 'message' => "Subtask $subtaskID was updated.", 'subtasks' => $subtasks, 'taskID' => $taskID];
-        echo json_encode($response);
+        
+        Response::sendResponse(true, ['subtasks' => $subtasks, 'taskID' => $taskID]);
     }
 
     // Add subtask
@@ -59,11 +57,8 @@ class SubtaskFunctions
             }
         }
 
-        // Response
-        $response = ['success' => true, 'fields' => $fields, 'lists' => $lists,
-            'subtasks' => $subtasks];
-
-        echo json_encode($response);
+        Response::sendResponse(true, ['fields' => $fields, 'lists' => $lists,
+            'subtasks' => $subtasks]);
     }
 
     // Delete subtask
@@ -102,10 +97,7 @@ class SubtaskFunctions
             }
         }
 
-        // Response
-        $response = ['success' => true, 'fields' => $fields, 'lists' => $lists, 'subtasks' =>
-            array_values($subtasks)];
-
-        echo json_encode($response);
+        Response::sendResponse(true, ['fields' => $fields, 'lists' => $lists, 'subtasks' =>
+            array_values($subtasks)]);
     }
 }

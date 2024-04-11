@@ -18,8 +18,7 @@ class TaskFunctions
         $SubtasksDB = new SubtasksDB();
         $subtasks = $SubtasksDB->getSubtasks($taskID);
 
-        $response = ['success' => true, 'task' => $task, 'subtasks' => $subtasks];
-        echo json_encode($response);
+        Response::sendResponse(true, ['task' => $task, 'subtasks' => $subtasks]);
     }
 
     // Show 'Add Task' form
@@ -53,10 +52,8 @@ class TaskFunctions
             $subtasks[] = $Form->getField($subtask);
         }
 
-        // Response
-        $response = ['success' => true, 'fields' => $fields, 'lists' => $lists, 'subtasks' =>
-            $subtasks];
-        echo json_encode($response);
+        Response::sendResponse(true, ['fields' => $fields, 'lists' => $lists, 'subtasks' =>
+            $subtasks]);
     }
 
     // Add task to a list
@@ -114,8 +111,8 @@ class TaskFunctions
 
         // Response
         if ($Form->hasErrors()) {
-            $response = ['success' => false, 'message' => 'input errors', 'fields' => $fields, 'lists' => $lists, 'subtasks' => $subtasks];
-            echo json_encode($response);
+            Response::sendResponse(false, ['fields' => $fields, 'lists' => $lists, 'subtasks' =>
+                $subtasks], 'Input errors');
         } else {
             // Add new task
             $TasksDB = new TasksDB();
@@ -130,11 +127,8 @@ class TaskFunctions
                 $subtaskValue = $subtask->getValue();
                 $SubtasksDB->addSubtask($taskID, $subtaskValue, 'unchecked');
             }
-
-            $response = ['success' => true, 'fields' => $fields, 'lists' => $lists,
-                'subtasks' => $subtasks];
-
-            echo json_encode($response);
+            Response::sendResponse(true, ['fields' => $fields, 'lists' => $lists,
+                'subtasks' => $subtasks]);
         }
     }
 
@@ -177,10 +171,8 @@ class TaskFunctions
             $subtasks[] = $Form->getField($subtaskID);
         }
 
-        $response = ['success' => true, 'fields' => $fields, 'lists' => $lists,
-            'subtasks' => $subtasks, 'task' => $task];
-
-        echo json_encode($response);
+        Response::sendResponse(true, ['fields' => $fields, 'lists' => $lists,
+            'subtasks' => $subtasks, 'task' => $task]);
     }
 
     // Edit the task
@@ -189,7 +181,6 @@ class TaskFunctions
     {
         $title = filter_input(INPUT_POST, 'title');
         $description = filter_input(INPUT_POST, 'description');
-        $listID = filter_input(INPUT_POST, 'listID');
         $taskID = filter_input(INPUT_POST, 'taskID');
 
         // Create form
@@ -219,9 +210,6 @@ class TaskFunctions
         foreach ($_POST as $key => $value) {
             if ($key != 'title' && $key != 'description' && $key != 'action' && $key != 'listID'
                 && $key != 'taskID') {
-                // User input
-//                $value_f = filter_input(INPUT_POST, $key);
-
                 // Add to Form
                 $Form->addField($key);
                 $Form->getField($key)->setValue($value);
@@ -239,8 +227,8 @@ class TaskFunctions
 
         // Responses
         if ($Form->hasErrors()) {
-            $response = ['success' => false, 'message' => 'input errors', 'fields' => $fields, 'lists' => $lists, 'subtasks' => $subtasks];
-            echo json_encode($response);
+            Response::sendResponse(false, ['fields' => $fields, 'lists' => $lists, 'subtasks' =>
+                $subtasks], 'Input errors');
         } else {
             // Update the task title and description
             $TasksDB = new TasksDB();
@@ -270,9 +258,7 @@ class TaskFunctions
                 }
             }
 
-            // Response
-            $response = ['success' => true];
-            echo json_encode($response);
+            Response::sendResponse(true);
         }
     }
 
@@ -283,9 +269,7 @@ class TaskFunctions
         $taskID = filter_input(INPUT_POST, 'taskID');
         $TasksDB = new TasksDB();
         $task = $TasksDB->getTask($taskID);
-
-        $response = ['success' => true, 'task' => $task];
-        echo json_encode($response);
+        Response::sendResponse(true, ['task' => $task]);
     }
 
     // Delete task
@@ -295,8 +279,6 @@ class TaskFunctions
         $taskID = filter_input(INPUT_POST, 'taskID');
         $TasksDB = new TasksDB();
         $TasksDB->deleteTask($taskID);
-
-        $response = ['success' => true];
-        echo json_encode($response);
+        Response::sendResponse(true);
     }
 }
