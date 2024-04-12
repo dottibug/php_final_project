@@ -2,130 +2,172 @@
 
 require_once '../util/main.php';
 require_once 'model/Form.php';
+require_once 'model/Validate.php';
+require_once 'model/TasksDB.php';
+require_once 'model/TaskListsDB.php';
+require_once 'model/SubtasksDB.php';
 
 header('Content-Type: application/x-www-form-urlencoded');
 
 class TaskFunctions
 {
+    private $form, $validate, $tasksDB, $taskListsDB, $subtasksDB;
+
+    // Constructor
+    // ------------------------------------------------------------------------------
+    public function __construct()
+    {
+        $this->tasksDB = new TasksDB();
+        $this->taskListsDB = new TaskListsDB();
+        $this->subtasksDB = new SubtasksDB();
+    }
+
+    // Set form
+    // ------------------------------------------------------------------------------
+    public function setForm(Form $form)
+    {
+        $this->form = $form;
+    }
+
+    // Set validate
+    // ------------------------------------------------------------------------------
+    public function setValidate(Form $form)
+    {
+        $this->validate = new Validate($form);
+    }
+
     // View task details
     // ------------------------------------------------------------------------------
     public function viewTask()
     {
         $taskID = filter_input(INPUT_POST, 'taskID');
-        $TasksDB = new TasksDB();
-        $task = $TasksDB->getTask($taskID);
-
-        $SubtasksDB = new SubtasksDB();
-        $subtasks = $SubtasksDB->getSubtasks($taskID);
+        $task = $this->tasksDB->getTask($taskID);
+        $subtasks = $this->subtasksDB->getSubtasks($taskID);
 
         Response::sendResponse(true, ['task' => $task, 'subtasks' => $subtasks]);
     }
 
+    // Set up form fields with sanitized user input and validate for field errors
+    // ------------------------------------------------------------------------------
+    private function setupFormFields(Form $form, array $fieldsToExclude)
+    {
+        foreach ($_POST as $key => $value) {
+            if (!in_array($key, $fieldsToExclude)) {
+                // Sanitize user input
+                $filteredValue = filter_var($value, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $form->addField($key);
+                $form->getField($key)->setValue($filteredValue);
+
+                // Set input type
+                if ($key == 'description') {
+                    $form->getField($key)->setType('textarea');
+                } else {
+                    $form->getField($key)->setType('text');
+                }
+
+                // Validate input
+                $this->setValidate($form);
+                if ($key == 'title') {
+                    $this->validate->text('title', $filteredValue, true, 1, 24);
+                } elseif ($key == 'description') {
+                    $this->validate->text('description', $filteredValue, false, 1, 2000);
+                } else {
+                    $this->validate->text($key, $filteredValue, true, 1, 300);
+                }
+
+                // Set custom error for subtask field errors
+                if ($form->getField($key)->hasError()) {
+                    if ($key != 'title' && $key !== 'description') {
+                        $form->getField($key)->setError('Subtasks must be 1 to 300 characters long.');
+                    }
+                } else {
+                    // Clear any previous errors if there are no current errors
+                    $form->getField($key)->clearError();
+                }
+            }
+        }
+    }
+
     // Show 'Add Task' form
     // ------------------------------------------------------------------------------
-    public function showAddTaskForm()
+    public function showAddTaskForm(Form $form)
     {
-        // Create form
-        $Form = new Form();
-
-        // Form fields
-        $formFields = ['title', 'description', 'list'];
-        $Form->addFields($formFields);
-        $Form->getField('title')->setType('text');
-        $Form->getField('description')->setType('textarea');
+        $form->addFields(['title', 'description', 'list']);
+        $form->getField('title')->setType('text');
+        $form->getField('description')->setType('textarea');
 
         // Fields array for response
-        $fields = [$Form->getField('title'), $Form->getField('description')];
+        $fields = [$form->getField('title'), $form->getField('description')];
 
         // Board lists array for response
-        $TaskListsDB = new TaskListsDB();
         $currentBoardID = $_SESSION['currentBoardID'];
-        $lists = $TaskListsDB->getAllLists($currentBoardID);
+        $lists = $this->taskListsDB->getAllLists($currentBoardID);
+
+        // Create subtasks to delete in session (only deleted when user clicks 'save changes')
+        $_SESSION['subtasksToDelete'] = [];
 
         // Create two empty subtask fields
         $defaultSubtasks = ['subtask1', 'subtask2'];
-        $Form->addFields($defaultSubtasks);
-        $_SESSION['subtasksToDelete'] = [];
+        $form->addFields($defaultSubtasks);
+
         $subtasks = [];
         foreach ($defaultSubtasks as $subtask) {
-            $Form->getField($subtask)->setType('text');
-            $subtasks[] = $Form->getField($subtask);
+            $form->getField($subtask)->setType('text');
+            $subtasks[] = $form->getField($subtask);
         }
 
         Response::sendResponse(true, ['fields' => $fields, 'lists' => $lists, 'subtasks' =>
             $subtasks]);
     }
 
-    // Add task to a list
+    // Get subtask fields
     // ------------------------------------------------------------------------------
-    public function addTask()
+    private function getSubtaskFields(Form $form, array $fieldsToExclude)
     {
-        $title = filter_input(INPUT_POST, 'title');
-        $description = filter_input(INPUT_POST, 'description');
-        $listID = filter_input(INPUT_POST, 'listID');
-
-        // Create form
-        $Form = new Form();
-        $formFields = ['title', 'description'];
-        $Form->addFields($formFields);
-        $Form->getField('title')->setValue($title);
-        $Form->getField('description')->setValue($description);
-        $Form->getField('title')->setType('text');
-        $Form->getField('description')->setType('textarea');
-
-        // Validation
-        $Validate = new Validate($Form);
-        $Validate->text('title', $title, true, 1, 24);
-        $Validate->text('description', $description, false, 1, 2000);
-
-        // Fields array
-        $fields = [$Form->getField('title'), $Form->getField('description')];
-
-        // Lists for dropdown menu
-        $TaskListsDB = new TaskListsDB();
-        $currentBoardID = $_SESSION['currentBoardID'];
-        $lists = $TaskListsDB->getAllLists($currentBoardID);
-
-        // Subtasks
         $subtasks = [];
         foreach ($_POST as $key => $value) {
-            if ($key != 'title' && $key != 'description' && $key != 'action' && $key != 'listID') {
-                // User input
-                $value_f = filter_input(INPUT_POST, $key);
-
-                // Add to Form
-                $Form->addField($key);
-                $Form->getField($key)->setValue($value_f);
-
-                // Validate
-                $Validate->text($key, $value_f, true, 1, 300);
-
-                // Set a custom error message
-                if ($Form->getField($key)->hasError()) {
-                    $Form->getField($key)->setError('Subtasks must be 1 to 300 characters long.');
-                }
-
-                $subtasks[] = $Form->getField($key);
+            if (!in_array($key, $fieldsToExclude)) {
+                $subtasks[] = $form->getField($key);
             }
         }
+        return $subtasks;
+    }
+
+    // Add task to a list
+    // ------------------------------------------------------------------------------
+    public function addTask(Form $form)
+    {
+        $listID = filter_input(INPUT_POST, 'listID');
+
+        // Set up and validate form fields
+        $this->setupFormFields($form, array('action', 'listID'));
+
+        // Fields array
+        $fields = [$form->getField('title'), $form->getField('description')];
+
+        // Lists for dropdown menu
+        $currentBoardID = $_SESSION['currentBoardID'];
+        $lists = $this->taskListsDB->getAllLists($currentBoardID);
+
+        // Subtasks
+        $subtasks = $this->getSubtaskFields($form, array('title', 'description', 'action',
+            'listID'));
 
         // Response
-        if ($Form->hasErrors()) {
+        if ($form->hasErrors()) {
             Response::sendResponse(false, ['fields' => $fields, 'lists' => $lists, 'subtasks' =>
                 $subtasks], 'Input errors');
         } else {
-            // Add new task
-            $TasksDB = new TasksDB();
-            $TasksDB->addTask($currentBoardID, $listID, $title, $description);
-
-            // New task's ID
-            $taskID = $TasksDB->getTaskID($title, $listID);
+            // Add the new task (using the sanitized values) and get the new task's ID
+            $title = $form->getField('title')->getValue();
+            $description = $form->getField('description')->getValue();
+            $this->tasksDB->addTask($currentBoardID, $listID, $title, $description);
+            $taskID = $this->tasksDB->getTaskID($title, $listID);
 
             // Add subtasks
-            $SubtasksDB = new SubtasksDB();
             foreach ($subtasks as $subtask) {
                 $subtaskValue = $subtask->getValue();
-                $SubtasksDB->addSubtask($taskID, $subtaskValue, 'unchecked');
+                $this->subtasksDB->addSubtask($taskID, $subtaskValue, 'unchecked');
             }
             Response::sendResponse(true, ['fields' => $fields, 'lists' => $lists,
                 'subtasks' => $subtasks]);
@@ -134,41 +176,39 @@ class TaskFunctions
 
     // Show 'Edit Task' form
     // ------------------------------------------------------------------------------
-    public function showEditTaskForm()
+    public function showEditTaskForm(Form $form)
     {
         $taskID = filter_input(INPUT_POST, 'taskID');
-        $TasksDB = new TasksDB();
-        $task = $TasksDB->getTask($taskID);
+        $task = $this->tasksDB->getTask($taskID);
         $title = $task->getTitle();
         $description = $task->getDescription();
 
-        // Create form
-        $Form = new Form();
-        $formFields = ['title', 'description'];
-        $Form->addFields($formFields);
-        $Form->getField('title')->setValue($title);
-        $Form->getField('description')->setValue($description);
-        $Form->getField('title')->setType('text');
-        $Form->getField('description')->setType('textarea');
+        $form->addField('title');
+        $form->getField('title')->setValue($title);
+        $form->getField('title')->setType('text');
+
+        $form->addField('description');
+        $form->getField('description')->setValue($description);
+        $form->getField('description')->setType('textarea');
 
         // Fields array
-        $fields = [$Form->getField('title'), $Form->getField('description')];
+        $fields = [$form->getField('title'), $form->getField('description')];
 
         // Lists for dropdown menu
-        $TaskListsDB = new TaskListsDB();
         $currentBoardID = $_SESSION['currentBoardID'];
-        $lists = $TaskListsDB->getAllLists($currentBoardID);
+        $lists = $this->taskListsDB->getAllLists($currentBoardID);
 
-        $SubtasksDB = new SubtasksDB();
-        $subtasksData = $SubtasksDB->getSubtasks($taskID);
+        // Subtasks
         $_SESSION['subtasksToDelete'] = [];
+        $subtasksData = $this->subtasksDB->getSubtasks($taskID);
+
         $subtasks = [];
         foreach ($subtasksData as $subtask) {
             $subtaskID = $subtask->getSubtaskID();
             $description = $subtask->getDescription();
-            $Form->addField($subtaskID);
-            $Form->getField($subtaskID)->setValue($description);
-            $subtasks[] = $Form->getField($subtaskID);
+            $form->addField($subtaskID);
+            $form->getField($subtaskID)->setValue($description);
+            $subtasks[] = $form->getField($subtaskID);
         }
 
         Response::sendResponse(true, ['fields' => $fields, 'lists' => $lists,
@@ -177,86 +217,54 @@ class TaskFunctions
 
     // Edit the task
     // ------------------------------------------------------------------------------
-    public function editTask()
+    public function editTask(Form $form)
     {
-        $title = filter_input(INPUT_POST, 'title');
-        $description = filter_input(INPUT_POST, 'description');
         $taskID = filter_input(INPUT_POST, 'taskID');
 
         // Create form
-        $Form = new Form();
-        $Form->addField('title');
-        $Form->getField('title')->setValue($title);
-        $Form->getField('title')->setType('text');
-        $Form->addField('description');
-        $Form->getField('description')->setValue($description);
-        $Form->getField('description')->setType('textarea');
-
-        // Validation
-        $Validate = new Validate($Form);
-        $Validate->text('title', $title, true, 1, 24);
-        $Validate->text('description', $description, false, 1, 2000);
+        $this->setupFormFields($form, ['action', 'listID', 'taskID']);
 
         // Fields array
-        $fields = [$Form->getField('title'), $Form->getField('description')];
+        $fields = [$form->getField('title'), $form->getField('description')];
 
         // Lists for dropdown menu
-        $TaskListsDB = new TaskListsDB();
         $currentBoardID = $_SESSION['currentBoardID'];
-        $lists = $TaskListsDB->getAllLists($currentBoardID);
+        $lists = $this->taskListsDB->getAllLists($currentBoardID);
 
         // Subtasks
-        $subtasks = [];
-        foreach ($_POST as $key => $value) {
-            if ($key != 'title' && $key != 'description' && $key != 'action' && $key != 'listID'
-                && $key != 'taskID') {
-                // Add to Form
-                $Form->addField($key);
-                $Form->getField($key)->setValue($value);
-
-                // Validate
-                $Validate->text($key, $value, true, 1, 300);
-
-                // Set a custom error message
-                if ($Form->getField($key)->hasError()) {
-                    $Form->getField($key)->setError('Subtasks must be 1 to 300 characters long.');
-                }
-                $subtasks[] = $Form->getField($key);
-            }
-        }
+        $subtasks = $this->getSubtaskFields($form, ['title', 'description', 'action', 'listID', 'taskID']);
 
         // Responses
-        if ($Form->hasErrors()) {
+        if ($form->hasErrors()) {
             Response::sendResponse(false, ['fields' => $fields, 'lists' => $lists, 'subtasks' =>
                 $subtasks], 'Input errors');
         } else {
-
             // Update the task title and description
-            $TasksDB = new TasksDB();
-            $TasksDB->updateTaskTitle($taskID, $title);
-            $TasksDB->updateTaskDescription($taskID, $description);
+            $title = $form->getField('title')->getValue();
+            $description = $form->getField('description')->getValue();
+            $this->tasksDB->updateTaskTitle($taskID, $title);
+            $this->tasksDB->updateTaskDescription($taskID, $description);
 
             // Delete subtasksToDelete from the database
-            $SubtasksDB = new SubtasksDB();
             $subtasksToDelete = $_SESSION['subtasksToDelete'];
             foreach ($subtasksToDelete as $subtask) {
-                $SubtasksDB->deleteSubtask($subtask);
+                $this->subtasksDB->deleteSubtask($subtask);
             }
 
             // Update or add the remaining board lists
             foreach ($subtasks as $subtask) {
                 $subtaskID = $subtask->getName();
-                $subtaskExists = $SubtasksDB->subtaskExists($subtaskID);
+                $subtaskExists = $this->subtasksDB->subtaskExists($subtaskID);
 
                 if ($subtaskExists) {
                     $subtaskValue = $subtask->getValue();
-                    $SubtasksDB->updateSubtaskDescription($subtaskID, $subtaskValue);
+                    $this->subtasksDB->updateSubtaskDescription($subtaskID, $subtaskValue);
                 } else {
                     $subtaskValue = $subtask->getValue();
-                    $SubtasksDB->addSubtask($taskID, $subtaskValue, 'unchecked');
+                    $this->subtasksDB->addSubtask($taskID, $subtaskValue, 'unchecked');
                 }
             }
-            
+
             Response::sendResponse(true);
         }
     }
@@ -266,8 +274,7 @@ class TaskFunctions
     public function showDeleteTaskWarning()
     {
         $taskID = filter_input(INPUT_POST, 'taskID');
-        $TasksDB = new TasksDB();
-        $task = $TasksDB->getTask($taskID);
+        $task = $this->tasksDB->getTask($taskID);
         Response::sendResponse(true, ['task' => $task]);
     }
 
@@ -276,8 +283,7 @@ class TaskFunctions
     public function deleteTask()
     {
         $taskID = filter_input(INPUT_POST, 'taskID');
-        $TasksDB = new TasksDB();
-        $TasksDB->deleteTask($taskID);
+        $this->tasksDB->deleteTask($taskID);
         Response::sendResponse(true);
     }
 }

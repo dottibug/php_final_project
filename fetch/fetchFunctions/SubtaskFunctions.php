@@ -1,6 +1,7 @@
 <?php
 
 require_once '../util/main.php';
+require_once 'util/response.php';
 require_once 'model/SubtasksDB.php';
 
 header('Content-Type: application/x-www-form-urlencoded');
@@ -41,12 +42,11 @@ class SubtaskFunctions
         Response::sendResponse(true, ['subtasks' => $subtasks, 'taskID' => $taskID]);
     }
 
-    // Set up form fields
+    // Set up form fields and sanitize user input
     // ------------------------------------------------------------------------------
     private function setupFormFields(Form $form, array $fieldsToExclude)
     {
         foreach ($_POST as $key => $value) {
-            // TODO validation/sanitation
             if (!in_array($key, $fieldsToExclude)) {
                 $filteredValue = filter_var($value, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 $form->addField($key);
@@ -72,12 +72,9 @@ class SubtaskFunctions
     // ------------------------------------------------------------------------------
     public function addSubtask(Form $form)
     {
-        $title = filter_input(INPUT_POST, 'title');
-        $description = filter_input(INPUT_POST, 'description');
-
         // Create form
         $this->setupFormFields($form, array('action'));
-        
+
         // Fields array
         $fields = [$form->getField('title'), $form->getField('description')];
 
@@ -96,10 +93,7 @@ class SubtaskFunctions
     // ------------------------------------------------------------------------------
     public function deleteSubtask(Form $form)
     {
-        $title = filter_input(INPUT_POST, 'title');
-        $description = filter_input(INPUT_POST, 'description');
         $itemToDelete = filter_input(INPUT_POST, 'itemToDelete');
-
         $_SESSION['subtasksToDelete'][] = $itemToDelete;
 
         // Create form

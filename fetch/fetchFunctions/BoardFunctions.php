@@ -3,19 +3,35 @@ require_once '../util/main.php';
 require_once 'model/BoardsDB.php';
 require_once 'model/Form.php';
 require_once 'model/Validate.php';
+require_once 'model/TaskListsDB.php';
 
 header('Content-Type: application/x-www-form-urlencoded');
 
 class BoardFunctions
 {
-    private $BoardsDB, $userID;
+    private $boardsDB, $userID, $form, $validate, $taskListsDB;
 
     // Constructor
     // ------------------------------------------------------------------------------
     public function __construct()
     {
         $this->userID = $_SESSION['userID'];
-        $this->BoardsDB = new BoardsDB();
+        $this->boardsDB = new BoardsDB();
+        $this->taskListsDB = new TaskListsDB();
+    }
+
+    // Set form
+    // ------------------------------------------------------------------------------
+    public function setForm(Form $form)
+    {
+        $this->form = $form;
+    }
+
+    // Set validate
+    // ------------------------------------------------------------------------------
+    public function setValidate(Form $form)
+    {
+        $this->validate = new Validate($form);
     }
 
     // Fetch boards
@@ -23,7 +39,7 @@ class BoardFunctions
     public function fetchBoards()
     {
         // Get user boards
-        $boards = $this->BoardsDB->getBoards($this->userID);
+        $boards = $this->boardsDB->getBoards($this->userID);
 
         // Set current board ID to the first user board (if not set yet)
         if (!isset($_SESSION['currentBoardID'])) {
@@ -33,7 +49,7 @@ class BoardFunctions
         }
 
         // Get title of the current board
-        $boardTitle = $this->BoardsDB->getBoardTitle($_SESSION['currentBoardID']);
+        $boardTitle = $this->boardsDB->getBoardTitle($_SESSION['currentBoardID']);
 
         // Response
         Response::sendResponse(true, ['currentBoardID' => $_SESSION['currentBoardID'],
@@ -44,7 +60,7 @@ class BoardFunctions
     // ------------------------------------------------------------------------------
     public function fetchCurrentBoardLists()
     {
-        $currentBoardsLists = $this->BoardsDB->getBoardDetails($_SESSION['currentBoardID']);
+        $currentBoardsLists = $this->boardsDB->getBoardDetails($_SESSION['currentBoardID']);
         Response::sendResponse(true, ['currentBoardLists' => $currentBoardsLists[0]]);
     }
 
@@ -59,30 +75,63 @@ class BoardFunctions
         }
     }
 
+    // Set up form fields with sanitized user input and validate for field errors
+    // ------------------------------------------------------------------------------
+    private function setupFormFields(Form $form, array $fieldsToExclude)
+    {
+        foreach ($_POST as $key => $value) {
+            if (!in_array($key, $fieldsToExclude)) {
+                // Sanitize user input
+                $filteredValue = filter_var($value, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $form->addField($key);
+                $form->getField($key)->setValue($filteredValue);
+
+                // Set input type
+                if ($key == 'description') {
+                    $form->getField($key)->setType('textarea');
+                } else {
+                    $form->getField($key)->setType('text');
+                }
+
+                // Validate input
+                $this->setValidate($form);
+                $this->validate->text('title', $filteredValue, true, 1, 24);
+
+
+                // Set custom error for subtask field errors
+                if ($form->getField($key)->hasError()) {
+                    if ($key != 'title') {
+                        $form->getField($key)->setError('List names must be 1 to 24 characters long.');
+                    }
+                } else {
+                    // Clear any previous errors if there are no current errors
+                    $form->getField($key)->clearError();
+                }
+            }
+        }
+    }
+
+
     // Create board form
     // ------------------------------------------------------------------------------
-    public function showCreateBoardForm()
+    public function showCreateBoardForm(Form $form)
     {
-        // Create form
-        $Form = new Form();
-
-        // Form fields
-        $Form->addField('title');
-        $Form->getField('title')->setType('text');
+        $form->addField('title');
+        $form->getField('title')->setType('text');
 
         // Fields array
-        $fields = [$Form->getField('title')];
+        $fields = [$form->getField('title')];
 
         // Lists
         $defaultLists = ['list1', 'list2', 'list3'];
-        $Form->addFields($defaultLists);
-        $Form->getField('list1')->setValue('todo');
-        $Form->getField('list2')->setValue('doing');
-        $Form->getField('list3')->setValue('done');
+        $form->addFields($defaultLists);
+        $form->getField('list1')->setValue('todo');
+        $form->getField('list2')->setValue('doing');
+        $form->getField('list3')->setValue('done');
 
         $lists = [];
         foreach ($defaultLists as $list) {
-            $lists[] = $Form->getField($list);
+            $lists[] = $form->getField($list);
         }
 
         Response::sendResponse(true, ['fields' => $fields, 'lists' => $lists]);
@@ -90,102 +139,87 @@ class BoardFunctions
 
     // Edit board form
     // ------------------------------------------------------------------------------
-    public function showEditBoardForm()
+    public function showEditBoardForm(Form $form)
     {
-        // Create form
-        $Form = new Form();
-
-        // Form fields
-        $BoardsDB = new BoardsDB();
+        // Board title
         $currentBoardID = $_SESSION['currentBoardID'];
-        $boardTitle = $BoardsDB->getBoardTitle($currentBoardID);
-        $Form->addField('title');
-        $Form->getField('title')->setType('text');
-        $Form->getField('title')->setValue($boardTitle);
+        $boardTitle = $this->boardsDB->getBoardTitle($currentBoardID);
+
+        // Form
+        $form->addField('title');
+        $form->getField('title')->setType('text');
+        $form->getField('title')->setValue($boardTitle);
 
         // Fields array
-        $fields = [$Form->getField('title')];
+        $fields = [$form->getField('title')];
 
         // Lists
         $_SESSION['listsToDelete'] = [];
-        $boardLists = $BoardsDB->getBoardDetails($currentBoardID)[0]->getLists();
+        $boardLists = $this->boardsDB->getBoardDetails($currentBoardID)[0]->getLists();
 
         $lists = [];
         foreach ($boardLists as $list) {
             $listID = $list->getListID();
-            $Form->addField($listID);
-            $Form->getField($listID)->setValue($list->getTitle());
-            $lists[] = $Form->getField($listID);
+            $form->addField($listID);
+            $form->getField($listID)->setValue($list->getTitle());
+            $lists[] = $form->getField($listID);
         }
 
         Response::sendResponse(true, ['fields' => $fields, 'lists' => $lists]);
     }
 
-    // Edit the board
+    // Get list fields
     // ------------------------------------------------------------------------------
-    public function editBoard()
+    private function getlistFields(Form $form, array $fieldsToExclude)
     {
-        $title = filter_input(INPUT_POST, 'title');
-
-        // Create form
-        $Form = new Form();
-        $Form->addField('title');
-        $Form->getField('title')->setValue($title);
-        $Form->getField('title')->setType('text');
-
-        // Validation
-        $Validate = new Validate($Form);
-        $Validate->text('title', $title, true, 1, 24);
-
-        // Fields array
-        $fields = [$Form->getField('title')];
-
-        // Lists
         $lists = [];
         foreach ($_POST as $key => $value) {
-            if ($key != 'title' && $key != 'action') {
-                // Add to form
-                $Form->addField($key);
-                $Form->getField($key)->setValue($value);
-
-                // Validate
-                $Validate->text($key, $value, true, 1, 24);
-
-                // Set a custom error message
-                if ($Form->getField($key)->hasError()) {
-                    $Form->getField($key)->setError('List names must be 1 to 24 characters long.');
-                }
-                $lists[] = $Form->getField($key);
+            if (!in_array($key, $fieldsToExclude)) {
+                $lists[] = $form->getField($key);
             }
         }
+        return $lists;
+    }
+
+    // Edit the board
+    // ------------------------------------------------------------------------------
+    public function editBoard(Form $form)
+    {
+        // Form
+        $this->setupFormFields($form, ['action']);
+
+        // Fields array
+        $fields = [$form->getField('title')];
+
+        // Lists
+        $lists = $this->getListFields($form, ['title', 'action']);
 
         // Responses
-        if ($Form->hasErrors()) {
+        if ($form->hasErrors()) {
             Response::sendResponse(false, ['fields' => $fields,
                 'lists' => $lists], 'Input errors');
         } else {
             // Update the board title
+            $title = $form->getField('title')->getValue();
             $currentBoardID = $_SESSION['currentBoardID'];
-            $BoardsDB = new BoardsDB();
-            $BoardsDB->updateBoard($currentBoardID, $title);
+            $this->boardsDB->updateBoard($currentBoardID, $title);
 
             // Delete listsToDelete from the database
-            $TaskListsDB = new TaskListsDB();
             $listsToDelete = $_SESSION['listsToDelete'];
             foreach ($listsToDelete as $list) {
-                $TaskListsDB->deleteList($list);
+                $this->taskListsDB->deleteList($list);
             }
 
             // Update or add the remaining board lists
             $i = 0;
             foreach ($lists as $list) {
                 $listID = $list->getName();
-                $listExists = $TaskListsDB->listExists($listID);
+                $listExists = $this->taskListsDB->listExists($listID);
 
                 if ($listExists) {
                     // Update list if it exists in the database already
                     $listValue = $list->getValue();
-                    $TaskListsDB->updateList($listID, $listValue);
+                    $this->taskListsDB->updateList($listID, $listValue);
                 } else {
                     // Assign list color
                     $color = ['#49C4E5', '#8471F2', '#67E2AE', '#FFAFCC', '#FFD166',
@@ -194,7 +228,7 @@ class BoardFunctions
 
                     // Add list if it doesn't exist yet
                     $listValue = $list->getValue();
-                    $TaskListsDB->addList($currentBoardID, $listValue, $listColor);
+                    $this->taskListsDB->addList($currentBoardID, $listValue, $listColor);
                 }
                 $i++;
             }
@@ -206,7 +240,7 @@ class BoardFunctions
     // ------------------------------------------------------------------------------
     public function showDeleteBoardWarning()
     {
-        $boardTitle = $this->BoardsDB->getBoardTitle($_SESSION['currentBoardID']);
+        $boardTitle = $this->boardsDB->getBoardTitle($_SESSION['currentBoardID']);
         Response::sendResponse(true, ['boardTitle' => $boardTitle]);
     }
 
@@ -215,65 +249,35 @@ class BoardFunctions
     public function deleteBoard()
     {
         // Delete board
-        $this->BoardsDB->deleteBoard($_SESSION['currentBoardID']);
+        $this->boardsDB->deleteBoard($_SESSION['currentBoardID']);
         unset($_SESSION['currentBoardID']);
         Response::sendResponse(true);
     }
 
     // Add board
     // ------------------------------------------------------------------------------
-    public function addBoard()
+    public function addBoard(Form $form)
     {
-        $title = filter_input(INPUT_POST, 'title');
-
         // Create form
-        $Form = new Form();
-        $Form->addField('title');
-        $Form->getField('title')->setValue($title);
-        $Form->getField('title')->setType('text');
-
-        // Validation
-        $Validate = new Validate($Form);
-        $Validate->text('title', $title, true, 1, 24);
+        $this->setupFormFields($form, ['action']);
 
         // Fields array
-        $fields = [$Form->getField('title')];
+        $fields = [$form->getField('title')];
 
         // Lists
-        $lists = [];
-        foreach ($_POST as $key => $value) {
-            if ($key != 'title' && $key != 'action') {
-                // User input
-                $value_f = filter_input(INPUT_POST, $key);
-
-                // Add to form
-                $Form->addField($key);
-                $Form->getField($key)->setValue($value_f);
-
-                // Validate
-                $Validate->text($key, $value_f, true, 1, 24);
-
-                // Set a custom error message
-                if ($Form->getField($key)->hasError()) {
-                    $Form->getField($key)->setError('List names must be 1 to 24 characters long.');
-                }
-
-                $lists[] = $Form->getField($key);
-            }
-        }
+        $lists = $this->getlistFields($form, ['title', 'action']);
 
         // Responses
-        if ($Form->hasErrors()) {
+        if ($form->hasErrors()) {
             Response::sendResponse(false, ['fields' => $fields,
                 'lists' => $lists], 'Input errors');
         } else {
             // Add the new board and its lists
-            $BoardsDB = new BoardsDB();
-            $userID = $_SESSION['userID'];
-            $BoardsDB->addBoard($userID, $title);
+            $title = $form->getField('title')->getValue();
+            $this->boardsDB->addBoard($this->userID, $title);
 
             // New board ID
-            $newBoardID = $BoardsDB->getBoardID($title);
+            $newBoardID = $this->boardsDB->getBoardID($title);
             $_SESSION['currentBoardID'] = $newBoardID;
 
             $i = 0;
@@ -286,8 +290,7 @@ class BoardFunctions
                     $listColor = $color[$i];
 
                     // Add list to the database
-                    $TaskListsDB = new TaskListsDB();
-                    $TaskListsDB->addList($newBoardID, $value, $listColor);
+                    $this->taskListsDB->addList($newBoardID, $value, $listColor);
                     $i++;
                 }
             }

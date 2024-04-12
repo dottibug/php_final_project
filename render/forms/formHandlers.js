@@ -36,23 +36,22 @@ export function closeOtherMenus() {
 export function renderErrors(deleteAction, fields, dynamicList, labelText, placeholder) {
     fields.forEach(field => {
         // Render field errors
-        if (field.hasError) {
-            removeElement('fieldsWrapper');
-            const newFieldsWrapper = renderFields(fields);
-            const form = findElement('form');
-            form.insertAdjacentElement('afterbegin', newFieldsWrapper);
-        }
+        removeElement('fieldsWrapper');
+        const newFieldsWrapper = renderFields(fields);
+        const form = findElement('form');
+        form.insertAdjacentElement('afterbegin', newFieldsWrapper);
     })
 
     // Render dynamic list errors
     dynamicList.forEach(list => {
-        const {message} = list;
-        if (list.hasError) {
-            removeElement('dynamicListWrapper');
-            const newDynamicListWrapper = renderDynamicList(deleteAction, dynamicList, labelText, placeholder, true, message);
-            const buttonsWrapper = findElement('buttonsWrapper');
-            buttonsWrapper.insertAdjacentElement('beforebegin', newDynamicListWrapper);
-        }
+        removeElement('dynamicListWrapper');
+
+        let newDynamicListWrapper;
+        if (list.hasError) newDynamicListWrapper = renderDynamicList(deleteAction, dynamicList, labelText, placeholder, true, list.message);
+        if (!list.hasError) newDynamicListWrapper = renderDynamicList(deleteAction, dynamicList, labelText, placeholder, false, '');
+
+        const buttonsWrapper = findElement('buttonsWrapper');
+        buttonsWrapper.insertAdjacentElement('beforebegin', newDynamicListWrapper);
     })
 }
 

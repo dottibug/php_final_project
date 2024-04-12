@@ -23,59 +23,66 @@ class ListFunctions
         $this->form = $form;
     }
 
+    // Set up form fields and sanitize user input
+    // ------------------------------------------------------------------------------
+    private function setupFormFields(Form $form, array $fieldsToExclude)
+    {
+        foreach ($_POST as $key => $value) {
+            if (!in_array($key, $fieldsToExclude)) {
+                $filteredValue = filter_var($value, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $form->addField($key);
+                $form->getField($key)->setValue($filteredValue);
+            }
+        }
+    }
+
+    // Get list fields
+    // ------------------------------------------------------------------------------
+    private function getListFields(Form $form, array $fieldsToExclude)
+    {
+        $lists = [];
+        foreach ($_POST as $key => $value) {
+            if (!in_array($key, $fieldsToExclude)) {
+                $lists[] = $form->getField($key);
+            }
+        }
+        return $lists;
+    }
+
     // Add list
     // ------------------------------------------------------------------------------
-    public function addList()
+    public function addList(Form $form)
     {
-        $title = filter_input(INPUT_POST, 'title');
-
-        // Create form
-        $this->form->addField('title');
-        $this->form->getField('title')->setValue($title);
+        // Set up form fields
+        $this->setupFormFields($form, array('action'));
 
         // Fields array
         $fields = [$this->form->getField('title')];
 
         // Lists
-        $lists = [];
-        foreach ($_POST as $key => $value) {
-            if ($key != 'title' && $key != 'action') {
-                $this->form->addField($key);
-                $this->form->getField($key)->setValue($value);
-                $lists[] = $this->form->getField($key);
-            }
-        }
+        $lists = $this->getListFields($form, array('title', 'action'));
 
         Response::sendResponse(true, ['fields' => $fields, 'lists' => $lists]);
     }
 
     // Delete list
     // ------------------------------------------------------------------------------
-    public function deleteList()
+    public function deleteList(Form $form)
     {
-        $title = filter_input(INPUT_POST, 'title');
-        $itemToDelete = filter_input(INPUT_POST, 'itemToDelete');
+        // Set up form fields
+        $this->setupFormFields($form, array('action', 'itemToDelete'));
 
         // Add to session data (the lists here will only be deleted when the user clicks 'Save')
+        $itemToDelete = filter_input(INPUT_POST, 'itemToDelete');
         $_SESSION['listsToDelete'][] = $itemToDelete;
-
-        // Create form
-        $this->form->addField('title');
-        $this->form->getField('title')->setValue($title);
 
         // Fields array
         $fields = [$this->form->getField('title')];
 
         // Lists
-        $lists = [];
-        foreach ($_POST as $key => $value) {
-            if ($key != 'title' && $key != 'action' && $key != 'itemToDelete' && $key !=
-                $itemToDelete) {
-                $this->form->addField($key);
-                $this->form->getField($key)->setValue($value);
-                $lists[] = $this->form->getField($key);
-            }
-        }
+        $lists = $this->getListFields($form, array('title', 'action', 'itemToDelete',
+            $itemToDelete));
+
         Response::sendResponse(true, ['fields' => $fields, 'lists' =>
             $lists]);
     }

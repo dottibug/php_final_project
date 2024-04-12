@@ -17,9 +17,10 @@ $action = Action::getAction('fetchBoards');
 
 // Instantiate classes
 $listFunctions = new ListFunctions();
-$boardFunctions = new BoardFunctions();
-$taskFunctions = new TaskFunctions();
 $subtaskFunctions = new SubtaskFunctions();
+$taskFunctions = new TaskFunctions();
+
+$boardFunctions = new BoardFunctions();
 
 // FIXME : something wrong going on when deleting lists from board
 
@@ -36,13 +37,19 @@ switch ($action) {
         $boardFunctions->updateCurrentBoardID();
         break;
     case ('showCreateBoardForm'):
-        $boardFunctions->showCreateBoardForm();
+        $form = new Form();
+        $boardFunctions->setForm($form);
+        $boardFunctions->showCreateBoardForm($form);
         break;
     case ('editBoardForm'):
-        $boardFunctions->showEditBoardForm();
+        $form = new Form();
+        $boardFunctions->setForm($form);
+        $boardFunctions->showEditBoardForm($form);
         break;
     case ('editBoard'):
-        $boardFunctions->editBoard();
+        $form = new Form();
+        $boardFunctions->setForm($form);
+        $boardFunctions->editBoard($form);
         break;
     case('deleteBoardWarning'):
         $boardFunctions->showDeleteBoardWarning();
@@ -51,19 +58,21 @@ switch ($action) {
         $boardFunctions->deleteBoard();
         break;
     case ('addBoard'):
-        $boardFunctions->addBoard();
+        $form = new Form();
+        $boardFunctions->setForm($form);
+        $boardFunctions->addBoard($form);
         break;
 
     // List
     case ('addList'):
         $form = new Form();
         $listFunctions->setForm($form);
-        $listFunctions->addList();
+        $listFunctions->addList($form);
         break;
     case ('deleteList'):
         $form = new Form();
         $listFunctions->setForm($form);
-        $listFunctions->deleteList();
+        $listFunctions->deleteList($form);
         break;
     case('newest'):
     case('oldest'):
@@ -75,16 +84,24 @@ switch ($action) {
         $taskFunctions->viewTask();
         break;
     case ('showAddTaskForm'):
-        $taskFunctions->showAddTaskForm();
+        $form = new Form();
+        $taskFunctions->setForm($form);
+        $taskFunctions->showAddTaskForm($form);
         break;
     case ('addTask'):
-        $taskFunctions->addTask();
+        $form = new Form();
+        $taskFunctions->setForm($form);
+        $taskFunctions->addTask($form);
         break;
     case('editTaskForm'):
-        $taskFunctions->showEditTaskForm();
+        $form = new Form();
+        $taskFunctions->setForm($form);
+        $taskFunctions->showEditTaskForm($form);
         break;
     case ('editTask'):
-        $taskFunctions->editTask();
+        $form = new Form();
+        $taskFunctions->setForm($form);
+        $taskFunctions->editTask($form);
         break;
     case ('deleteTaskWarning'):
         $taskFunctions->showDeleteTaskWarning();
