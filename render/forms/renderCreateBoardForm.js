@@ -7,6 +7,8 @@ import {renderButton, renderButtonsWrapper} from "../uiElements/renderButton.js"
 import {renderFormElement} from "../uiElements/renderFormElement.js";
 import {addBoard} from "../../eventHandlers/boardHandlers.js";
 
+// 'Create Board' form
+// -----------------------------------------------------------------------------
 export function renderCreateBoardForm(fields, lists) {
     const listLabel = 'Lists';
     const placeholder = 'Title of list';

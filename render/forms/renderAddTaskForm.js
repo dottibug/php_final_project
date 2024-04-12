@@ -5,6 +5,8 @@ import {renderButton, renderButtonsWrapper} from "../uiElements/renderButton.js"
 import {renderFormElement} from "../uiElements/renderFormElement.js";
 import {addTask} from "../../eventHandlers/taskHandlers.js";
 
+// 'Add Task' form
+// -----------------------------------------------------------------------------
 export function renderAddTaskForm(fields, lists, subtasks, selectedItem) {
     const listLabel = 'Subtasks';
     const placeholder = 'Add a subtask';
@@ -43,12 +45,11 @@ export function renderAddTaskForm(fields, lists, subtasks, selectedItem) {
     return form;
 }
 
+// Set the default selected item for dropdown menu
+// -----------------------------------------------------------------------------
 function getSelectedItem(selectedItem, lists) {
-    console.log('selectedItem: ', selectedItem);
-
     if (selectedItem) {
         const list = lists.find(list => list.listID === selectedItem);
-        console.log('list: ', list);
         const selectedID = list.listID;
         const selectedValue = list.title;
         return {selectedID, selectedValue};

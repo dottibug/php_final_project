@@ -2,6 +2,8 @@
 
 class Response
 {
+    // Sets up response for fetch requests
+// -----------------------------------------------------------------------------
     public static function sendResponse($success, $data = [], $message = '')
     {
         header('Content-Type: application/json');

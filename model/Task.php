@@ -1,20 +1,16 @@
 <?php
-// ------------------------------------------------------------------------------
-// Represents a task
-// ------------------------------------------------------------------------------
+
 class Task implements JsonSerializable
 {
     private $taskID, $boardID, $listID, $listTitle, $title, $description, $dueDate, $dateComplete,
         $priority, $subtasks = [];
 
-    // ------------------------------------------------------------------------------
     // Constructor
     // ------------------------------------------------------------------------------
     public function __construct()
     {
     }
 
-    // ------------------------------------------------------------------------------
     // Json serialize
     // ------------------------------------------------------------------------------
     public function jsonSerialize(): mixed
@@ -38,7 +34,6 @@ class Task implements JsonSerializable
         );
     }
 
-    // ------------------------------------------------------------------------------
     // Getters
     // ------------------------------------------------------------------------------
     public function getTaskID()
@@ -91,7 +86,6 @@ class Task implements JsonSerializable
         return $this->subtasks;
     }
 
-    // ------------------------------------------------------------------------------
     // Setters
     // ------------------------------------------------------------------------------
     public function setTaskID($taskID): void
@@ -144,7 +138,6 @@ class Task implements JsonSerializable
         $this->subtasks = $subtasks;
     }
 
-    // ------------------------------------------------------------------------------
     //  Add subtask
     // ------------------------------------------------------------------------------
     public function addSubtask($subtask)

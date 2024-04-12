@@ -1,10 +1,7 @@
 import {sidebarBoardSelection} from "../../eventHandlers/sidebarHandlers.js";
 import {showCreateBoardForm} from "../../eventHandlers/boardHandlers.js";
-import {findElement} from "../uiElements/findElement.js";
-import {createElement} from "../uiElements/createElement.js";
-import {removeElement} from "../uiElements/removeElement.js";
+import {removeElement, findElement, createElement} from "../uiElements/elements.js";
 
-// -----------------------------------------------------------------------------
 // Render sidebar navigation
 // -----------------------------------------------------------------------------
 export function renderSidebar(boards, currentBoardID) {

@@ -8,6 +8,8 @@ import {renderButton, renderButtonsWrapper} from "../uiElements/renderButton.js"
 import {renderFormElement} from "../uiElements/renderFormElement.js";
 import {saveTaskChanges} from "../../eventHandlers/taskHandlers.js";
 
+// 'Edit Task' form
+// -----------------------------------------------------------------------------
 export function renderEditTaskForm(task, fields, lists, subtasks) {
     const {taskID, listID, listTitle} = task;
     const listLabel = 'Subtasks';

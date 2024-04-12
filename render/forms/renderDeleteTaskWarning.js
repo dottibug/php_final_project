@@ -1,9 +1,11 @@
 import {renderButton, renderButtonsWrapper} from "../uiElements/renderButton.js";
 import {handleCloseLightbox} from "../lightbox/renderLightbox.js";
 import {renderFormElement} from "../uiElements/renderFormElement.js";
-import {createElement} from "../uiElements/createElement.js";
+import {createElement} from "../uiElements/elements.js";
 import {deleteTask} from "../../eventHandlers/taskHandlers.js";
 
+// 'Delete Task' warning
+// -----------------------------------------------------------------------------
 export function renderDeleteTaskWarning(task) {
     const {title, taskID} = task;
 

@@ -1,8 +1,11 @@
-import {createElement} from "../uiElements/createElement.js";
 import {renderEmptyTaskBox} from "./renderPlaceholders.js";
 import {getSubtasksCount} from "../uiElements/renderCheckboxList.js";
 import {handleTaskClick} from "../../eventHandlers/taskHandlers.js";
+import {createElement} from "../uiElements/elements.js";
 
+
+// Render tasks
+// -----------------------------------------------------------------------------
 export function renderTasks(tasks, listID, lists) {
     // Tasks wrapper
     const tasksWrapper = createElement('ul', 'tasks', `tasks${listID}`);

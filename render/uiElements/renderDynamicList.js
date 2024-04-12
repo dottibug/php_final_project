@@ -4,7 +4,7 @@ import {
     addDynamicListItem,
     deleteDynamicListItem,
 } from "../../eventHandlers/dynamicListHandlers.js";
-import {createElement} from "./createElement.js";
+import {createElement} from "./elements.js";
 
 // Create dynamic list component that allows user to add/delete input fields
 // -----------------------------------------------------------------------------------

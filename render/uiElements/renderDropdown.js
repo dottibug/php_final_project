@@ -1,7 +1,7 @@
-import {findElement} from "./findElement.js";
-import {removeElement} from "./removeElement.js";
-import {createElement} from "./createElement.js";
+import {removeElement, findElement, createElement} from "./elements.js";
 
+// Render dropdown component
+// -----------------------------------------------------------------------------
 export function renderDropdown(options, label, selectedID, selectedValue) {
     // Wrapper
     const dropdownWrapper = createElement('div', 'dropdownWrapper', 'dropdownWrapper');
@@ -27,7 +27,6 @@ export function renderDropdown(options, label, selectedID, selectedValue) {
     return dropdownWrapper;
 }
 
-// -----------------------------------------------------------------------------
 // Render the dropdown options
 // -----------------------------------------------------------------------------
 function renderDropdownOptions(options) {
@@ -51,8 +50,7 @@ function renderDropdownOptions(options) {
     dropdownWrapper.appendChild(dropdownOptions);
 }
 
-// -----------------------------------------------------------------------------
-// EVENT: Clicking an option
+// Selecting a dropdown option
 // -----------------------------------------------------------------------------
 function handleOptionClick(e) {
     // Data from the clicked dropdown option
@@ -72,8 +70,7 @@ function handleOptionClick(e) {
     removeElement('dropdownOptions');
 }
 
-// -----------------------------------------------------------------------------
-// EVENT: Click to show/hide dropdown options
+// Show/hide dropdown options
 // -----------------------------------------------------------------------------
 function handleShowOptions(e, options) {
     e.preventDefault();

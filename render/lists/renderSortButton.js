@@ -1,6 +1,8 @@
-import {createElement} from "../uiElements/createElement.js";
+import {createElement} from "../uiElements/elements.js";
 import {showSortMenu} from "../../eventHandlers/sortMenuHandlers.js";
 
+// Sort tasks buttons
+// -----------------------------------------------------------------------------
 export function renderSortButton(listID, listHeader) {
     const sortButtonWrapper = createElement('div', 'sortButtonWrapper', 'sortButtonWrapper');
     const sortButton = createElement('button', 'sortButton');

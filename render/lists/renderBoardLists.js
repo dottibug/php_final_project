@@ -1,7 +1,9 @@
 import {renderEmptyBoard} from "./renderPlaceholders.js";
 import {renderLists} from "./renderLists.js";
-import {clearElement} from "../uiElements/clearElement.js";
+import {clearElement} from "../uiElements/elements.js";
 
+// Render board lists or empty board
+// -----------------------------------------------------------------------------
 export function renderBoardLists(lists) {
     // Clear canvas
     clearElement('canvas');

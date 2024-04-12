@@ -1,4 +1,4 @@
-import {createElement} from "./createElement.js";
+import {createElement} from "./elements.js";
 
 export function renderTextarea(name, value) {
     const textarea = createElement('textarea', 'textarea', '', value);

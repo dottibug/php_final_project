@@ -1,7 +1,5 @@
 import {fetchData} from "../forms/formHandlers.js";
-import {removeElement} from "./removeElement.js";
-import {findElement} from "./findElement.js";
-import {createElement} from "./createElement.js";
+import {removeElement, findElement, createElement} from "./elements.js";
 
 export function renderCheckboxList(subtasks, taskID) {
     // Subtasks wrapper

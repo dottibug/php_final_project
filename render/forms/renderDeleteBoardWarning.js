@@ -2,8 +2,10 @@ import {renderButton, renderButtonsWrapper} from "../uiElements/renderButton.js"
 import {handleCloseLightbox} from "../lightbox/renderLightbox.js";
 import {deleteBoard} from "../../eventHandlers/boardHandlers.js";
 import {renderFormElement} from "../uiElements/renderFormElement.js";
-import {createElement} from "../uiElements/createElement.js";
+import {createElement} from "../uiElements/elements.js";
 
+// 'Delete Board' warning
+// -----------------------------------------------------------------------------
 export function renderDeleteBoardWarning(boardTitle) {
     // Form element
     const form = renderFormElement();

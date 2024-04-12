@@ -1,7 +1,10 @@
 import {renderFormElement} from "../uiElements/renderFormElement.js";
 import {renderCheckboxList} from "../uiElements/renderCheckboxList.js";
-import {createElement} from "../uiElements/createElement.js";
+import {createElement} from "../uiElements/elements.js";
 
+
+// 'Task Details' lightbox
+// -----------------------------------------------------------------------------
 export function renderTaskDetails(task, subtasks) {
     const {taskID, description} = task;
     const subtasksArray = Object.values(subtasks);

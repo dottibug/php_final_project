@@ -3,9 +3,11 @@ import {
     showDeleteBoardWarning,
     showEditBoardForm
 } from "../../eventHandlers/boardMenuHandlers.js";
-import {findElement} from "../uiElements/findElement.js";
-import {createElement} from "../uiElements/createElement.js";
+import {createElement, findElement} from "../uiElements/elements.js";
 
+
+// Board menu
+// -----------------------------------------------------------------------------
 export function renderBoardMenu() {
     // Clear previous board menu event listeners
     const menus = document.querySelectorAll('.boardMenu');

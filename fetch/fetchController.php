@@ -1,12 +1,11 @@
 <?php
 require_once '../util/main.php';
 require_once 'model/Action.php';
-require_once 'fetch/fetchFunctions/ListFunctions.php';
 require_once 'model/Form.php';
-
-require_once 'fetch/fetchFunctions/boardFunctions.php';
-require_once 'fetch/fetchFunctions/taskFunctions.php';
-require_once 'fetch/fetchFunctions/subtaskFunctions.php';
+require_once 'fetch/fetchFunctions/BoardFunctions.php';
+require_once 'fetch/fetchFunctions/ListFunctions.php';
+require_once 'fetch/fetchFunctions/TaskFunctions.php';
+require_once 'fetch/fetchFunctions/SubtaskFunctions.php';
 require_once 'fetch/fetchFunctions/logout.php';
 
 session_start();
@@ -16,13 +15,10 @@ header('Content-Type: application/x-www-form-urlencoded');
 $action = Action::getAction('fetchBoards');
 
 // Instantiate classes
-$listFunctions = new ListFunctions();
-$subtaskFunctions = new SubtaskFunctions();
-$taskFunctions = new TaskFunctions();
-
 $boardFunctions = new BoardFunctions();
-
-// FIXME : something wrong going on when deleting lists from board
+$listFunctions = new ListFunctions();
+$taskFunctions = new TaskFunctions();
+$subtaskFunctions = new SubtaskFunctions();
 
 // Controller
 switch ($action) {

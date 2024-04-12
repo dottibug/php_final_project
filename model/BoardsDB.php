@@ -184,9 +184,8 @@ class BoardsDB
             $stmt->bindValue(':userID', $userID);
             $stmt->bindValue(':title', $title);
             $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt->closeCursor();
-            return $row;
+            return true;
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;
@@ -202,9 +201,8 @@ class BoardsDB
             $stmt = $this->db->prepare($query);
             $stmt->bindValue(':boardID', $boardID);
             $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt->closeCursor();
-            return $row;
+            return true;
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;
@@ -221,9 +219,8 @@ class BoardsDB
             $stmt->bindValue(':title', $title);
             $stmt->bindValue(':boardID', $boardID);
             $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt->closeCursor();
-            return $row;
+            return true;
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;

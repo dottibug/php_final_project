@@ -5,7 +5,7 @@ import {renderSidebar} from "../render/menus/renderSidebar.js";
 import {renderBoardLists} from '../render/lists/renderBoardLists.js';
 import {showBoardMenu} from "../eventHandlers/boardMenuHandlers.js";
 import {showAddTaskForm} from "../eventHandlers/taskHandlers.js";
-import {findElement} from "../render/uiElements/findElement.js";
+import {findElement} from "../render/uiElements/elements.js";
 
 // Fetch board data after document loads
 // -----------------------------------------------------------------------------------
@@ -25,16 +25,11 @@ export async function fetchBoards() {
     if (res.success) {
         const {boards, currentBoardID, currentBoardTitle,} = res.data;
 
-        console.log('boards: ', boards);
-
+        // Sidebar
         renderSidebar(boards, currentBoardID);
 
         // Set main board heading
         findElement('boardTitle').innerText = currentBoardTitle;
-
-        // // 'Add New Task' button event listener
-        // const addNewTaskButton = findElement('addNewTaskButton');
-        // addNewTaskButton.addEventListener('click', (e) => showAddTaskForm();
 
         // Board menu event listener
         const boardMenuKebab = findElement("mainBoardHeaderKebab");
@@ -49,8 +44,6 @@ export async function fetchCurrentBoardLists() {
     const action = 'fetchCurrentBoardLists';
     const res = await fetchData(action);
 
-    console.log('current board lists dat: ', res)
-
     // Render
     if (res.success) {
         const {currentBoardLists} = res.data;
@@ -64,6 +57,8 @@ export async function fetchCurrentBoardLists() {
     }
 }
 
+// Show 'Add Task' form
+// -----------------------------------------------------------------------------------
 async function handleShowAddTaskForm() {
     await showAddTaskForm();
 }

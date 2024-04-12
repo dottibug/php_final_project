@@ -6,15 +6,13 @@
 class Subtask implements JsonSerializable
 {
     private $subtaskID, $taskID, $description, $status;
-    
-    // ------------------------------------------------------------------------------
+
     //  Constructor
     // ------------------------------------------------------------------------------
     public function __construct()
     {
     }
 
-    // ------------------------------------------------------------------------------
     //  Json serialize
     // ------------------------------------------------------------------------------
     public function jsonSerialize(): mixed
@@ -32,7 +30,6 @@ class Subtask implements JsonSerializable
         );
     }
 
-    // ------------------------------------------------------------------------------
     //  Getters
     // ------------------------------------------------------------------------------
     public function getSubtaskID()
@@ -55,7 +52,6 @@ class Subtask implements JsonSerializable
         return $this->status;
     }
 
-    // ------------------------------------------------------------------------------
     //  Setters
     // ------------------------------------------------------------------------------
     public function setSubtaskID($subtaskID): void
@@ -78,5 +74,3 @@ class Subtask implements JsonSerializable
         $this->status = $status;
     }
 }
-
-?>

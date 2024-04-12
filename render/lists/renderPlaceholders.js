@@ -1,9 +1,11 @@
-import {createElement} from "../uiElements/createElement.js";
 import {renderButton} from "../uiElements/renderButton.js";
 import {showEditBoardForm} from "../../eventHandlers/boardMenuHandlers.js";
 import {showAddTaskForm} from "../../eventHandlers/taskHandlers.js";
-import {clearElement} from "../uiElements/clearElement.js";
+import {createElement, clearElement} from "../uiElements/elements.js";
 
+
+// 'New List' placeholder
+// -----------------------------------------------------------------------------
 export function renderEmptyBoard() {
     // Clear canvas
     clearElement('canvas');
@@ -21,6 +23,8 @@ export function renderEmptyBoard() {
     emptyBoard.appendChild(createListButton);
 }
 
+// 'New Task' placeholder
+// -----------------------------------------------------------------------------
 export function renderEmptyTaskBox(boxLabel, listID, tasksWrapper) {
     const emptyTaskBox = createElement('li', 'emptyTaskBox', '', boxLabel);
     emptyTaskBox.addEventListener('click', () => showAddTaskForm(listID));

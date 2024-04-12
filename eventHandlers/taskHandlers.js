@@ -6,21 +6,23 @@ import {
     renderErrors
 } from "../render/forms/formHandlers.js";
 import {renderTaskMenu} from "../render/menus/renderTaskMenu.js";
-import {findElement} from "../render/uiElements/findElement.js";
+import {findElement} from "../render/uiElements/elements.js";
 
 // Click a task
 // -----------------------------------------------------------------------------------
 export async function handleTaskClick(e) {
-
+    // Get the html tag clicked
     const targetTag = e.target.closest('button')
         ? e.target.closest('button').tagName
         : e.target.closest('li').tagName;
 
+    // If html tag is a button, render the task menu
     if (targetTag === 'BUTTON') {
         const taskID = e.target.closest('button').dataset.taskId;
         renderTaskMenu(taskID);
     }
 
+    // If html tag is li, render the task details
     if (targetTag === 'LI') {
         const taskID = e.target.closest('li').dataset.taskId;
         const taskTitle = e.target.closest('li').dataset.taskTitle;
@@ -31,10 +33,10 @@ export async function handleTaskClick(e) {
 // Show task details
 // -----------------------------------------------------------------------------------
 export async function showTaskDetails(taskID, title) {
+    // Fetch
     const res = await fetchData('viewTask', {}, {'taskID': taskID});
 
-    console.log('show task res: ', res);
-
+    // Render
     if (res.success) {
         const {subtasks, task} = res.data;
         const options = {
@@ -51,8 +53,11 @@ export async function showTaskDetails(taskID, title) {
 // Show 'Add Task' form
 // -----------------------------------------------------------------------------------
 export async function showAddTaskForm(selectedItem = '') {
+    // Fetch
     const action = 'showAddTaskForm';
     const res = await fetchData(action);
+
+    // Render
     const {fields, lists, subtasks} = res.data;
     const options = {
         heading: 'Add Task',

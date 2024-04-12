@@ -1,7 +1,6 @@
 import {renderDynamicList} from "../render/uiElements/renderDynamicList.js";
 import {fetchData} from "../render/forms/formHandlers.js";
-import {removeElement} from "../render/uiElements/removeElement.js";
-import {findElement} from "../render/uiElements/findElement.js";
+import {removeElement, findElement} from "../render/uiElements/elements.js";
 
 // Add list to the dynamic input list
 // -----------------------------------------------------------------------------------
@@ -36,10 +35,7 @@ export async function deleteDynamicListItem(e, action, listLabel, placeholder, h
     const form = findElement('form');
     const formData = new FormData(form);
     const itemToDelete = e.target.closest('button').dataset.listItemName;
-    console.log('Item to delete from dynamic list: ', itemToDelete);
-
     const res = await fetchData(action, formData, {'itemToDelete': itemToDelete});
-
 
     // Render
     if (res.success) refreshDynamicList(res.data, action, listLabel, placeholder, hasErrors, message);
@@ -48,14 +44,18 @@ export async function deleteDynamicListItem(e, action, listLabel, placeholder, h
 // Refresh dynamic input list
 // -----------------------------------------------------------------------------------
 export function refreshDynamicList(data, action, listLabel, placeholder, hasErrors, message) {
+    // Set which data is received (lists or subtasks)
     const list = (action === 'addList' || action === 'deleteList')
         ? data.lists : data.subtasks;
 
+    // Set which delete action will be used when deleting items from the dynamic list
     const deleteAction = (action === 'addList' || action === 'deleteList') ? 'deleteList' : 'deleteSubtask';
 
+    // Render dynamic list component
     removeElement('dynamicListWrapper');
     const dynamicList = renderDynamicList(deleteAction, list, listLabel, placeholder, hasErrors, message);
 
+    // Where to render the dynamic list
     const buttonsWrapper = findElement('buttonsWrapper');
     buttonsWrapper.insertAdjacentElement('beforebegin', dynamicList);
 }

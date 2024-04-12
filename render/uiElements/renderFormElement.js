@@ -1,4 +1,4 @@
-import {createElement} from "./createElement.js";
+import {createElement} from "./elements.js";
 
 export function renderFormElement() {
     const form = createElement('form', 'lightboxForm', 'form');

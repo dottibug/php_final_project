@@ -36,17 +36,6 @@ class TaskFunctions
         $this->validate = new Validate($form);
     }
 
-    // View task details
-    // ------------------------------------------------------------------------------
-    public function viewTask()
-    {
-        $taskID = filter_input(INPUT_POST, 'taskID');
-        $task = $this->tasksDB->getTask($taskID);
-        $subtasks = $this->subtasksDB->getSubtasks($taskID);
-
-        Response::sendResponse(true, ['task' => $task, 'subtasks' => $subtasks]);
-    }
-
     // Set up form fields with sanitized user input and validate for field errors
     // ------------------------------------------------------------------------------
     private function setupFormFields(Form $form, array $fieldsToExclude)
@@ -88,6 +77,30 @@ class TaskFunctions
         }
     }
 
+    // Get subtask fields
+    // ------------------------------------------------------------------------------
+    private function getSubtaskFields(Form $form, array $fieldsToExclude)
+    {
+        $subtasks = [];
+        foreach ($_POST as $key => $value) {
+            if (!in_array($key, $fieldsToExclude)) {
+                $subtasks[] = $form->getField($key);
+            }
+        }
+        return $subtasks;
+    }
+
+    // View task details
+    // ------------------------------------------------------------------------------
+    public function viewTask()
+    {
+        $taskID = filter_input(INPUT_POST, 'taskID');
+        $task = $this->tasksDB->getTask($taskID);
+        $subtasks = $this->subtasksDB->getSubtasks($taskID);
+
+        Response::sendResponse(true, ['task' => $task, 'subtasks' => $subtasks]);
+    }
+
     // Show 'Add Task' form
     // ------------------------------------------------------------------------------
     public function showAddTaskForm(Form $form)
@@ -118,19 +131,6 @@ class TaskFunctions
 
         Response::sendResponse(true, ['fields' => $fields, 'lists' => $lists, 'subtasks' =>
             $subtasks]);
-    }
-
-    // Get subtask fields
-    // ------------------------------------------------------------------------------
-    private function getSubtaskFields(Form $form, array $fieldsToExclude)
-    {
-        $subtasks = [];
-        foreach ($_POST as $key => $value) {
-            if (!in_array($key, $fieldsToExclude)) {
-                $subtasks[] = $form->getField($key);
-            }
-        }
-        return $subtasks;
     }
 
     // Add task to a list
@@ -215,7 +215,7 @@ class TaskFunctions
             'subtasks' => $subtasks, 'task' => $task]);
     }
 
-    // Edit the task
+    // Save changes to task
     // ------------------------------------------------------------------------------
     public function editTask(Form $form)
     {

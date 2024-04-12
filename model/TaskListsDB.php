@@ -1,16 +1,11 @@
 <?php
-// ------------------------------------------------------------------------------
-// Interacts with the lists table
-// ------------------------------------------------------------------------------
 require_once 'Database.php';
 require_once 'TaskList.php';
 
 class TaskListsDB
 {
     private $db;
-    private $lists = [];
 
-    // ------------------------------------------------------------------------------
     // Constructor
     // ------------------------------------------------------------------------------
     public function __construct()
@@ -18,7 +13,6 @@ class TaskListsDB
         $this->db = Database::getDB();
     }
 
-    // ------------------------------------------------------------------------------
     // Get all lists by boardID
     // ------------------------------------------------------------------------------
     public function getAllLists($boardID)
@@ -48,7 +42,6 @@ class TaskListsDB
         }
     }
 
-    // ------------------------------------------------------------------------------
     // Get list title by listID
     // ------------------------------------------------------------------------------
     public function getListTitle($listID)
@@ -67,7 +60,6 @@ class TaskListsDB
         }
     }
 
-    // ------------------------------------------------------------------------------
     // Check if list exists in database
     // ------------------------------------------------------------------------------
     public function listExists($listID)
@@ -91,26 +83,6 @@ class TaskListsDB
         }
     }
 
-    // ------------------------------------------------------------------------------
-    // Get number of tasks in list
-    // ------------------------------------------------------------------------------
-    public function getNumberOfTasks($listID)
-    {
-        try {
-            $query = "SELECT COUNT(*) AS count FROM tasks WHERE listID = :listID";
-            $stmt = $this->db->prepare($query);
-            $stmt->bindValue('listID', $listID);
-            $stmt->execute();
-            $row = $stmt->fetch();
-            $stmt->closeCursor();
-            return $row['count'];
-        } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
-            return false;
-        }
-    }
-
-    // ------------------------------------------------------------------------------
     // Add list
     // ------------------------------------------------------------------------------
     public function addList($boardID, $title, $color = '')
@@ -138,7 +110,6 @@ class TaskListsDB
         }
     }
 
-    // ------------------------------------------------------------------------------
     // Delete list
     // ------------------------------------------------------------------------------
     public function deleteList($listID)
@@ -148,16 +119,14 @@ class TaskListsDB
             $stmt = $this->db->prepare($query);
             $stmt->bindValue(':listID', $listID);
             $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt->closeCursor();
-            return $row;
+            return true;
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;
         }
     }
 
-    // ------------------------------------------------------------------------------
     // Update list
     // ------------------------------------------------------------------------------
     public function updateList($listID, $title)
@@ -168,37 +137,8 @@ class TaskListsDB
             $stmt->bindValue(':title', $title);
             $stmt->bindValue(':listID', $listID);
             $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt->closeCursor();
-            return $row;
-        } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
-            return false;
-        }
-    }
-
-    // ------------------------------------------------------------------------------
-    // Get list by listID
-    // ------------------------------------------------------------------------------
-    public function getList($listID)
-    {
-        try {
-            $query = 'SELECT * FROM lists WHERE listID = :listID';
-            $stmt = $this->db->prepare($query);
-            $stmt->bindValue(':listID', $listID);
-            $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            $stmt->closeCursor();
-
-            $list = new TaskList();
-            $list->setListID($listID);
-            $list->setBoardID($row['boardID']);
-            $list->setTitle($row['title']);
-            $list->setColor($row['color']);
-            
-            return $list;
-
-
+            return true;
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;

@@ -2,27 +2,16 @@ import {renderDynamicList} from "../uiElements/renderDynamicList.js";
 import {renderFields} from "./renderFields.js";
 import {fetchBoards, fetchCurrentBoardLists} from "../../fetch/script.js";
 import {handleCloseLightbox} from "../lightbox/renderLightbox.js";
-import {removeElement} from "../uiElements/removeElement.js";
-import {findElement} from "../uiElements/findElement.js";
+import {removeElement, findElement} from "../uiElements/elements.js";
 
-
-// -----------------------------------------------------------------------------
 // Re-fetch board data and close the lightbox form
 // -----------------------------------------------------------------------------
 export async function refreshBoards(closeLightbox = false) {
-    console.log('Refreshing boards');
-
     await fetchBoards();
-    console.log('boards fetched');
-
-
     await fetchCurrentBoardLists();
-    console.log('current board lists fetched')
-
     if (closeLightbox) await handleCloseLightbox();
 }
 
-// -----------------------------------------------------------------------------
 // Close other menus
 // -----------------------------------------------------------------------------
 export function closeOtherMenus() {
@@ -30,7 +19,6 @@ export function closeOtherMenus() {
     menus.forEach(menu => menu.remove());
 }
 
-// -----------------------------------------------------------------------------
 // Render errors
 // -----------------------------------------------------------------------------
 export function renderErrors(deleteAction, fields, dynamicList, labelText, placeholder) {
@@ -56,7 +44,6 @@ export function renderErrors(deleteAction, fields, dynamicList, labelText, place
 }
 
 
-// -----------------------------------------------------------------------------
 // Get form data
 // -----------------------------------------------------------------------------
 export function getFormData() {
@@ -66,7 +53,6 @@ export function getFormData() {
 }
 
 
-// -----------------------------------------------------------------------------
 // Fetch data
 // -----------------------------------------------------------------------------
 export async function fetchData(action, formData = {}, otherParams = {}) {

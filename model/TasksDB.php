@@ -1,7 +1,4 @@
 <?php
-// ------------------------------------------------------------------------------
-// Interacts with the tasks table
-// ------------------------------------------------------------------------------
 require_once 'Database.php';
 require_once 'Task.php';
 require_once 'TaskListsDB.php';
@@ -12,80 +9,13 @@ class TasksDB
     private $db;
     private $tasks = [];
 
-    // ------------------------------------------------------------------------------
     // Constructor
     // ------------------------------------------------------------------------------
     public function __construct()
     {
         $this->db = Database::getDB();
     }
-
-    // ------------------------------------------------------------------------------
-    // Get tasks by boardID
-    // ------------------------------------------------------------------------------
-    public function getTasks($boardID)
-    {
-        try {
-            $query = "SELECT * FROM tasks WHERE boardID = :boardID";
-            $stmt = $this->db->prepare($query);
-            $stmt->bindValue(':boardID', $boardID);
-            $stmt->execute();
-            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $stmt->closeCursor();
-
-            foreach ($rows as $row) {
-                $Task = new Task();
-                $this->tasks[] = $Task;
-            }
-            return $this->tasks;
-        } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
-            return false;
-        }
-    }
-
-    // ------------------------------------------------------------------------------
-    // Get tasks by listID
-    // ------------------------------------------------------------------------------
-    public function getTasksByListID($listID)
-    {
-        try {
-            $query = "SELECT * FROM tasks WHERE listID = :listID";
-            $stmt = $this->db->prepare($query);
-            $stmt->bindValue(':listID', $listID);
-            $stmt->execute();
-            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $stmt->closeCursor();
-
-            $tasks = [];
-            foreach ($rows as $row) {
-                $Task = new Task();
-                $tasks[] = $Task;
-            }
-            return $tasks;
-        } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
-            return false;
-        }
-    }
-
-    // ------------------------------------------------------------------------------
-    // Group tasks by their listID
-    // ------------------------------------------------------------------------------
-    public function getGroupedTasks($Tasks)
-    {
-        $TaskListsDB = new TaskListsDB();
-
-        $GroupedTasks = [];
-        foreach ($Tasks as $Task) {
-            $listID = $Task->getListID();
-            $listTitle = $TaskListsDB->getListTitle($listID);
-            $GroupedTasks[$listTitle][] = $Task;
-        }
-        return $GroupedTasks;
-    }
-
-    // ------------------------------------------------------------------------------
+    
     // Add task
     // ------------------------------------------------------------------------------
     public function addTask($boardID, $listID, $title, $description)
@@ -99,13 +29,13 @@ class TasksDB
             $stmt->bindValue(':description', $description);
             $stmt->execute();
             $stmt->closeCursor();
+            return true;
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;
         }
     }
 
-    // ------------------------------------------------------------------------------
     // Get taskID by task title and listID
     // ------------------------------------------------------------------------------
     public function getTaskID($title, $listID)
@@ -125,7 +55,6 @@ class TasksDB
         }
     }
 
-    // ------------------------------------------------------------------------------
     // Get task by taskID
     // ------------------------------------------------------------------------------
     public function getTask($taskID)
@@ -138,25 +67,24 @@ class TasksDB
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt->closeCursor();
 
-            $TaskListsDB = new TaskListsDB();
-            $listTitle = $TaskListsDB->getListTitle($row['listID']);
+            $taskListsDB = new TaskListsDB();
+            $listTitle = $taskListsDB->getListTitle($row['listID']);
 
-            $Task = new Task();
-            $Task->setTaskID($row['taskID']);
-            $Task->setBoardID($row['boardID']);
-            $Task->setListID($row['listID']);
-            $Task->setTitle($row['title']);
-            $Task->setDescription($row['description']);
-            $Task->setListTitle($listTitle);
+            $task = new Task();
+            $task->setTaskID($row['taskID']);
+            $task->setBoardID($row['boardID']);
+            $task->setListID($row['listID']);
+            $task->setTitle($row['title']);
+            $task->setDescription($row['description']);
+            $task->setListTitle($listTitle);
 
-            return $Task;
+            return $task;
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;
         }
     }
 
-    // ------------------------------------------------------------------------------
     // Update task title
     // ------------------------------------------------------------------------------
     public function updateTaskTitle($taskID, $title)
@@ -168,13 +96,13 @@ class TasksDB
             $stmt->bindValue(':taskID', $taskID);
             $stmt->execute();
             $stmt->closeCursor();
+            return true;
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;
         }
     }
 
-    // ------------------------------------------------------------------------------
     // Update task description
     // ------------------------------------------------------------------------------
     public function updateTaskDescription($taskID, $description)
@@ -186,13 +114,13 @@ class TasksDB
             $stmt->bindValue(':taskID', $taskID);
             $stmt->execute();
             $stmt->closeCursor();
+            return true;
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;
         }
     }
 
-    // ------------------------------------------------------------------------------
     // Delete task
     // ------------------------------------------------------------------------------
     public function deleteTask($taskID)
@@ -203,13 +131,13 @@ class TasksDB
             $stmt->bindValue(':taskID', $taskID);
             $stmt->execute();
             $stmt->closeCursor();
+            return true;
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;
         }
     }
 
-    // ------------------------------------------------------------------------------
     // Delete task
     // ------------------------------------------------------------------------------
     public function getSortedTasks($listID, $sortBy)
@@ -225,20 +153,20 @@ class TasksDB
             $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $stmt->closeCursor();
 
-            $TaskListsDB = new TaskListsDB();
-            $listTitle = $TaskListsDB->getListTitle($listID);
+            $taskListsDB = new TaskListsDB();
+            $listTitle = $taskListsDB->getListTitle($listID);
 
             $tasks = [];
             foreach ($rows as $row) {
                 $taskID = $row['taskID'];
-                $Task = new Task();
-                $Task->setTaskID($taskID);
-                $Task->setListID($listID);
-                $Task->setListTitle($listTitle);
-                $Task->setTitle($row['title']);
-                $Task->setDescription($row['description']);
-                $Task->setSubtasks([]);
-                $tasks[$taskID] = $Task;
+                $task = new Task();
+                $task->setTaskID($taskID);
+                $task->setListID($listID);
+                $task->setListTitle($listTitle);
+                $task->setTitle($row['title']);
+                $task->setDescription($row['description']);
+                $task->setSubtasks([]);
+                $tasks[$taskID] = $task;
             }
 
             return $tasks;

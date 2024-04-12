@@ -7,9 +7,9 @@ import {renderTaskDetails} from "./renderTaskDetails.js";
 import {renderEditTaskForm} from "./renderEditTaskForm.js";
 import {renderDeleteTaskWarning} from "./renderDeleteTaskWarning.js";
 
-// export function renderForm(heading, formName, fields = null, lists = null, subtasks = null, boardTitle = '', task = null, selectedItem, refreshOnClose = false) {
+// Renders forms based on options
+// -----------------------------------------------------------------------------
 export function renderForm(options) {
-
     const formName = options.formName;
     const heading = options.heading;
     const boardTitle = options.boardTitle || '';

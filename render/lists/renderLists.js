@@ -1,9 +1,11 @@
-import {createElement} from "../uiElements/createElement.js";
 import {renderSortButton} from "./renderSortButton.js";
 import {renderTasks} from "./renderTasks.js";
 import {showEditBoardForm} from "../../eventHandlers/boardMenuHandlers.js";
-import {findElement} from "../uiElements/findElement.js";
+import {createElement, findElement} from "../uiElements/elements.js";
 
+
+// Render lists
+// -----------------------------------------------------------------------------
 export function renderLists(lists) {
     const canvas = findElement('canvas');
 

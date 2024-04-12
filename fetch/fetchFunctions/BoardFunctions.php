@@ -34,6 +34,65 @@ class BoardFunctions
         $this->validate = new Validate($form);
     }
 
+    // Set up form fields with sanitized user input and validate for field errors
+    // ------------------------------------------------------------------------------
+    private function setupFormFields(Form $form, array $fieldsToExclude)
+    {
+        foreach ($_POST as $key => $value) {
+            if (!in_array($key, $fieldsToExclude)) {
+                // Sanitize user input
+                $filteredValue = filter_var($value, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $form->addField($key);
+                $form->getField($key)->setValue($filteredValue);
+
+                // Set input type
+                if ($key == 'description') {
+                    $form->getField($key)->setType('textarea');
+                } else {
+                    $form->getField($key)->setType('text');
+                }
+
+                // Validate input
+                $this->setValidate($form);
+                $this->validate->text($key, $filteredValue, true, 1, 24);
+
+                // Set custom error for subtask field errors
+                if ($form->getField($key)->hasError()) {
+                    if ($key != 'title') {
+                        $form->getField($key)->setError('List names must be 1 to 24 characters long.');
+                    }
+                } elseif (!$form->getField($key)->hasError()) {
+                    // Clear any previous errors if there are no current errors
+                    $form->getField($key)->clearError();
+                }
+            }
+        }
+    }
+
+    // Get list fields
+    // ------------------------------------------------------------------------------
+    private function getlistFields(Form $form, array $fieldsToExclude)
+    {
+        $lists = [];
+        foreach ($_POST as $key => $value) {
+            if (!in_array($key, $fieldsToExclude)) {
+                $lists[] = $form->getField($key);
+            }
+        }
+        return $lists;
+    }
+
+    // Update current board ID
+    // ------------------------------------------------------------------------------
+    public function updateCurrentBoardID()
+    {
+        if (isset($_POST['newBoardID'])) {
+            $newBoardID = filter_input(INPUT_POST, 'newBoardID');
+            $_SESSION['currentBoardID'] = $newBoardID;
+            Response::sendResponse('true', ['newCurrentBoardID' => $newBoardID]);
+        }
+    }
+
     // Fetch boards
     // ------------------------------------------------------------------------------
     public function fetchBoards()
@@ -63,54 +122,6 @@ class BoardFunctions
         $currentBoardsLists = $this->boardsDB->getBoardDetails($_SESSION['currentBoardID']);
         Response::sendResponse(true, ['currentBoardLists' => $currentBoardsLists[0]]);
     }
-
-    // Fetch current board lists
-    // ------------------------------------------------------------------------------
-    public function updateCurrentBoardID()
-    {
-        if (isset($_POST['newBoardID'])) {
-            $newBoardID = filter_input(INPUT_POST, 'newBoardID');
-            $_SESSION['currentBoardID'] = $newBoardID;
-            Response::sendResponse('true', ['newCurrentBoardID' => $newBoardID]);
-        }
-    }
-
-    // Set up form fields with sanitized user input and validate for field errors
-    // ------------------------------------------------------------------------------
-    private function setupFormFields(Form $form, array $fieldsToExclude)
-    {
-        foreach ($_POST as $key => $value) {
-            if (!in_array($key, $fieldsToExclude)) {
-                // Sanitize user input
-                $filteredValue = filter_var($value, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                $form->addField($key);
-                $form->getField($key)->setValue($filteredValue);
-
-                // Set input type
-                if ($key == 'description') {
-                    $form->getField($key)->setType('textarea');
-                } else {
-                    $form->getField($key)->setType('text');
-                }
-
-                // Validate input
-                $this->setValidate($form);
-                $this->validate->text('title', $filteredValue, true, 1, 24);
-
-
-                // Set custom error for subtask field errors
-                if ($form->getField($key)->hasError()) {
-                    if ($key != 'title') {
-                        $form->getField($key)->setError('List names must be 1 to 24 characters long.');
-                    }
-                } else {
-                    // Clear any previous errors if there are no current errors
-                    $form->getField($key)->clearError();
-                }
-            }
-        }
-    }
-
 
     // Create board form
     // ------------------------------------------------------------------------------
@@ -168,20 +179,7 @@ class BoardFunctions
         Response::sendResponse(true, ['fields' => $fields, 'lists' => $lists]);
     }
 
-    // Get list fields
-    // ------------------------------------------------------------------------------
-    private function getlistFields(Form $form, array $fieldsToExclude)
-    {
-        $lists = [];
-        foreach ($_POST as $key => $value) {
-            if (!in_array($key, $fieldsToExclude)) {
-                $lists[] = $form->getField($key);
-            }
-        }
-        return $lists;
-    }
-
-    // Edit the board
+    // Save changes to board
     // ------------------------------------------------------------------------------
     public function editBoard(Form $form)
     {
@@ -236,30 +234,15 @@ class BoardFunctions
         }
     }
 
-    // Show 'Delete Board' warning
-    // ------------------------------------------------------------------------------
-    public function showDeleteBoardWarning()
-    {
-        $boardTitle = $this->boardsDB->getBoardTitle($_SESSION['currentBoardID']);
-        Response::sendResponse(true, ['boardTitle' => $boardTitle]);
-    }
-
-    // Delete board
-    // ------------------------------------------------------------------------------
-    public function deleteBoard()
-    {
-        // Delete board
-        $this->boardsDB->deleteBoard($_SESSION['currentBoardID']);
-        unset($_SESSION['currentBoardID']);
-        Response::sendResponse(true);
-    }
-
     // Add board
     // ------------------------------------------------------------------------------
     public function addBoard(Form $form)
     {
         // Create form
         $this->setupFormFields($form, ['action']);
+
+//        echo "\n Form after setup: \n";
+//        print_r($form);
 
         // Fields array
         $fields = [$form->getField('title')];
@@ -296,5 +279,23 @@ class BoardFunctions
             }
             Response::sendResponse(true);
         }
+    }
+
+    // Show 'Delete Board' warning
+    // ------------------------------------------------------------------------------
+    public function showDeleteBoardWarning()
+    {
+        $boardTitle = $this->boardsDB->getBoardTitle($_SESSION['currentBoardID']);
+        Response::sendResponse(true, ['boardTitle' => $boardTitle]);
+    }
+
+    // Delete board
+    // ------------------------------------------------------------------------------
+    public function deleteBoard()
+    {
+        // Delete board
+        $this->boardsDB->deleteBoard($_SESSION['currentBoardID']);
+        unset($_SESSION['currentBoardID']);
+        Response::sendResponse(true);
     }
 }

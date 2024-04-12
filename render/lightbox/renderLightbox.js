@@ -1,14 +1,11 @@
 import {renderOverlay} from "./renderOverlay.js";
 import {renderXButton} from "../uiElements/renderButton.js";
 import {closeOtherMenus} from "../forms/formHandlers.js";
-import {findElement} from "../uiElements/findElement.js";
-import {removeElement} from "../uiElements/removeElement.js";
-import {createElement} from "../uiElements/createElement.js";
+import {removeElement, findElement, createElement} from "../uiElements/elements.js";
 import {fetchBoards, fetchCurrentBoardLists} from "../../fetch/script.js";
 
-// ------------------------------------
-// Render an overlay and lightbox
-// ------------------------------------
+// Render overlay and lightbox
+// -----------------------------------------------------------------------------
 export function renderLightbox(heading = 'Heading', refreshOnClose) {
     closeOtherMenus();
 
@@ -43,9 +40,8 @@ export function renderLightbox(heading = 'Heading', refreshOnClose) {
     return lightbox;
 }
 
-// ------------------------------------
-// EVENT: Handle click close lightbox
-// ------------------------------------
+// Close lightbox
+// -----------------------------------------------------------------------------
 export async function handleCloseLightbox(refreshOnClose) {
     if (refreshOnClose) {
         await fetchBoards();

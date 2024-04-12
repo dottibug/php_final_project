@@ -25,23 +25,6 @@ class SubtaskFunctions
         $this->form = $form;
     }
 
-    // Update subtask status (checked or unchecked)
-    // ------------------------------------------------------------------------------
-    public function updateSubtaskStatus()
-    {
-        $taskID = filter_input(INPUT_POST, 'taskID');
-        $subtaskID = filter_input(INPUT_POST, 'subtaskID');
-        $newStatus = filter_input(INPUT_POST, 'newStatus');
-
-        // Update subtask status
-        $this->subtasksDB->updateStatus($newStatus, $subtaskID);
-
-        // Re-fetch subtasks for the task
-        $subtasks = $this->subtasksDB->getSubtasks($taskID);
-
-        Response::sendResponse(true, ['subtasks' => $subtasks, 'taskID' => $taskID]);
-    }
-
     // Set up form fields and sanitize user input
     // ------------------------------------------------------------------------------
     private function setupFormFields(Form $form, array $fieldsToExclude)
@@ -66,6 +49,23 @@ class SubtaskFunctions
             }
         }
         return $subtasks;
+    }
+
+    // Update subtask status (checked or unchecked)
+    // ------------------------------------------------------------------------------
+    public function updateSubtaskStatus()
+    {
+        $taskID = filter_input(INPUT_POST, 'taskID');
+        $subtaskID = filter_input(INPUT_POST, 'subtaskID');
+        $newStatus = filter_input(INPUT_POST, 'newStatus');
+
+        // Update subtask status
+        $this->subtasksDB->updateStatus($newStatus, $subtaskID);
+
+        // Re-fetch subtasks for the task
+        $subtasks = $this->subtasksDB->getSubtasks($taskID);
+
+        Response::sendResponse(true, ['subtasks' => $subtasks, 'taskID' => $taskID]);
     }
 
     // Add subtask

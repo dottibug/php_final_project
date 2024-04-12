@@ -1,15 +1,13 @@
 <?php
-// ------------------------------------------------------------------------------
-// Interacts with the subtasks table
-// ------------------------------------------------------------------------------
 require_once 'Database.php';
 require_once 'Subtask.php';
 
+// Interacts with the subtasks table
+// ------------------------------------------------------------------------------
 class SubtasksDB
 {
     private $db;
 
-    // ------------------------------------------------------------------------------
     //  Constructor
     // ------------------------------------------------------------------------------
     public function __construct()
@@ -17,7 +15,6 @@ class SubtasksDB
         $this->db = Database::getDB();
     }
 
-    // ------------------------------------------------------------------------------
     //  Get subtasks by taskID
     // ------------------------------------------------------------------------------
     public function getSubtasks($taskID)
@@ -33,12 +30,12 @@ class SubtasksDB
             // Create array of Subtask objects
             $subtasks = [];
             foreach ($rows as $row) {
-                $Subtask = new Subtask();
-                $Subtask->setSubtaskID($row['subtaskID']);
-                $Subtask->setTaskID($row['taskID']);
-                $Subtask->setDescription($row['description']);
-                $Subtask->setStatus($row['status']);
-                $subtasks[] = $Subtask;
+                $subtask = new Subtask();
+                $subtask->setSubtaskID($row['subtaskID']);
+                $subtask->setTaskID($row['taskID']);
+                $subtask->setDescription($row['description']);
+                $subtask->setStatus($row['status']);
+                $subtasks[] = $subtask;
             }
             return $subtasks;
         } catch (PDOException $e) {
@@ -47,31 +44,6 @@ class SubtasksDB
         }
     }
 
-    // ------------------------------------------------------------------------------
-    //  Get HTML for subtasks progress
-    // ------------------------------------------------------------------------------
-    public function getSubtasksProgressHTML($taskID)
-    {
-        // Get subtasks by taskID
-        $Subtasks = $this->getSubtasks($taskID);
-
-        // Count total and checked subtasks
-        $totalSubtasks = count($Subtasks);
-        $checkedSubtasks = 0;
-        foreach ($Subtasks as $Subtask) {
-            if ($Subtask->getStatus() == 'checked') {
-                $checkedSubtasks++;
-            }
-        }
-
-        // HTML
-        $html = '<p class="taskProgress">' . $checkedSubtasks . " of " .
-            $totalSubtasks . " subtasks" . '</p>';
-
-        return $html;
-    }
-
-    // ------------------------------------------------------------------------------
     //  Update subtask status
     // ------------------------------------------------------------------------------
     public function updateStatus($status, $subtaskID)
@@ -83,13 +55,13 @@ class SubtasksDB
             $stmt->bindValue(':subtaskID', $subtaskID);
             $stmt->execute();
             $stmt->closeCursor();
+            return true;
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;
         }
     }
 
-    // ------------------------------------------------------------------------------
     //  Add subtask
     // ------------------------------------------------------------------------------
     public function addSubtask($taskID, $description, $status)
@@ -102,6 +74,7 @@ class SubtasksDB
             $stmt->bindValue(':status', $status);
             $stmt->execute();
             $stmt->closeCursor();
+            return true;
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;
@@ -118,9 +91,8 @@ class SubtasksDB
             $stmt = $this->db->prepare($query);
             $stmt->bindValue(':subtaskID', $subtaskID);
             $stmt->execute();
-//            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt->closeCursor();
-//            return $row;
+            return true;
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;
@@ -163,6 +135,7 @@ class SubtasksDB
             $stmt->bindValue(':subtaskID', $subtaskID);
             $stmt->execute();
             $stmt->closeCursor();
+            return true;
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
             return false;

@@ -1,13 +1,16 @@
 import {renderTextarea} from "../uiElements/renderTextarea.js";
 import {renderInput} from "../uiElements/renderInput.js";
-import {createElement} from "../uiElements/createElement.js";
+import {createElement} from "../uiElements/elements.js";
 
+
+// Field inputs
+// -----------------------------------------------------------------------------
 export function renderFields(fields) {
     const fieldsWrapper = createElement('div', 'fieldsWrapper', 'fieldsWrapper');
 
     fields.forEach(field => {
         const {name, hasError, message, type, value} = field;
-        
+
         // Field wrapper
         const fieldBox = createElement('div', 'fieldBox', name);
 

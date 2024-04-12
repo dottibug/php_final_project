@@ -1,5 +1,5 @@
 // Render input
-import {createElement} from "./createElement.js";
+import {createElement} from "./elements.js";
 
 export function renderInput(name, value, placeholder = '') {
     const input = createElement('input', 'textInput');

@@ -1,7 +1,8 @@
 import {hideTaskMenu, handleTaskMenuSelection} from "../../eventHandlers/taskMenuHandlers.js";
-import {findElement} from "../uiElements/findElement.js";
-import {createElement} from "../uiElements/createElement.js";
+import {createElement, findElement} from "../uiElements/elements.js";
 
+// 'Tasks' menu
+// -----------------------------------------------------------------------------
 export function renderTaskMenu(taskID) {
     // Task
     const taskElement = findElement(taskID);

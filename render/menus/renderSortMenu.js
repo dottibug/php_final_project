@@ -1,7 +1,8 @@
 import {showSortMenu, sortTasks} from "../../eventHandlers/sortMenuHandlers.js";
-import {createElement} from "../uiElements/createElement.js";
-import {findElement} from "../uiElements/findElement.js";
+import {createElement, findElement} from "../uiElements/elements.js";
 
+// 'Sort Tasks' menu
+// -----------------------------------------------------------------------------
 export function renderSortMenu(listID) {
     const listElement = findElement(listID);
 

@@ -1,7 +1,4 @@
 <?php
-// ------------------------------------------------------------------------------
-// Interacts with users table
-// ------------------------------------------------------------------------------
 require_once 'Database.php';
 require_once 'User.php';
 
@@ -9,7 +6,6 @@ class UsersDB
 {
     private $db;
 
-    // ------------------------------------------------------------------------------
     // Constructor
     // ------------------------------------------------------------------------------
     public function __construct()
@@ -17,7 +13,6 @@ class UsersDB
         $this->db = Database::getDB();
     }
 
-    // ------------------------------------------------------------------------------
     // Check for a valid user
     // ------------------------------------------------------------------------------
     public function validUser($username, $password)
@@ -43,7 +38,6 @@ class UsersDB
         }
     }
 
-    // ------------------------------------------------------------------------------
     // Get user by username
     // ------------------------------------------------------------------------------
     public function getUser($username)
@@ -56,14 +50,13 @@ class UsersDB
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt->closeCursor();
 
-            // Create and return new User
-            $User = new User(
+            // Create and return new user
+            return new User(
                 $row['userID'],
                 $row['username'],
                 $row['email'],
                 $row['password']
             );
-            return $User;
 
         } catch (PDOException $e) {
             Database::showDatabaseError($e->getMessage());
@@ -71,5 +64,3 @@ class UsersDB
         }
     }
 }
-
-?>
