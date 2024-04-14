@@ -9,8 +9,6 @@ import {createElement} from "./elements.js";
 // Create dynamic list component that allows user to add/delete input fields
 // -----------------------------------------------------------------------------------
 export function renderDynamicList(deleteAction, list, listLabel, placeholder, hasErrors = false, message = '') {
-    // console.log('--- RenderDynamicList data: ', list);
-
     // Dynamic list wrapper
     const dynamicListWrapper = createElement('div', 'dynamicListWrapper', 'dynamicListWrapper');
 
@@ -32,9 +30,6 @@ export function renderDynamicList(deleteAction, list, listLabel, placeholder, ha
 
     list.forEach(item => {
         const {name, value} = item;
-
-        // console.log('dynamicList item: ', item);
-
         const dynamicListItem = createElement('div', 'dynamicListItem');
         const input = renderInput(name, value, placeholder);
         input.classList.add('dynamicListInput');

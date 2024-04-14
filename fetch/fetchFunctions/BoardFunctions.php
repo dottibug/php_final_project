@@ -109,7 +109,7 @@ class BoardFunctions
 
         // Get title of the current board
         $boardTitle = $this->boardsDB->getBoardTitle($_SESSION['currentBoardID']);
-        
+
         // Response
         Response::sendResponse(true, ['currentBoardID' => $_SESSION['currentBoardID'],
             'currentBoardTitle' => $boardTitle, 'boards' => $boards]);
@@ -240,9 +240,6 @@ class BoardFunctions
     {
         // Create form
         $this->setupFormFields($form, ['action']);
-
-//        echo "\n Form after setup: \n";
-//        print_r($form);
 
         // Fields array
         $fields = [$form->getField('title')];

@@ -29,7 +29,7 @@ export async function addBoard(e, labelText, placeholder) {
     // Fetch
     const action = 'addBoard';
     const formData = getFormData();
-    const res = await fetchData(action, formData)
+    const res = await fetchData(action, formData);
 
     // Render
     if (!res.success) renderErrors('deleteList', res.data.fields, res.data.lists, labelText, placeholder);

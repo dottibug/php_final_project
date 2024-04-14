@@ -22,25 +22,20 @@ export function closeOtherMenus() {
 // Render errors
 // -----------------------------------------------------------------------------
 export function renderErrors(deleteAction, fields, dynamicList, labelText, placeholder) {
-    fields.forEach(field => {
-        // Render field errors
-        removeElement('fieldsWrapper');
-        const newFieldsWrapper = renderFields(fields);
-        const form = findElement('form');
-        form.insertAdjacentElement('afterbegin', newFieldsWrapper);
-    })
+    // Render field errors
+    removeElement('fieldsWrapper');
+    const newFieldsWrapper = renderFields(fields);
+    const form = findElement('form');
+    form.insertAdjacentElement('afterbegin', newFieldsWrapper);
 
     // Render dynamic list errors
-    dynamicList.forEach(list => {
-        removeElement('dynamicListWrapper');
-
-        let newDynamicListWrapper;
-        if (list.hasError) newDynamicListWrapper = renderDynamicList(deleteAction, dynamicList, labelText, placeholder, true, list.message);
-        if (!list.hasError) newDynamicListWrapper = renderDynamicList(deleteAction, dynamicList, labelText, placeholder, false, '');
-
-        const buttonsWrapper = findElement('buttonsWrapper');
-        buttonsWrapper.insertAdjacentElement('beforebegin', newDynamicListWrapper);
-    })
+    removeElement('dynamicListWrapper');
+    const listsWithErrors = dynamicList.filter(list => list.hasError === true);
+    const hasErrors = listsWithErrors.length > 0;
+    const message = listsWithErrors.length === 0 ? '' : listsWithErrors[0].message;
+    const newDynamicListWrapper = renderDynamicList(deleteAction, dynamicList, labelText, placeholder, hasErrors, message);
+    const buttonsWrapper = findElement('buttonsWrapper');
+    buttonsWrapper.insertAdjacentElement('beforebegin', newDynamicListWrapper);
 }
 
 
