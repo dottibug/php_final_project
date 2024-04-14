@@ -2,8 +2,7 @@
 
 class Task implements JsonSerializable
 {
-    private $taskID, $boardID, $listID, $listTitle, $title, $description, $dueDate, $dateComplete,
-        $priority, $subtasks = [];
+    private $taskID, $boardID, $listID, $listTitle, $title, $description, $subtasks = [];
 
     // Constructor
     // ------------------------------------------------------------------------------
@@ -23,9 +22,6 @@ class Task implements JsonSerializable
                 'listTitle' => $this->listTitle,
                 'title' => $this->title,
                 'description' => $this->description,
-                'dueDate' => $this->dueDate,
-                'dateComplete' => $this->dateComplete,
-                'priority' => $this->priority,
                 'subtasks' => $this->subtasks,
             ],
             function ($value) {
@@ -66,21 +62,6 @@ class Task implements JsonSerializable
         return $this->listTitle;
     }
 
-    public function getDueDate()
-    {
-        return $this->dueDate;
-    }
-
-    public function getDateComplete()
-    {
-        return $this->dateComplete;
-    }
-
-    public function getPriority()
-    {
-        return $this->priority;
-    }
-
     public function getSubtasks()
     {
         return $this->subtasks;
@@ -116,21 +97,6 @@ class Task implements JsonSerializable
     public function setListTitle($title): void
     {
         $this->listTitle = $title;
-    }
-
-    public function setDueDate($dueDate): void
-    {
-        $this->dueDate = $dueDate;
-    }
-
-    public function setDateComplete($dateComplete): void
-    {
-        $this->dateComplete = $dateComplete;
-    }
-
-    public function setPriority($priority): void
-    {
-        $this->priority = $priority;
     }
 
     public function setSubtasks($subtasks): void

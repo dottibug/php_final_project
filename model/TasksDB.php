@@ -7,7 +7,6 @@ require_once 'Subtask.php';
 class TasksDB
 {
     private $db;
-    private $tasks = [];
 
     // Constructor
     // ------------------------------------------------------------------------------
