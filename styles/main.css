@@ -447,7 +447,6 @@ body {
     box-shadow: 0px 10px 20px 0px rgba(54, 78, 126, 0.25);
     display: flex;
     height: 94px;
-    padding: 16px;
     position: absolute;
     width: 192px;
 }
@@ -476,25 +475,42 @@ body {
 .boardMenuNav, .taskMenuNav, .sortMenuNav {
     display: flex;
     flex-direction: column;
-    gap: 16px;
     list-style: none;
-}
-
-.taskMenuNav, .sortMenuNav {
-    gap: 4px;
+    height: 100%;
+    width: 100%;
 }
 
 .boardMenuNavItem, .taskMenuNavItem, .sortMenuNavItem {
+    align-items: center;
     color: #828FA3;
+    display: flex;
     font-family: "Plus Jakarta Sans", sans-serif;
     font-size: 13px;
     font-style: normal;
     font-weight: 500;
+    height: 100%;
     line-height: 23px;
+    padding: 0px 16px;
+    transition: all 0.15s ease-out;
+    width: 100%;
+}
+
+.boardMenuNavItem {
+    padding: 8px 16px;
+}
+
+.boardMenuNavItem:nth-child(1), .taskMenuNavItem:nth-child(1), .sortMenuNavItem:nth-child(1) {
+    border-radius: 8px 8px 0 0;
+}
+
+.boardMenuNavItem:nth-last-child(1), .taskMenuNavItem:nth-last-child(1), .sortMenuNavItem:nth-last-child(1) {
+    border-radius: 0 0 8px 8px;
 }
 
 .boardMenuNavItem:hover, .taskMenuNavItem:hover, .sortMenuNavItem:hover {
+    background-color: #efeff9;
     cursor: pointer;
+    transition: all 0.15s ease-out;
 }
 
 .deleteBoard, .deleteTask {

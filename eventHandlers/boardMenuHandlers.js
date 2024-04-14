@@ -8,7 +8,7 @@ import {removeElement} from "../render/uiComponents/elements.js";
 export function showBoardMenu(e) {
     const event = e.type;
     if (event === 'click') renderBoardMenu();
-    if (event === 'mouseleave') removeElement('boardMenu');
+    // if (event === 'mouseleave') removeElement('boardMenu');
 }
 
 // Show 'Edit Board' form
