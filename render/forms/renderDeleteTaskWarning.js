@@ -1,7 +1,7 @@
-import {renderButton, renderButtonsWrapper} from "../uiElements/renderButton.js";
+import {renderButton, renderButtonsWrapper} from "../uiComponents/renderButton.js";
 import {handleCloseLightbox} from "../lightbox/renderLightbox.js";
-import {renderFormElement} from "../uiElements/renderFormElement.js";
-import {createElement} from "../uiElements/elements.js";
+import {renderFormElement} from "../uiComponents/renderFormElement.js";
+import {createElement} from "../uiComponents/elements.js";
 import {deleteTask} from "../../eventHandlers/taskHandlers.js";
 
 // 'Delete Task' warning

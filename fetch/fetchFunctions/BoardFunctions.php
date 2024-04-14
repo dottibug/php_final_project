@@ -109,7 +109,7 @@ class BoardFunctions
 
         // Get title of the current board
         $boardTitle = $this->boardsDB->getBoardTitle($_SESSION['currentBoardID']);
-
+        
         // Response
         Response::sendResponse(true, ['currentBoardID' => $_SESSION['currentBoardID'],
             'currentBoardTitle' => $boardTitle, 'boards' => $boards]);

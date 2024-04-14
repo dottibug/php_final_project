@@ -1,5 +1,5 @@
 import {hideTaskMenu, handleTaskMenuSelection} from "../../eventHandlers/taskMenuHandlers.js";
-import {createElement, findElement} from "../uiElements/elements.js";
+import {createElement, findElement} from "../uiComponents/elements.js";
 
 // 'Tasks' menu
 // -----------------------------------------------------------------------------

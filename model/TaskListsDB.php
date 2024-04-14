@@ -37,7 +37,7 @@ class TaskListsDB
 
             return $lists;
         } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }
@@ -55,7 +55,7 @@ class TaskListsDB
             $stmt->closeCursor();
             return $row['title'];
         } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }
@@ -78,7 +78,7 @@ class TaskListsDB
                 return false;
             }
         } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }
@@ -105,7 +105,7 @@ class TaskListsDB
 
             return $row;
         } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }
@@ -122,7 +122,7 @@ class TaskListsDB
             $stmt->closeCursor();
             return true;
         } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }
@@ -140,7 +140,7 @@ class TaskListsDB
             $stmt->closeCursor();
             return true;
         } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }

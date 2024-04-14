@@ -1,4 +1,4 @@
-import {createElement} from "../uiElements/elements.js";
+import {createElement} from "../uiComponents/elements.js";
 import {showSortMenu} from "../../eventHandlers/sortMenuHandlers.js";
 
 // Sort tasks buttons

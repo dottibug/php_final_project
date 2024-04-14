@@ -1,6 +1,6 @@
-import {renderFormElement} from "../uiElements/renderFormElement.js";
-import {renderCheckboxList} from "../uiElements/renderCheckboxList.js";
-import {createElement} from "../uiElements/elements.js";
+import {renderFormElement} from "../uiComponents/renderFormElement.js";
+import {renderCheckboxList} from "../uiComponents/renderCheckboxList.js";
+import {createElement} from "../uiComponents/elements.js";
 
 
 // 'Task Details' lightbox

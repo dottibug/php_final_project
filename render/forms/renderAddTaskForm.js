@@ -1,8 +1,8 @@
 import {renderFields} from "./renderFields.js";
-import {renderDropdown} from "../uiElements/renderDropdown.js";
-import {addDynamicItemButton, renderDynamicList} from "../uiElements/renderDynamicList.js";
-import {renderButton, renderButtonsWrapper} from "../uiElements/renderButton.js";
-import {renderFormElement} from "../uiElements/renderFormElement.js";
+import {renderDropdown} from "../uiComponents/renderDropdown.js";
+import {addDynamicItemButton, renderDynamicList} from "../uiComponents/renderDynamicList.js";
+import {renderButton, renderButtonsWrapper} from "../uiComponents/renderButton.js";
+import {renderFormElement} from "../uiComponents/renderFormElement.js";
 import {addTask} from "../../eventHandlers/taskHandlers.js";
 
 // 'Add Task' form

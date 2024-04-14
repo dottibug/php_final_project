@@ -1,6 +1,6 @@
-import {renderDynamicList} from "../render/uiElements/renderDynamicList.js";
+import {renderDynamicList} from "../render/uiComponents/renderDynamicList.js";
 import {fetchData} from "../render/forms/formHandlers.js";
-import {removeElement, findElement} from "../render/uiElements/elements.js";
+import {removeElement, findElement} from "../render/uiComponents/elements.js";
 
 // Add list to the dynamic input list
 // -----------------------------------------------------------------------------------
@@ -15,7 +15,6 @@ export async function addDynamicListItem(e, action, listLabel, placeholder, hasE
 
     // Render
     if (res.success) refreshDynamicList(res.data, action, listLabel, placeholder, hasErrors, message);
-
 }
 
 // Generate temporary field name for a newly added list input

@@ -1,7 +1,7 @@
-import {renderButton} from "../uiElements/renderButton.js";
+import {renderButton} from "../uiComponents/renderButton.js";
 import {showEditBoardForm} from "../../eventHandlers/boardMenuHandlers.js";
 import {showAddTaskForm} from "../../eventHandlers/taskHandlers.js";
-import {createElement, clearElement} from "../uiElements/elements.js";
+import {createElement, clearElement} from "../uiComponents/elements.js";
 
 
 // 'New List' placeholder

@@ -1,6 +1,6 @@
-import {renderTextarea} from "../uiElements/renderTextarea.js";
-import {renderInput} from "../uiElements/renderInput.js";
-import {createElement} from "../uiElements/elements.js";
+import {renderTextarea} from "../uiComponents/renderTextarea.js";
+import {renderInput} from "../uiComponents/renderInput.js";
+import {createElement} from "../uiComponents/elements.js";
 
 
 // Field inputs

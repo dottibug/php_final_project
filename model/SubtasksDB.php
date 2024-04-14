@@ -39,7 +39,7 @@ class SubtasksDB
             }
             return $subtasks;
         } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }
@@ -57,7 +57,7 @@ class SubtasksDB
             $stmt->closeCursor();
             return true;
         } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }
@@ -76,7 +76,7 @@ class SubtasksDB
             $stmt->closeCursor();
             return true;
         } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }
@@ -94,7 +94,7 @@ class SubtasksDB
             $stmt->closeCursor();
             return true;
         } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }
@@ -118,7 +118,7 @@ class SubtasksDB
                 return false;
             }
         } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }
@@ -137,7 +137,7 @@ class SubtasksDB
             $stmt->closeCursor();
             return true;
         } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }

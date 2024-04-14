@@ -3,7 +3,7 @@ import {
     showDeleteBoardWarning,
     showEditBoardForm
 } from "../../eventHandlers/boardMenuHandlers.js";
-import {createElement, findElement} from "../uiElements/elements.js";
+import {createElement, findElement} from "../uiComponents/elements.js";
 
 
 // Board menu

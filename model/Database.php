@@ -15,9 +15,10 @@ class Database
         if (!isset(self::$db)) {
             try {
                 self::$db = new PDO(self::$dsn, self::$username, self::$password);
+                self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
-                $err_msg = $e->getMessage();
-                self::showDatabaseError($err_msg);
+                $message = $e->getMessage();
+                self::showDatabaseError($message);
             }
         }
         return self::$db;
@@ -25,9 +26,18 @@ class Database
 
     // Display database error
     // ------------------------------------------------------------------------------
-    public static function showDatabaseError($err_msg): void
+    public static function showDatabaseError($message = ''): void
     {
-        include '../view/databaseError.php';
+//        echo "\nerror page\n";
+//
+//        echo "\n the post array of error page \n";
+//        print_r($_POST);
+//
+//        $message = filter_input(INPUT_POST, 'message');
+//        echo "\n The error message: $message \n";
+
+        header('Location: ../view/errorPage.php');
+//        include '../view/errorPage.php';
         exit();
     }
 }

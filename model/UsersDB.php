@@ -33,7 +33,7 @@ class UsersDB
             }
 
         } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }
@@ -59,7 +59,7 @@ class UsersDB
             );
 
         } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }

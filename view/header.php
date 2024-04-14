@@ -11,8 +11,10 @@
           rel="stylesheet">
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-    <link rel="stylesheet" href="../styles/reset.css">
-    <link rel="stylesheet" href="../styles/main.css">
+    <!--    <link rel="stylesheet" href="../styles/reset.css">-->
+    <!--    <link rel="stylesheet" href="../styles/main.css">-->
+    <link rel="stylesheet" href="/kanban/styles/reset.css">
+    <link rel="stylesheet" href="/kanban/styles/main.css">
 
     <title>Kanban Web App</title>
 </head>

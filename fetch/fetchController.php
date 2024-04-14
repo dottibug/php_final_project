@@ -1,5 +1,6 @@
 <?php
 require_once '../util/main.php';
+require_once 'model/Database.php';
 require_once 'model/Action.php';
 require_once 'model/Form.php';
 require_once 'fetch/fetchFunctions/BoardFunctions.php';

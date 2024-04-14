@@ -1,7 +1,7 @@
 import {renderOverlay} from "./renderOverlay.js";
-import {renderXButton} from "../uiElements/renderButton.js";
+import {renderXButton} from "../uiComponents/renderButton.js";
 import {closeOtherMenus} from "../forms/formHandlers.js";
-import {removeElement, findElement, createElement} from "../uiElements/elements.js";
+import {removeElement, findElement, createElement} from "../uiComponents/elements.js";
 import {fetchBoards, fetchCurrentBoardLists} from "../../fetch/script.js";
 
 // Render overlay and lightbox

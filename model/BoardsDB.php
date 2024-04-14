@@ -45,7 +45,7 @@ class BoardsDB
             return $boards;
 
         } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }
@@ -62,8 +62,8 @@ class BoardsDB
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt->closeCursor();
             return $row['title'];
-        } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+        } catch (PDOException|Exception $e) {
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }
@@ -151,7 +151,7 @@ class BoardsDB
             return array_values($boards);
 
         } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }
@@ -169,7 +169,7 @@ class BoardsDB
             $stmt->closeCursor();
             return $row['boardID'];
         } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }
@@ -187,7 +187,7 @@ class BoardsDB
             $stmt->closeCursor();
             return true;
         } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }
@@ -204,7 +204,7 @@ class BoardsDB
             $stmt->closeCursor();
             return true;
         } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }
@@ -222,7 +222,7 @@ class BoardsDB
             $stmt->closeCursor();
             return true;
         } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }

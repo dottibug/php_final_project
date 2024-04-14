@@ -5,7 +5,7 @@ import {renderSidebar} from "../render/menus/renderSidebar.js";
 import {renderBoardLists} from '../render/lists/renderBoardLists.js';
 import {showBoardMenu} from "../eventHandlers/boardMenuHandlers.js";
 import {showAddTaskForm} from "../eventHandlers/taskHandlers.js";
-import {findElement} from "../render/uiElements/elements.js";
+import {findElement} from "../render/uiComponents/elements.js";
 
 // Fetch board data after document loads
 // -----------------------------------------------------------------------------------

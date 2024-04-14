@@ -1,5 +1,5 @@
 import {showSortMenu, sortTasks} from "../../eventHandlers/sortMenuHandlers.js";
-import {createElement, findElement} from "../uiElements/elements.js";
+import {createElement, findElement} from "../uiComponents/elements.js";
 
 // 'Sort Tasks' menu
 // -----------------------------------------------------------------------------

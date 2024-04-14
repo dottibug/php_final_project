@@ -1,8 +1,8 @@
-import {renderDynamicList} from "../uiElements/renderDynamicList.js";
+import {renderDynamicList} from "../uiComponents/renderDynamicList.js";
 import {renderFields} from "./renderFields.js";
 import {fetchBoards, fetchCurrentBoardLists} from "../../fetch/script.js";
 import {handleCloseLightbox} from "../lightbox/renderLightbox.js";
-import {removeElement, findElement} from "../uiElements/elements.js";
+import {removeElement, findElement} from "../uiComponents/elements.js";
 
 // Re-fetch board data and close the lightbox form
 // -----------------------------------------------------------------------------
@@ -69,5 +69,12 @@ export async function fetchData(action, formData = {}, otherParams = {}) {
     }
 
     const response = await fetch('../fetch/fetchController.php', fetchOptions);
-    return await response.json();
+    const data = await response.json();
+
+    if (!data.success && data.error) {
+        window.location.href = '/view/errorPage.php';
+    } else {
+        return data;
+    }
+
 }

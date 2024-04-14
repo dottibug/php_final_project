@@ -15,7 +15,7 @@ class TasksDB
     {
         $this->db = Database::getDB();
     }
-    
+
     // Add task
     // ------------------------------------------------------------------------------
     public function addTask($boardID, $listID, $title, $description)
@@ -31,7 +31,25 @@ class TasksDB
             $stmt->closeCursor();
             return true;
         } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+            Response::sendErrorResponse($e->getMessage());
+            return false;
+        }
+    }
+
+    // Get a task's listID
+    // ------------------------------------------------------------------------------
+    public function getListIDForTask($taskID)
+    {
+        try {
+            $query = 'SELECT * FROM tasks WHERE taskID = :taskID';
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(':taskID', $taskID);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
+            return $row['listID'];
+        } catch (PDOException $e) {
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }
@@ -50,7 +68,7 @@ class TasksDB
             $stmt->closeCursor();
             return $row['taskID'];
         } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }
@@ -80,7 +98,7 @@ class TasksDB
 
             return $task;
         } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }
@@ -98,7 +116,7 @@ class TasksDB
             $stmt->closeCursor();
             return true;
         } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }
@@ -116,7 +134,25 @@ class TasksDB
             $stmt->closeCursor();
             return true;
         } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+            Response::sendErrorResponse($e->getMessage());
+            return false;
+        }
+    }
+
+    // Update a task's listID
+    // ------------------------------------------------------------------------------
+    public function updateListID($taskID, $listID)
+    {
+        try {
+            $query = 'UPDATE tasks SET listID = :listID WHERE taskID = :taskID';
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(':listID', $listID);
+            $stmt->bindValue(':taskID', $taskID);
+            $stmt->execute();
+            $stmt->closeCursor();
+            return true;
+        } catch (PDOException $e) {
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }
@@ -133,7 +169,7 @@ class TasksDB
             $stmt->closeCursor();
             return true;
         } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }
@@ -172,7 +208,7 @@ class TasksDB
             return $tasks;
 
         } catch (PDOException $e) {
-            Database::showDatabaseError($e->getMessage());
+            Response::sendErrorResponse($e->getMessage());
             return false;
         }
     }

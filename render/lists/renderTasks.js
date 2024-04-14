@@ -1,7 +1,7 @@
 import {renderEmptyTaskBox} from "./renderPlaceholders.js";
-import {getSubtasksCount} from "../uiElements/renderCheckboxList.js";
+import {getSubtasksCount} from "../uiComponents/renderCheckboxList.js";
 import {handleTaskClick} from "../../eventHandlers/taskHandlers.js";
-import {createElement} from "../uiElements/elements.js";
+import {createElement} from "../uiComponents/elements.js";
 
 
 // Render tasks

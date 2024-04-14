@@ -1,6 +1,6 @@
 import {renderEmptyBoard} from "./renderPlaceholders.js";
 import {renderLists} from "./renderLists.js";
-import {clearElement} from "../uiElements/elements.js";
+import {clearElement} from "../uiComponents/elements.js";
 
 // Render board lists or empty board
 // -----------------------------------------------------------------------------

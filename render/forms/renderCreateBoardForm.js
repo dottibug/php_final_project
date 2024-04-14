@@ -2,9 +2,9 @@ import {renderFields} from "./renderFields.js";
 import {
     addDynamicItemButton,
     renderDynamicList
-} from "../uiElements/renderDynamicList.js";
-import {renderButton, renderButtonsWrapper} from "../uiElements/renderButton.js";
-import {renderFormElement} from "../uiElements/renderFormElement.js";
+} from "../uiComponents/renderDynamicList.js";
+import {renderButton, renderButtonsWrapper} from "../uiComponents/renderButton.js";
+import {renderFormElement} from "../uiComponents/renderFormElement.js";
 import {addBoard} from "../../eventHandlers/boardHandlers.js";
 
 // 'Create Board' form

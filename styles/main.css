@@ -263,7 +263,7 @@ body {
 }
 
 /*----------------- LOGIN -----------------*/
-.loginForm {
+.loginForm, .errorPage {
     background-color: white;
     border-radius: 6px;
     display: flex;
@@ -276,7 +276,7 @@ body {
 }
 
 
-.loginHeading {
+.loginHeading, .errorHeading {
     color: #000112;
     font-family: "Plus Jakarta Sans", sans-serif;
     font-size: 24px;
@@ -961,6 +961,31 @@ input[type="checkbox"]:hover {
 .checkboxLabel.checked {
     color: #828FA3;
     text-decoration: line-through;
+}
+
+/*----------------- ERROR PAGE -----------------*/
+.errorPage {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.errorPageMessage {
+    color: #828FA3;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 1.4rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 23px;
+}
+
+.errorPageLink {
+    color: #635FC7;
+    font-family: "Plus Jakarta Sans";
+    font-size: 1.6rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
 }
 
 

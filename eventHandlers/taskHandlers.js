@@ -6,7 +6,7 @@ import {
     renderErrors
 } from "../render/forms/formHandlers.js";
 import {renderTaskMenu} from "../render/menus/renderTaskMenu.js";
-import {findElement} from "../render/uiElements/elements.js";
+import {findElement} from "../render/uiComponents/elements.js";
 
 // Click a task
 // -----------------------------------------------------------------------------------
@@ -57,17 +57,20 @@ export async function showAddTaskForm(selectedItem = '') {
     const action = 'showAddTaskForm';
     const res = await fetchData(action);
 
-    // Render
-    const {fields, lists, subtasks} = res.data;
-    const options = {
-        heading: 'Add Task',
-        formName: 'addTask',
-        fields,
-        lists,
-        subtasks,
-        selectedItem
-    };
-    if (res.success) renderForm(options);
+    // Render form
+    if (res.success) {
+        const {fields, lists, subtasks} = res.data;
+        const options = {
+            heading: 'Add Task',
+            formName: 'addTask',
+            fields,
+            lists,
+            subtasks,
+            selectedItem
+        };
+
+        renderForm(options);
+    }
 }
 
 // Add task to list

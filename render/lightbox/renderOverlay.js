@@ -1,4 +1,4 @@
-import {createElement, findElement} from "../uiElements/elements.js";
+import {createElement, findElement} from "../uiComponents/elements.js";
 
 
 // Renders overlay

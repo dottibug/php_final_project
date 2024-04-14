@@ -105,6 +105,9 @@ class TaskFunctions
     // ------------------------------------------------------------------------------
     public function showAddTaskForm(Form $form)
     {
+        $listID = filter_input(INPUT_POST, 'listID');
+        $listID = (int)$listID;
+
         $form->addFields(['title', 'description', 'list']);
         $form->getField('title')->setType('text');
         $form->getField('description')->setType('textarea');
@@ -130,7 +133,7 @@ class TaskFunctions
         }
 
         Response::sendResponse(true, ['fields' => $fields, 'lists' => $lists, 'subtasks' =>
-            $subtasks]);
+            $subtasks, 'selectedID' => $listID]);
     }
 
     // Add task to a list
@@ -220,6 +223,8 @@ class TaskFunctions
     public function editTask(Form $form)
     {
         $taskID = filter_input(INPUT_POST, 'taskID');
+        $listID = filter_input(INPUT_POST, 'listID');
+        $listID = (int)$listID;
 
         // Create form
         $this->setupFormFields($form, ['action', 'listID', 'taskID']);
@@ -227,17 +232,17 @@ class TaskFunctions
         // Fields array
         $fields = [$form->getField('title'), $form->getField('description')];
 
-        // Lists for dropdown menu
-        $currentBoardID = $_SESSION['currentBoardID'];
-        $lists = $this->taskListsDB->getAllLists($currentBoardID);
-
         // Subtasks
         $subtasks = $this->getSubtaskFields($form, ['title', 'description', 'action', 'listID', 'taskID']);
 
         // Responses
         if ($form->hasErrors()) {
+            // Lists for dropdown menu
+            $currentBoardID = $_SESSION['currentBoardID'];
+            $lists = $this->taskListsDB->getAllLists($currentBoardID);
+
             Response::sendResponse(false, ['fields' => $fields, 'lists' => $lists, 'subtasks' =>
-                $subtasks], 'Input errors');
+                $subtasks, 'selectedID' => $listID], 'Input errors');
         } else {
             // Update the task title and description
             $title = $form->getField('title')->getValue();
@@ -245,13 +250,20 @@ class TaskFunctions
             $this->tasksDB->updateTaskTitle($taskID, $title);
             $this->tasksDB->updateTaskDescription($taskID, $description);
 
+            // Move task to another list, if necessary
+            $prevListID = $this->tasksDB->getListIDForTask($taskID);
+
+            if ($prevListID != $listID) {
+                $this->tasksDB->updateListID($taskID, $listID);
+            }
+
             // Delete subtasksToDelete from the database
             $subtasksToDelete = $_SESSION['subtasksToDelete'];
             foreach ($subtasksToDelete as $subtask) {
                 $this->subtasksDB->deleteSubtask($subtask);
             }
 
-            // Update or add the remaining board lists
+            // Update or add the remaining subtasks
             foreach ($subtasks as $subtask) {
                 $subtaskID = $subtask->getName();
                 $subtaskExists = $this->subtasksDB->subtaskExists($subtaskID);
@@ -265,7 +277,7 @@ class TaskFunctions
                 }
             }
 
-            Response::sendResponse(true);
+            Response::sendResponse(true, ['selectedID' => $listID]);
         }
     }
 
