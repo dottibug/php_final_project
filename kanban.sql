@@ -23,7 +23,7 @@ CREATE TABLE boards
 (
     boardID int         NOT NULL AUTO_INCREMENT,
     userID  int         NOT NULL,
-    title   varchar(24) NOT NULL,
+    title   varchar(50) NOT NULL,
     PRIMARY KEY (boardID),
     FOREIGN KEY (userID) REFERENCES users (userID)
 );
@@ -38,7 +38,7 @@ CREATE TABLE lists
 (
     listID  int         NOT NULL AUTO_INCREMENT,
     boardID int         NOT NULL,
-    title   varchar(24) NOT NULL,
+    title   varchar(50) NOT NULL,
     color   varchar(50) DEFAULT '#8471F2',
     PRIMARY KEY (listID),
     FOREIGN KEY (boardID) REFERENCES boards (boardID) ON DELETE CASCADE
@@ -48,11 +48,9 @@ INSERT INTO lists
 VALUES (100, 10, 'todo', '#49C4E5'),
        (101, 10, 'doing', '#8471F2'),
        (102, 10, 'done', '#67E2AE'),
-
        (103, 11, 'todo', '#49C4E5'),
        (104, 11, 'doing', '#8471F2'),
        (105, 11, 'done', '#67E2AE'),
-
        (106, 12, 'todo', '#49C4E5'),
        (107, 12, 'doing', '#8471F2'),
        (108, 12, 'done', '#67E2AE');

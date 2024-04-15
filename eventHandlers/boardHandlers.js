@@ -1,8 +1,7 @@
 import {renderForm} from "../render/forms/renderForm.js";
 import {
     fetchData,
-    getFormData,
-    refreshBoards,
+    getFormData, refresh,
     renderErrors
 } from "../render/forms/formHandlers.js";
 
@@ -33,7 +32,7 @@ export async function addBoard(e, labelText, placeholder) {
 
     // Render
     if (!res.success) renderErrors('deleteList', res.data.fields, res.data.lists, labelText, placeholder);
-    if (res.success) await refreshBoards(true);
+    if (res.success) await refresh(true, true);
 }
 
 // Delete board
@@ -41,7 +40,7 @@ export async function addBoard(e, labelText, placeholder) {
 export async function deleteBoard() {
     const action = 'deleteBoard';
     const res = await fetchData(action);
-    if (res.success) await refreshBoards(true);
+    if (res.success) await refresh(true, true, true);
 }
 
 // Edit board
@@ -56,5 +55,5 @@ export async function saveBoardChanges(e, labelText, placeholder) {
 
     // Render
     if (!res.success) renderErrors('deleteList', res.data.fields, res.data.lists, labelText, placeholder);
-    if (res.success) await refreshBoards(true);
+    if (res.success) await refresh(true, true, true);
 }

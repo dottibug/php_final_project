@@ -1,5 +1,5 @@
 import {renderSortMenu} from "../render/menus/renderSortMenu.js";
-import {fetchData, refreshBoards} from "../render/forms/formHandlers.js";
+import {fetchData, refresh} from "../render/forms/formHandlers.js";
 
 // Show sort menu on click; hide on mouse leave
 // -----------------------------------------------------------------------------------
@@ -26,5 +26,5 @@ export async function sortTasks(e) {
     const res = await fetchData(action, {}, {'listID': listID});
 
     // Render
-    if (res.success) await refreshBoards();
+    if (res.success) await refresh(false, true, false);
 }

@@ -1,6 +1,8 @@
 import {renderFormElement} from "../uiComponents/renderFormElement.js";
 import {renderCheckboxList} from "../uiComponents/renderCheckboxList.js";
-import {createElement} from "../uiComponents/elements.js";
+import {createElement, findElement} from "../uiComponents/elements.js";
+import {handleCloseLightbox} from "../lightbox/renderLightbox.js";
+import {refresh} from "./formHandlers.js";
 
 
 // 'Task Details' lightbox
@@ -26,5 +28,14 @@ export function renderTaskDetails(task, subtasks) {
     taskWrapper.appendChild(taskDescription);
     taskWrapper.appendChild(subtaskCheckboxes);
 
+    // Custom close lightbox handler
+    const closeLightbox = findElement('iconCloseButton');
+    closeLightbox.removeEventListener('click', handleCloseLightbox);
+    closeLightbox.addEventListener('click', handleCloseTaskDetails);
+
     return form;
+}
+
+async function handleCloseTaskDetails() {
+    await refresh(false, true, true);
 }

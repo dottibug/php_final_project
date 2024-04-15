@@ -10,8 +10,12 @@ import {findElement} from "../render/uiComponents/elements.js";
 // Fetch board data after document loads
 // -----------------------------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', async function () {
-    await fetchBoards();
-    await fetchCurrentBoardLists();
+    const pathnameArray = window.location.pathname.split('/');
+
+    if (pathnameArray.includes('board')) {
+        await fetchBoards();
+        await fetchCurrentBoardLists();
+    }
 });
 
 // Fetch user boards to render sidebar
@@ -20,6 +24,8 @@ export async function fetchBoards() {
     // Fetch
     const action = 'fetchBoards';
     const res = await fetchData(action);
+
+    console.log('-- fetchBoards: ', res);
 
     // Render
     if (res.success) {
@@ -43,6 +49,8 @@ export async function fetchCurrentBoardLists() {
     // Fetch
     const action = 'fetchCurrentBoardLists';
     const res = await fetchData(action);
+
+    console.log('--- fetchCurrentBoardLists: ', res);
 
     // Render
     if (res.success) {

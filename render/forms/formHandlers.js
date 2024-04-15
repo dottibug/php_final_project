@@ -4,11 +4,11 @@ import {fetchBoards, fetchCurrentBoardLists} from "../../fetch/script.js";
 import {handleCloseLightbox} from "../lightbox/renderLightbox.js";
 import {removeElement, findElement} from "../uiComponents/elements.js";
 
-// Re-fetch board data and close the lightbox form
+// Refresh sidebar and/or board lists (with option to close lightbox)
 // -----------------------------------------------------------------------------
-export async function refreshBoards(closeLightbox = false) {
-    await fetchBoards();
-    await fetchCurrentBoardLists();
+export async function refresh(refreshSidebar = false, refreshLists = true, closeLightbox = true) {
+    if (refreshSidebar) await fetchBoards();
+    if (refreshLists) await fetchCurrentBoardLists();
     if (closeLightbox) await handleCloseLightbox();
 }
 

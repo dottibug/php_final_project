@@ -15,7 +15,11 @@ class BoardFunctions
     // ------------------------------------------------------------------------------
     public function __construct()
     {
-        $this->userID = $_SESSION['userID'];
+        if (!isset($_SESSION['userID'])) {
+            $this->userID = null;
+        } else {
+            $this->userID = $_SESSION['userID'];
+        }
         $this->boardsDB = new BoardsDB();
         $this->taskListsDB = new TaskListsDB();
     }
@@ -54,12 +58,12 @@ class BoardFunctions
 
                 // Validate input
                 $this->setValidate($form);
-                $this->validate->text($key, $filteredValue, true, 1, 24);
+                $this->validate->text($key, $filteredValue, true, 1, 50);
 
                 // Set custom error for subtask field errors
                 if ($form->getField($key)->hasError()) {
                     if ($key != 'title') {
-                        $form->getField($key)->setError('List names must be 1 to 24 characters long.');
+                        $form->getField($key)->setError('List names must be 1 to 50 characters long.');
                     }
                 } elseif (!$form->getField($key)->hasError()) {
                     // Clear any previous errors if there are no current errors

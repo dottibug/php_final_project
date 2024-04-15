@@ -16,6 +16,8 @@ export function renderForm(options) {
     const refreshOnClose = options.refreshOnClose || false;
     const {fields, lists, subtasks, task, selectedItem} = options || {};
 
+    console.log('options for render form: ', options);
+
     const lightbox = renderLightbox(heading, refreshOnClose);
     let form;
 

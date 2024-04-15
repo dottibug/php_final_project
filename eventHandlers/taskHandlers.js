@@ -2,8 +2,7 @@ import {renderForm} from "../render/forms/renderForm.js";
 import {
     fetchData,
     getFormData,
-    refreshBoards,
-    renderErrors
+    renderErrors, refresh
 } from "../render/forms/formHandlers.js";
 import {renderTaskMenu} from "../render/menus/renderTaskMenu.js";
 import {findElement} from "../render/uiComponents/elements.js";
@@ -86,7 +85,7 @@ export async function addTask(e, listLabel, placeholder) {
 
     // Render
     if (!res.success) renderErrors('deleteSubtask', res.data.fields, res.data.subtasks, listLabel, placeholder);
-    if (res.success) await refreshBoards(true);
+    if (res.success) await refresh(false, true, true);
 }
 
 // Save changes to task
@@ -102,7 +101,7 @@ export async function saveTaskChanges(e, taskID, listLabel, placeholder) {
 
     // Render
     if (!res.success) renderErrors('deleteSubtask', res.data.fields, res.data.subtasks, listLabel, placeholder);
-    if (res.success) await refreshBoards(true);
+    if (res.success) await refresh(false, true, true);
 }
 
 // Delete task
@@ -115,5 +114,5 @@ export async function deleteTask(e, taskID) {
     const res = await fetchData(action, {}, {'taskID': taskID});
 
     // Render
-    if (res.success) await refreshBoards(true);
+    if (res.success) await refresh(false, true, true);
 }

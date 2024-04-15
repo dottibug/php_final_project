@@ -1,12 +1,15 @@
 import {renderOverlay} from "./renderOverlay.js";
 import {renderXButton} from "../uiComponents/renderButton.js";
-import {closeOtherMenus} from "../forms/formHandlers.js";
+import {closeOtherMenus, refresh} from "../forms/formHandlers.js";
 import {removeElement, findElement, createElement} from "../uiComponents/elements.js";
 import {fetchBoards, fetchCurrentBoardLists} from "../../fetch/script.js";
 
 // Render overlay and lightbox
 // -----------------------------------------------------------------------------
 export function renderLightbox(heading = 'Heading', refreshOnClose) {
+    console.log('renderLightbox heading: ', heading);
+    console.log('renderLightbox refreshOnClose: ', refreshOnClose);
+
     closeOtherMenus();
 
     // Disable body scrolling in the background
@@ -28,7 +31,8 @@ export function renderLightbox(heading = 'Heading', refreshOnClose) {
 
     // Close lightbox <button>
     const closeLightbox = renderXButton('iconCloseButton');
-    closeLightbox.addEventListener('click', () => handleCloseLightbox(refreshOnClose));
+    closeLightbox.id = 'iconCloseButton';
+    closeLightbox.addEventListener('click', handleCloseLightbox);
 
     // Compose lightbox
     overlay.appendChild(lightbox);
@@ -42,15 +46,9 @@ export function renderLightbox(heading = 'Heading', refreshOnClose) {
 
 // Close lightbox
 // -----------------------------------------------------------------------------
-export async function handleCloseLightbox(refreshOnClose) {
-    if (refreshOnClose) {
-        await fetchBoards();
-        await fetchCurrentBoardLists();
-    }
-
+export async function handleCloseLightbox() {
     // Re-enable body scroll
     const body = findElement('body');
     body.setAttribute('style', "overflow: visible");
-
     removeElement('overlay');
 }

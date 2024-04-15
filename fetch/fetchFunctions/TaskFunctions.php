@@ -57,7 +57,7 @@ class TaskFunctions
                 // Validate input
                 $this->setValidate($form);
                 if ($key == 'title') {
-                    $this->validate->text('title', $filteredValue, true, 1, 24);
+                    $this->validate->text('title', $filteredValue, true, 1, 50);
                 } elseif ($key == 'description') {
                     $this->validate->text('description', $filteredValue, false, 1, 2000);
                 } else {

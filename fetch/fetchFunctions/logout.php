@@ -9,6 +9,6 @@ function logout()
 {
     $_SESSION = array();
     session_destroy();
-    header('Location: ../index.php');
+    header('Location: /kanban/index.php');
     exit;
 }
