@@ -12,13 +12,6 @@ export async function refresh(refreshSidebar = false, refreshLists = true, close
     if (closeLightbox) await handleCloseLightbox();
 }
 
-// Close other menus
-// -----------------------------------------------------------------------------
-export function closeOtherMenus() {
-    const menus = document.querySelectorAll('.menu');
-    menus.forEach(menu => menu.remove());
-}
-
 // Render errors
 // -----------------------------------------------------------------------------
 export function renderErrors(deleteAction, fields, dynamicList, labelText, placeholder) {
@@ -66,10 +59,6 @@ export async function fetchData(action, formData = {}, otherParams = {}) {
     const response = await fetch('../fetch/fetchController.php', fetchOptions);
     const data = await response.json();
 
-    if (!data.success && data.error) {
-        window.location.href = '/view/errorPage.php';
-    } else {
-        return data;
-    }
-
+    if (!data.success && data.error) window.location.href = '/view/errorPage.php';
+    else return data;
 }

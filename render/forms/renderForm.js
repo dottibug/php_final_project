@@ -13,12 +13,9 @@ export function renderForm(options) {
     const formName = options.formName;
     const heading = options.heading;
     const boardTitle = options.boardTitle || '';
-    const refreshOnClose = options.refreshOnClose || false;
     const {fields, lists, subtasks, task, selectedItem} = options || {};
 
-    console.log('options for render form: ', options);
-
-    const lightbox = renderLightbox(heading, refreshOnClose);
+    const lightbox = renderLightbox(heading);
     let form;
 
     switch (formName) {

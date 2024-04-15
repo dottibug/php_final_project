@@ -14,13 +14,13 @@ body {
     width: 4.615px;
 }
 
-.dropdownWrapper, .customSelectContainer {
+.dropdownWrapper {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.dropdownButton, .customSelectButton {
+.dropdownButton {
     background-color: white;
     border: 1px solid rgba(130, 143, 163, 0.25);
     border-radius: 4px;
@@ -33,14 +33,14 @@ body {
     width: 416px;
 }
 
-.dropdownArrow, .selectArrow {
+.dropdownArrow {
     color: #828FA3;
     font-size: 2rem;
     position: relative;
     top: 2px;
 }
 
-.dropdownOptions, .selectDropdown {
+.dropdownOptions {
     background-color: white;
     border-radius: 8px;
     box-shadow: 0px 10px 20px 0px rgba(54, 78, 126, 0.25);
@@ -55,24 +55,16 @@ body {
 
 .selectedOption {
     color: #000112;
-    font-family: "Plus Jakarta Sans", sans-serif;
     font-size: 13px;
     font-style: normal;
     font-weight: 500;
     line-height: 23px;
 }
 
-.selectDropdown input[type="radio"] {
-    left: 0;
-    position: absolute;
-    visibility: hidden;
-}
-
 .option {
     align-items: center;
     color: #828FA3;
     display: flex;
-    font-family: "Plus Jakarta Sans", sans-serif;
     font-size: 13px;
     font-style: normal;
     font-weight: 500;
@@ -100,10 +92,6 @@ body {
     transition: all 0.15s ease-out;
 }
 
-.selectedOption {
-    text-transform: capitalize;
-}
-
 /*----------------- LOGO -----------------*/
 .logo {
     height: 26px;
@@ -120,7 +108,6 @@ body {
 
 .fieldError {
     color: #EA5555;
-    font-family: "Plus Jakarta Sans", sans-serif;
     font-size: 1.2rem;
     font-style: normal;
     font-weight: 700;
@@ -204,11 +191,10 @@ body {
     transition: all 0.2s ease-out;
 }
 
-.deleteListItemButton:hover, .iconDeleteButton:hover {
+.deleteListItemButton:hover {
     color: #EA5555;
     transition: all 0.2s ease-out;
 }
-
 
 .material-symbols-outlined {
     font-variation-settings: 'FILL' 0,
@@ -242,7 +228,6 @@ body {
     border: none;
     border-radius: 6px;
     color: #828FA3;
-    font-family: "Plus Jakarta Sans", sans-serif;
     font-size: 20px;
     font-style: normal;
     font-weight: 600;
@@ -278,7 +263,6 @@ body {
 
 .loginHeading, .errorHeading {
     color: #000112;
-    font-family: "Plus Jakarta Sans", sans-serif;
     font-size: 24px;
     font-style: normal;
     font-weight: 700;
@@ -308,7 +292,6 @@ body {
 .sidebar > h1 {
     background-color: white;
     color: #828FA3;
-    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 1.2rem;
     font-weight: 700;
     letter-spacing: 2.4px;
@@ -335,7 +318,6 @@ body {
 .board {
     align-items: center;
     display: flex;
-    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 15px;
     font-style: normal;
     font-weight: 700;
@@ -416,17 +398,6 @@ body {
     z-index: 2;
 }
 
-/*.mainBoard .button {*/
-/*    margin-left: auto;*/
-/*    margin-right: 24px;*/
-/*    width: 164px;*/
-/*}*/
-
-.plus {
-    bottom: 2px;
-    position: relative;
-}
-
 #mainBoardHeaderKebab {
     align-items: center;
     display: flex;
@@ -484,7 +455,6 @@ body {
     align-items: center;
     color: #828FA3;
     display: flex;
-    font-family: "Plus Jakarta Sans", sans-serif;
     font-size: 13px;
     font-style: normal;
     font-weight: 500;
@@ -540,14 +510,6 @@ body {
     width: 100%;
 }
 
-.emptyBoardMsg {
-    color: #828FA3;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-}
-
 .emptyBoard {
     align-items: center;
     display: flex;
@@ -558,16 +520,11 @@ body {
 
 .emptyBoardMessage {
     color: #828FA3;
-    font-family: "Plus Jakarta Sans", sans-serif;
     font-size: 18px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
     text-align: center;
-}
-
-.emptyBoardNewListButton {
-
 }
 
 /*----------------- MAIN BOARD LISTS -----------------*/
@@ -759,7 +716,6 @@ body {
 
 .lightbox h1 {
     color: #000112;
-    font-family: "Plus Jakarta Sans", sans-serif;
     font-size: 18px;
     font-style: normal;
     font-weight: 700;
@@ -773,19 +729,19 @@ body {
     margin-top: 24px;
 }
 
-.lightboxField, .fieldBox {
+.fieldBox {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.labelContainer, .labelBox {
+.labelBox {
     display: flex;
     flex-direction: row;
     gap: 1rem
 }
 
-.inputLabel, .dynamicListLabel .lightboxField label, .listsLabel, .selectLabel, .subtasksLabel {
+.inputLabel, .subtasksLabel {
     color: #828FA3;
     display: flex;
     font-size: 1.2rem;
@@ -797,7 +753,7 @@ body {
     text-transform: capitalize;
 }
 
-.textInput, .textarea, .lightboxField input[type="text"], .lightboxField textarea {
+.textInput, .textarea {
     background-color: white;
     border: 1px solid rgba(130, 143, 163, 0.25);
     border-radius: 4px;
@@ -811,7 +767,7 @@ body {
     width: 416px;
 }
 
-.textarea, .lightboxField textarea {
+.textarea {
     height: 72px;
     resize: none;
 }
@@ -821,20 +777,20 @@ body {
 }
 
 /*----------------- CREATE NEW BOARD LIGHTBOX -----------------*/
-.boardDetails, .taskContainer {
+.boardDetails {
     display: flex;
     flex-direction: column;
     gap: 18px;
 }
 
-.dynamicListWrapper, .startingLists, .subtasksContainer {
+.dynamicListWrapper {
     border: none;
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-.dynamicListLabel, .startingList, .subtask {
+.startingList, .subtask {
     align-items: center;
     display: flex;
     flex-direction: row;
@@ -848,7 +804,7 @@ body {
     justify-content: space-between;
 }
 
-.dynamicListInput, input[type="text"].startingListInput, input[type="text"].subtaskInput {
+.dynamicListInput {
     background-color: white;
     border: 1px solid rgba(130, 143, 163, 0.25);
     border-radius: 4px;
@@ -862,14 +818,14 @@ body {
     width: 385px;
 }
 
-.dynamicListInput::placeholder, input[type="text"].startingListInput::placeholder, input[type="text"].subtaskInput::placeholder {
+.dynamicListInput::placeholder {
     color: #000112;
     font-style: italic;
     opacity: 0.25;
 }
 
 /*----------------- ADD NEW TASK LIGHTBOX -----------------*/
-.taskDetails, .taskInputsContainer, .fieldsWrapper {
+.taskDetails, .fieldsWrapper {
     display: flex;
     flex-direction: column;
     gap: 18px;
@@ -878,7 +834,6 @@ body {
 /*----------------- DELETE BOARD WARNING LIGHTBOX -----------------*/
 .warningMessage {
     color: #828FA3;
-    font-family: "Plus Jakarta Sans", sans-serif;
     font-size: 13px;
     font-style: normal;
     font-weight: 500;
@@ -889,12 +844,6 @@ body {
 .warningMessageSpan {
     color: #635FC7;
     font-weight: 900;
-}
-
-.actionButtons {
-    display: flex;
-    flex-direction: row;
-    gap: 16px;
 }
 
 .buttonsWrapper {
@@ -911,7 +860,7 @@ body {
 }
 
 /*----------------- TASK DETAILS LIGHTBOX -----------------*/
-.taskWrapper, .taskContainer {
+.taskWrapper {
     display: flex;
     flex-direction: column;
     gap: 24px;
@@ -919,14 +868,13 @@ body {
 
 .taskDescription {
     color: #828FA3;
-    font-family: "Plus Jakarta Sans", sans-serif;
     font-size: 13px;
     font-style: normal;
     font-weight: 500;
     line-height: 23px;
 }
 
-.subtasksWrapper, .subtasksCheckboxesContainer {
+.subtasksWrapper {
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -939,7 +887,7 @@ body {
     gap: 8px;
 }
 
-.checkboxItem, .subtaskCheckboxItem {
+.checkboxItem {
     align-items: center;
     background-color: #F4F7FD;
     border-radius: 4px;
@@ -988,7 +936,6 @@ input[type="checkbox"]:hover {
 
 .errorPageMessage {
     color: #828FA3;
-    font-family: "Plus Jakarta Sans", sans-serif;
     font-size: 1.4rem;
     font-style: normal;
     font-weight: 500;
@@ -997,7 +944,6 @@ input[type="checkbox"]:hover {
 
 .errorPageLink {
     color: #635FC7;
-    font-family: "Plus Jakarta Sans";
     font-size: 1.6rem;
     font-style: normal;
     font-weight: 700;

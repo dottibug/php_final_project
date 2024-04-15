@@ -1,17 +1,10 @@
 import {renderOverlay} from "./renderOverlay.js";
 import {renderXButton} from "../uiComponents/renderButton.js";
-import {closeOtherMenus, refresh} from "../forms/formHandlers.js";
 import {removeElement, findElement, createElement} from "../uiComponents/elements.js";
-import {fetchBoards, fetchCurrentBoardLists} from "../../fetch/script.js";
 
 // Render overlay and lightbox
 // -----------------------------------------------------------------------------
-export function renderLightbox(heading = 'Heading', refreshOnClose) {
-    console.log('renderLightbox heading: ', heading);
-    console.log('renderLightbox refreshOnClose: ', refreshOnClose);
-
-    closeOtherMenus();
-
+export function renderLightbox(heading = 'Heading') {
     // Disable body scrolling in the background
     const body = findElement('body');
     body.setAttribute('style', "overflow: hidden");
