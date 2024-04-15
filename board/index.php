@@ -8,7 +8,7 @@ session_start();
 // Only allow valid users access to this page
 // ------------------------------------------------------------------------------
 if (!$_SESSION['validUser']) {
-    header('Location: ../login?action=showLoginForm');
+    header('Location: /kanban/login?action=showLoginForm');
 }
 
 include 'mainBoard.php';

@@ -34,7 +34,7 @@ export async function handleTaskMenuSelection(e) {
             renderForm(options);
         }
         if (action === 'deleteTaskWarning') {
-            const options = {heading: title, formName: action, task};
+            const options = {heading: 'Delete Task', formName: action, task};
             renderForm(options);
         }
     }
