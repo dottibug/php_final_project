@@ -5,6 +5,8 @@ require_once 'model/Form.php';
 require_once 'model/Validate.php';
 require_once 'model/UsersDB.php';
 
+$lifetime = 60 * 60 * 24 * 7; // 1 week in seconds
+session_set_cookie_params($lifetime, '/', '', true);
 session_start();
 
 // Create LoginForm object
