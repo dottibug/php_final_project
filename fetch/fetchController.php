@@ -3,11 +3,11 @@ require_once '../util/main.php';
 require_once 'model/Database.php';
 require_once 'model/Action.php';
 require_once 'model/Form.php';
-require_once 'fetch/fetchFunctions/BoardFunctions.php';
-require_once 'fetch/fetchFunctions/ListFunctions.php';
-require_once 'fetch/fetchFunctions/TaskFunctions.php';
-require_once 'fetch/fetchFunctions/SubtaskFunctions.php';
-require_once 'fetch/fetchFunctions/logout.php';
+require_once 'fetch/fetchServices/BoardServices.php';
+require_once 'fetch/fetchServices/ListServices.php';
+require_once 'fetch/fetchServices/TaskServices.php';
+require_once 'fetch/fetchServices/SubtaskServices.php';
+require_once 'fetch/fetchServices/logout.php';
 
 session_start();
 header('Content-Type: application/x-www-form-urlencoded');
@@ -16,10 +16,10 @@ header('Content-Type: application/x-www-form-urlencoded');
 $action = Action::getAction('fetchBoards');
 
 // Instantiate classes
-$boardFunctions = new BoardFunctions();
-$listFunctions = new ListFunctions();
-$taskFunctions = new TaskFunctions();
-$subtaskFunctions = new SubtaskFunctions();
+$boardFunctions = new BoardServices();
+$listFunctions = new ListServices();
+$taskFunctions = new TaskServices();
+$subtaskFunctions = new SubtaskServices();
 
 // Controller
 switch ($action) {

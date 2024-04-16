@@ -9,7 +9,7 @@ require_once 'model/SubtasksDB.php';
 
 header('Content-Type: application/x-www-form-urlencoded');
 
-class TaskFunctions
+class TaskServices
 {
     private $form, $validate, $tasksDB, $taskListsDB, $subtasksDB;
 

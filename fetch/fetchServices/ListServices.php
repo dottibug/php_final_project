@@ -5,7 +5,7 @@ require_once 'model/Form.php';
 
 header('Content-Type: application/x-www-form-urlencoded');
 
-class ListFunctions
+class ListServices
 {
     private $form;
 

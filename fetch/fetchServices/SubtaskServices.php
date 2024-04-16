@@ -6,7 +6,7 @@ require_once 'model/SubtasksDB.php';
 
 header('Content-Type: application/x-www-form-urlencoded');
 
-class SubtaskFunctions
+class SubtaskServices
 {
     private $form, $subtasksDB, $taskListsDB;
 

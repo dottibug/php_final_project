@@ -7,7 +7,7 @@ require_once 'model/TaskListsDB.php';
 
 header('Content-Type: application/x-www-form-urlencoded');
 
-class BoardFunctions
+class BoardServices
 {
     private $boardsDB, $userID, $form, $validate, $taskListsDB;
 
