@@ -12,7 +12,7 @@ if (!isset($_SESSION['validUser'])) {
     $_SESSION['validUser'] = false;
 }
 
-// Get action. Default is 'show_login'.
+// Get action
 $action = Action::getAction('checkValidUserSession');
 
 // Controller

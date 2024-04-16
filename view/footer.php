@@ -1,7 +1,4 @@
-<footer>
-    <!--Footer-->
-</footer>
-<!--<script src="../fetch/script.js" type="module"></script>-->
+<footer></footer>
 <script src="/kanban/fetch/script.js" type="module"></script>
 
 </body>

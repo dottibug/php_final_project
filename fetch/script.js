@@ -25,16 +25,12 @@ export async function fetchBoards() {
     const action = 'fetchBoards';
     const res = await fetchData(action);
 
-    console.log('-- fetchBoards: ', res);
-
     // Render
     if (res.success) {
         const {boards, currentBoardID, currentBoardTitle,} = res.data;
 
-        // Sidebar
+        // Sidebar and set main board heading
         renderSidebar(boards, currentBoardID);
-
-        // Set main board heading
         findElement('boardTitle').innerText = currentBoardTitle;
 
         // Board menu event listener
@@ -50,14 +46,12 @@ export async function fetchCurrentBoardLists() {
     const action = 'fetchCurrentBoardLists';
     const res = await fetchData(action);
 
-    console.log('--- fetchCurrentBoardLists: ', res);
-
     // Render
     if (res.success) {
         const {currentBoardLists} = res.data;
         const lists = Object.values(currentBoardLists.lists);
 
-        // // 'Add New Task' button event listener
+        // 'Add New Task' button event listener
         const addNewTaskButton = findElement('addNewTaskButton');
         addNewTaskButton.addEventListener('click', handleShowAddTaskForm);
 

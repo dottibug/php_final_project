@@ -1,6 +1,7 @@
 <?php
 require_once 'Database.php';
 require_once 'Subtask.php';
+require_once 'Response.php';
 
 // Interacts with the subtasks table
 // ------------------------------------------------------------------------------

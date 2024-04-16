@@ -5,28 +5,20 @@ import {removeElement, findElement, createElement} from "../uiComponents/element
 // Render sidebar navigation
 // -----------------------------------------------------------------------------
 export function renderSidebar(boards, currentBoardID) {
-    console.log('renderSidebar boards: ', boards);
-    console.log('renderSidebar currentBoardID: ', currentBoardID);
-
     // Heading with board count
     const sidebarHeading = findElement('sidebarHeading');
     sidebarHeading.innerText = `All Boards (${boards.length})`;
 
     // Clear previous boards from sidebar
     boards.forEach(board => {
-        console.log('boardID to remove before re-render: ', board.boardID);
         removeElement(board.boardID)
     });
 
     // Create new sidebar boards
     const createBoardButton = findElement('createNewBoard');
-    console.log('createBoardButton element: ', createBoardButton);
 
     boards.forEach(board => {
         const {boardID, title} = board;
-
-        console.log('board being rendered in sidebar: ', boardID);
-        console.log('board title of board being rendered: ', title);
 
         // Board item
         const boardElementClass = boardID === parseInt(currentBoardID) ? 'board current' : 'board';

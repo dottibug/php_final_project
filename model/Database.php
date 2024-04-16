@@ -28,16 +28,7 @@ class Database
     // ------------------------------------------------------------------------------
     public static function showDatabaseError($message = ''): void
     {
-//        echo "\nerror page\n";
-//
-//        echo "\n the post array of error page \n";
-//        print_r($_POST);
-//
-//        $message = filter_input(INPUT_POST, 'message');
-//        echo "\n The error message: $message \n";
-
         header('Location: ../view/errorPage.php');
-//        include '../view/errorPage.php';
         exit();
     }
 }

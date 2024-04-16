@@ -21,7 +21,6 @@ export async function handleTaskMenuSelection(e) {
     // Render
     if (res.success) {
         const {fields, lists, subtasks, task} = res.data || null;
-        const {title} = task;
         if (action === 'editTaskForm') {
             const options = {
                 heading: 'Edit Task',

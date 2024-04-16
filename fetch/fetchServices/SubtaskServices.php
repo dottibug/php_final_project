@@ -1,7 +1,7 @@
 <?php
 
 require_once '../util/main.php';
-require_once 'util/response.php';
+require_once 'model/Response.php';
 require_once 'model/SubtasksDB.php';
 
 header('Content-Type: application/x-www-form-urlencoded');
